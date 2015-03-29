@@ -1,4 +1,4 @@
-<?php namespace pandaac\Account\Providers;
+<?php namespace Apolune\pandaac\Account\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;

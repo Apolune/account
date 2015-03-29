@@ -1,6 +1,6 @@
-<?php namespace pandaac\Account\Providers;
+<?php namespace Apolune\pandaac\Account\Providers;
 
-use pandaac\Core\Providers\ServiceProvider;
+use Apolune\pandaac\Core\Providers\ServiceProvider;
 
 class PackageServiceProvider extends ServiceProvider {
 
