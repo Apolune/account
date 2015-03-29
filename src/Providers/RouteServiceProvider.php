@@ -1,4 +1,4 @@
-<?php namespace Apolune\pandaac\Account\Providers;
+<?php namespace Apolune\Account\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -12,7 +12,7 @@ class RouteServiceProvider extends ServiceProvider {
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'pandaac\Account\Http\Controllers';
+	protected $namespace = 'Apolune\Account\Http\Controllers';
 
 	/**
 	 * Define your route model bindings, pattern filters, etc.

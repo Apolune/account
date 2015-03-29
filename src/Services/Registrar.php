@@ -1,4 +1,4 @@
-<?php namespace Apolune\pandaac\Account\Services;
+<?php namespace Apolune\Account\Services;
 
 use App\User;
 use Validator;

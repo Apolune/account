@@ -1,6 +1,6 @@
-<?php namespace Apolune\pandaac\Account\Providers;
+<?php namespace Apolune\Account\Providers;
 
-use Apolune\pandaac\Core\Providers\ServiceProvider;
+use Apolune\Core\Providers\ServiceProvider;
 
 class PackageServiceProvider extends ServiceProvider {
 
@@ -27,11 +27,11 @@ class PackageServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->register('pandaac\Account\Providers\RouteServiceProvider');
+		$this->app->register('Apolune\Account\Providers\RouteServiceProvider');
 
 		$this->app->bind(
 			'Illuminate\Contracts\Auth\Registrar',
-			'pandaac\Account\Services\Registrar'
+			'Apolune\Account\Services\Registrar'
 		);
 	}
 

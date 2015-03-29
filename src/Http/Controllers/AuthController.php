@@ -1,6 +1,6 @@
-<?php namespace Apolune\pandaac\Account\Http\Controllers;
+<?php namespace Apolune\Account\Http\Controllers;
 
-use Apolune\pandaac\Core\Http\Controllers\Controller;
+use Apolune\Core\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
