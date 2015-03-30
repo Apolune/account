@@ -1,5 +1,6 @@
 {
 	"name": "apolune/account",
+	"keywords": ["pandaac", "apolune", "apolune-package", "laravel"],
 	"license": "MIT",
 	"authors": [
 		{
