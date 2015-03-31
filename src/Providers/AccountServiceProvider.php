@@ -1,8 +1,8 @@
 <?php namespace Apolune\Account\Providers;
 
-use Apolune\Core\Providers\ServiceProvider;
+use Apolune\Core\Providers\PackageServiceProvider;
 
-class PackageServiceProvider extends ServiceProvider {
+class AccountServiceProvider extends PackageServiceProvider {
 
 	/**
 	 * Bootstrap any application services.
