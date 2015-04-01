@@ -52,7 +52,7 @@ class AuthController extends Controller {
 	 */
 	public function getRegister()
 	{
-		return view('pandaac/account::auth.register');
+		return view('theme::auth.register');
 	}
 
 	/**
@@ -84,7 +84,7 @@ class AuthController extends Controller {
 	 */
 	public function getLogin()
 	{
-		return view('pandaac/account::auth.login');
+		return view('theme::auth.login');
 	}
 
 	/**
