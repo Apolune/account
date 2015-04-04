@@ -27,6 +27,8 @@ class AccountServiceProvider extends PackageServiceProvider {
 	 */
 	public function register()
 	{
+		$this->app->register('Apolune\Account\Providers\AuthServiceProvider');
+		
 		$this->app->register('Apolune\Account\Providers\RouteServiceProvider');
 
 		$this->app->bind('Illuminate\Contracts\Auth\Registrar', 'Apolune\Account\Services\Registrar');

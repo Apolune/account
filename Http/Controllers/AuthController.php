@@ -96,10 +96,10 @@ class AuthController extends Controller {
 	public function postLogin(Request $request)
 	{
 		$this->validate($request, [
-			'account' => 'required', 'password' => 'required',
+			'name' => 'required', 'password' => 'required',
 		]);
 
-		$credentials = $request->only('account', 'password');
+		$credentials = $request->only('name', 'password');
 
 		if ($this->auth->attempt($credentials, $request->has('remember')))
 		{
@@ -109,7 +109,7 @@ class AuthController extends Controller {
 		return redirect($this->prefix)
 					->withInput($request->only('remember'))
 					->withErrors([
-						'account' => 'These credentials do not match our records.',
+						'name' => 'These credentials do not match our records.',
 					]);
 	}
 
