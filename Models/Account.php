@@ -19,4 +19,60 @@ class Account extends Model implements AccountContract, AuthenticatableContract,
 	 */
 	protected $table = 'accounts';
 
+	/**
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $fillable = ['name', 'email', 'password'];
+
+	/**
+	 * The attributes excluded from the model's JSON form.
+	 *
+	 * @var array
+	 */
+	protected $hidden = ['password'];
+
+	/**
+	 * Indicates if the model should be timestamped.
+	 *
+	 * @var bool
+	 */
+	public $timestamps = false;
+
+	/**
+	 * Retrieve the user's traits.
+	 *
+	 * @return \Apolune\Account\Models\Traits\Account
+	 */
+	final public function traits()
+	{
+		return $this->hasOne('\Apolune\Account\Models\Traits\Account');
+	}
+
+	/**
+	 * Get the token value for the "remember me" session.
+	 *
+	 * @return string
+	 */
+	public function getRememberToken()
+	{
+		if ( ! $this->traits) return null;
+
+		return $this->traits->getRememberToken($this->getRememberTokenName());
+	}
+
+	/**
+	 * Set the token value for the "remember me" session.
+	 *
+	 * @param  string  $value
+	 * @return void
+	 */
+	public function setRememberToken($value)
+	{
+		if ( ! $this->traits) return;
+
+		$this->traits->setRememberToken($this->getRememberTokenName(), $value);
+	}
+
 }

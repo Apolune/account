@@ -23,13 +23,6 @@ class AuthController extends Controller {
 	protected $registrar;
 
 	/**
-	 * The prefixed route.
-	 *
-	 * @var string
-	 */
-	protected $prefix;
-
-	/**
 	 * Create a new authentication controller instance.
 	 *
 	 * @param  \Illuminate\Contracts\Auth\Guard  $auth
@@ -40,7 +33,6 @@ class AuthController extends Controller {
 	{
 		$this->auth = $auth;
 		$this->registrar = $registrar;
-		$this->prefix = $this->getRouter()->getCurrentRoute()->getPrefix();
 
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
@@ -52,7 +44,7 @@ class AuthController extends Controller {
 	 */
 	public function getRegister()
 	{
-		return view('theme::auth.register');
+		return view('theme::account.auth.register');
 	}
 
 	/**
@@ -74,7 +66,7 @@ class AuthController extends Controller {
 
 		$this->auth->login($this->registrar->create($request->all()));
 
-		return redirect($this->prefix);
+		return redirect('/account');
 	}
 
 	/**
@@ -84,7 +76,9 @@ class AuthController extends Controller {
 	 */
 	public function getLogin()
 	{
-		return view('theme::auth.login');
+		if ($this->auth->check()) return $this->getIndex();
+
+		return view('theme::account.auth.login');
 	}
 
 	/**
@@ -103,10 +97,10 @@ class AuthController extends Controller {
 
 		if ($this->auth->attempt($credentials, $request->has('remember')))
 		{
-			return redirect()->intended($this->prefix);
+			return redirect()->intended('/account');
 		}
 
-		return redirect($this->prefix)
+		return redirect('/account/login')
 					->withInput($request->only('remember'))
 					->withErrors([
 						'name' => 'These credentials do not match our records.',
@@ -122,7 +116,7 @@ class AuthController extends Controller {
 	{
 		$this->auth->logout();
 
-		return redirect($this->prefix);
+		return redirect('/account/login');
 	}
 
 }

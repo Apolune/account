@@ -1,7 +1,8 @@
 <?php namespace Apolune\Account\Services;
 
-use App\User;
 use Validator;
+use Apolune\Account\Models\Account;
+
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 
 class Registrar implements RegistrarContract {
@@ -15,8 +16,8 @@ class Registrar implements RegistrarContract {
 	public function validator(array $data)
 	{
 		return Validator::make($data, [
-			'account' => 'required|min:5|max:23',
-			'email' => 'required|email|max:255|unique:users',
+			'name' => 'required|min:5|max:23|unique:accounts',
+			'email' => 'required|email|max:255|unique:accounts',
 			'password' => 'required|confirmed|min:6',
 		]);
 	}
@@ -29,7 +30,7 @@ class Registrar implements RegistrarContract {
 	 */
 	public function create(array $data)
 	{
-		return User::create([
+		return Account::create([
 			'name' => $data['name'],
 			'email' => $data['email'],
 			'password' => bcrypt($data['password']),

@@ -14,10 +14,6 @@ class AccountServiceProvider extends PackageServiceProvider {
 		$this->loadViewsFrom(__DIR__.'/../../resources/views', 'pandaac/account');
 
 		$this->loadTranslationsFrom(__DIR__.'/../../resources/lang', 'pandaac/account');
-
-		$this->publishes([
-			__DIR__.'/../../config/package.php' => config_path('pandaac/account.php'),
-		]);
 	}
 
 	/**
@@ -27,10 +23,22 @@ class AccountServiceProvider extends PackageServiceProvider {
 	 */
 	public function register()
 	{
+		$this->bindContracts();
+
+		$this->app->register('Apolune\Account\Providers\HashServiceProvider');
+
 		$this->app->register('Apolune\Account\Providers\AuthServiceProvider');
 		
 		$this->app->register('Apolune\Account\Providers\RouteServiceProvider');
+	}
 
+	/**
+	 * Bind the required contracts.
+	 *
+	 * @return void
+	 */
+	private function bindContracts()
+	{
 		$this->app->bind('Illuminate\Contracts\Auth\Registrar', 'Apolune\Account\Services\Registrar');
 
 		$this->app->bind('Apolune\Core\Contracts\Account', 'Apolune\Account\Models\Account');
