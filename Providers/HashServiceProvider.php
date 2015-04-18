@@ -1,6 +1,6 @@
 <?php namespace Apolune\Account\Providers;
 
-use Apolune\Account\Illuminate\Hashing\Sha1Hasher;
+use Apolune\Account\Services\Hashing\Sha1Hasher;
 
 use Illuminate\Support\ServiceProvider;
 

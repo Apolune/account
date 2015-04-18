@@ -1,4 +1,4 @@
-<?php namespace Apolune\Account\Illuminate\Auth;
+<?php namespace Apolune\Account\Services\Auth;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Auth\EloquentUserProvider as UserProvider;

@@ -1,10 +1,13 @@
 <?php namespace Apolune\Account\Http\Controllers;
 
+use Apolune\Account\Models\Account;
 use Apolune\Core\Http\Controllers\Controller;
+use Apolune\Account\Http\Requests\Auth\LoginRequest;
+use Apolune\Account\Http\Requests\Auth\RegisterRequest;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\Registrar;
+use Illuminate\Http\Exception\HttpResponseException;
 
 class AuthController extends Controller {
 
@@ -16,25 +19,46 @@ class AuthController extends Controller {
 	protected $auth;
 
 	/**
-	 * The registrar implementation.
-	 *
-	 * @var Registrar
-	 */
-	protected $registrar;
-
-	/**
 	 * Create a new authentication controller instance.
 	 *
 	 * @param  \Illuminate\Contracts\Auth\Guard  $auth
-	 * @param  \Illuminate\Contracts\Auth\Registrar  $registrar
 	 * @return void
 	 */
-	public function __construct(Guard $auth, Registrar $registrar)
+	public function __construct(Guard $auth)
 	{
 		$this->auth = $auth;
-		$this->registrar = $registrar;
 
 		$this->middleware('guest', ['except' => 'getLogout']);
+	}
+
+	/**
+	 * Show the application login form.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function getLogin()
+	{
+		return view('theme::account.auth.login');
+	}
+
+	/**
+	 * Handle a login request to the application.
+	 *
+	 * @param  \Apolune\Account\Http\Requests\Auth\LoginRequest  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function postLogin(LoginRequest $request)
+	{
+		$credentials = $request->only('name', 'password');
+
+		if ( ! $this->auth->attempt($credentials, $request->has('remember')))
+		{
+			throw new HttpResponseException($request->response([
+				'name' => trans('theme::account.login.form.error'),
+			]));
+		}
+
+		return redirect()->intended('/account');
 	}
 
 	/**
@@ -50,61 +74,20 @@ class AuthController extends Controller {
 	/**
 	 * Handle a registration request for the application.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \Apolune\Account\Http\Requests\Auth\RegisterRequest  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function postRegister(Request $request)
+	public function postRegister(RegisterRequest $request)
 	{
-		$validator = $this->registrar->validator($request->all());
-
-		if ($validator->fails())
-		{
-			$this->throwValidationException(
-				$request, $validator
-			);
-		}
-
-		$this->auth->login($this->registrar->create($request->all()));
-
-		return redirect('/account');
-	}
-
-	/**
-	 * Show the application login form.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function getLogin()
-	{
-		if ($this->auth->check()) return $this->getIndex();
-
-		return view('theme::account.auth.login');
-	}
-
-	/**
-	 * Handle a login request to the application.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function postLogin(Request $request)
-	{
-		$this->validate($request, [
-			'name' => 'required', 'password' => 'required',
+		$account = Account::create([
+			'name'		 => $request->get('name'),
+			'email'		 => $request->get('email'),
+			'password'	 => bcrypt($request->get('password')),
 		]);
 
-		$credentials = $request->only('name', 'password');
+		$this->auth->login($account);
 
-		if ($this->auth->attempt($credentials, $request->has('remember')))
-		{
-			return redirect()->intended('/account');
-		}
-
-		return redirect('/account/login')
-					->withInput($request->only('remember'))
-					->withErrors([
-						'name' => 'These credentials do not match our records.',
-					]);
+		return redirect('/account');
 	}
 
 	/**

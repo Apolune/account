@@ -1,6 +1,6 @@
 <?php namespace Apolune\Account\Providers;
 
-use Apolune\Account\Illuminate\Auth\EloquentUserProvider;
+use Apolune\Account\Services\Auth\EloquentUserProvider;
 
 use Illuminate\Support\ServiceProvider;
 

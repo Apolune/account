@@ -13,13 +13,6 @@ class Account extends Model implements AccountContract, AuthenticatableContract,
 	use Authenticatable, CanResetPassword;
 
 	/**
-	 * The table associated with the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'accounts';
-
-	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
@@ -48,6 +41,26 @@ class Account extends Model implements AccountContract, AuthenticatableContract,
 	final public function traits()
 	{
 		return $this->hasOne('\Apolune\Account\Models\Traits\Account');
+	}
+
+	/**
+	 * Retrieve the account name.
+	 *
+	 * @return string
+	 */
+	public function name()
+	{
+		return strtoupper($this->name);
+	}
+
+	/**
+	 * Retrieve the account email.
+	 *
+	 * @return string
+	 */
+	public function email()
+	{
+		return $this->email;
 	}
 
 	/**

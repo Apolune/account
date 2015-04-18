@@ -11,4 +11,7 @@ $router->group(['prefix' => '/account'], function() use($router)
 
 	$router->get('/create', 'AuthController@getRegister');
 	$router->post('/create', 'AuthController@postRegister');
+
+	$router->get('/password', 'AccountController@getPassword');
+	$router->put('/password', 'AccountController@putPassword');
 });
