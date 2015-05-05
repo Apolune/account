@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest {
+class CreateRequest extends FormRequest {
 
 	/**
 	 * The input keys that should not be flashed on redirect.
@@ -32,6 +32,9 @@ class RegisterRequest extends FormRequest {
 			'name'		 => ['required', 'min:5', 'max:23', 'unique:accounts'],
 			'email'		 => ['required', 'email', 'max:255', 'unique:accounts'],
 			'password'	 => ['required', 'confirmed', 'min:6'],
+			'character'	 => ['required', 'max:30'],
+			'sex'		 => ['required', 'in:0,1'],
+			'terms'		 => ['accepted'],
 		];
 	}
 

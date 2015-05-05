@@ -41,6 +41,16 @@ class AccountController extends Controller {
 	}
 
 	/**
+	 * Show the account management page.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function getManage()
+	{
+		return view('theme::account.manage');
+	}
+
+	/**
 	 * Show the change password page.
 	 *
 	 * @return \Illuminate\Http\Response
@@ -76,6 +86,66 @@ class AccountController extends Controller {
 		$account->save();
 
 		return redirect('/account')->with('success', trans('theme::account.password.form.success'));
+	}
+
+	/**
+	 * Show the change email page.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function getEmail()
+	{
+		return view('theme::account.email');
+	}
+
+	/**
+	 * Show the change email page.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function putEmail()
+	{
+		
+	}
+
+	/**
+	 * Show the rename account page.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function getRename()
+	{
+		return view('theme::account.rename');
+	}
+
+	/**
+	 * Show the rename account page.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function putRename()
+	{
+		
+	}
+
+	/**
+	 * Show the terminate account page.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function getTerminate()
+	{
+		return view('theme::account.terminate');
+	}
+
+	/**
+	 * Show the terminate account page.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function deleteTerminate()
+	{
+		
 	}
 
 }

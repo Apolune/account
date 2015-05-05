@@ -3,7 +3,7 @@
 use Apolune\Account\Models\Account;
 use Apolune\Core\Http\Controllers\Controller;
 use Apolune\Account\Http\Requests\Auth\LoginRequest;
-use Apolune\Account\Http\Requests\Auth\RegisterRequest;
+use Apolune\Account\Http\Requests\Auth\CreateRequest;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
@@ -66,18 +66,18 @@ class AuthController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function getRegister()
+	public function getCreate()
 	{
-		return view('theme::account.auth.register');
+		return view('theme::account.auth.create');
 	}
 
 	/**
 	 * Handle a registration request for the application.
 	 *
-	 * @param  \Apolune\Account\Http\Requests\Auth\RegisterRequest  $request
+	 * @param  \Apolune\Account\Http\Requests\Auth\CreateRequest  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function postRegister(RegisterRequest $request)
+	public function postCreate(CreateRequest $request)
 	{
 		$account = Account::create([
 			'name'		 => $request->get('name'),
@@ -99,7 +99,7 @@ class AuthController extends Controller {
 	{
 		$this->auth->logout();
 
-		return redirect('/account/login');
+		return view('theme::account.auth.logout');
 	}
 
 }
