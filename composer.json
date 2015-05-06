@@ -5,7 +5,11 @@
 	"authors": [
 		{
 			"name": "Christopher Eklund",
-			"email": "support@pandaac.net"
+			"email": "eklundchristopher@gmail.com"
+		},
+		{
+			"name": "Kristoffer Eklund",
+			"email": "kristoffereklund1@gmail.com"
 		}
 	],
 	"require": {
