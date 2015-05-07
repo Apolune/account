@@ -41,7 +41,7 @@ class AccountServiceProvider extends PackageServiceProvider {
 	{
 		$this->app->bind('Illuminate\Contracts\Auth\Registrar', 'Apolune\Account\Services\Registrar');
 
-		$this->app->bind('Apolune\Core\Contracts\Account', 'Apolune\Account\Models\Account');
+		$this->app->bind('Apolune\Contracts\Account\Account', 'Apolune\Account\Models\Account');
 	}
 
 }

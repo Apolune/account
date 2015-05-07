@@ -1,6 +1,6 @@
 <?php namespace Apolune\Account\Models;
 
-use Apolune\Core\Contracts\Account as AccountContract;
+use Apolune\Contracts\Account\Account as AccountContract;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
