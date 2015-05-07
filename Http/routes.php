@@ -1,6 +1,6 @@
 <?php
 
-$router->group(['prefix' => '/account'], function() use($router)
+$router->group(['prefix' => '/account'], function($router)
 {
 	$router->get('/', 'AccountController@getIndex');
 	$router->get('/manage', 'AccountController@getManage');
