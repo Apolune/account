@@ -1,16 +1,13 @@
 <?php namespace Apolune\Account\Models;
 
+use Apolune\Core\Traits\Authenticatable;
 use Apolune\Contracts\Account\Account as AccountContract;
 
-use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class Account extends Model implements AccountContract, AuthenticatableContract, CanResetPasswordContract {
+class Account extends Model implements AccountContract {
 
-	use Authenticatable, CanResetPassword;
+	use Authenticatable;
 
 	/**
 	 * The attributes that are mass assignable.
@@ -36,11 +33,11 @@ class Account extends Model implements AccountContract, AuthenticatableContract,
 	/**
 	 * Retrieve the user's traits.
 	 *
-	 * @return \Apolune\Account\Models\Traits\Account
+	 * @return \Apolune\Contracts\Account\Traits\Account
 	 */
-	final public function traits()
+	public function traits()
 	{
-		return $this->hasOne('\Apolune\Account\Models\Traits\Account');
+		return $this->hasOne('Apolune\Account\Models\Traits\Account');
 	}
 
 	/**
@@ -61,31 +58,6 @@ class Account extends Model implements AccountContract, AuthenticatableContract,
 	public function email()
 	{
 		return $this->email;
-	}
-
-	/**
-	 * Get the token value for the "remember me" session.
-	 *
-	 * @return string
-	 */
-	public function getRememberToken()
-	{
-		if ( ! $this->traits) return null;
-
-		return $this->traits->getRememberToken($this->getRememberTokenName());
-	}
-
-	/**
-	 * Set the token value for the "remember me" session.
-	 *
-	 * @param  string  $value
-	 * @return void
-	 */
-	public function setRememberToken($value)
-	{
-		if ( ! $this->traits) return;
-
-		$this->traits->setRememberToken($this->getRememberTokenName(), $value);
 	}
 
 }
