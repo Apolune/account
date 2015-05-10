@@ -35,9 +35,19 @@ class Account extends Model implements AccountContract {
 	 *
 	 * @return \Apolune\Contracts\Account\Traits\Account
 	 */
-	public function traits()
+	public function trait()
 	{
 		return $this->hasOne('Apolune\Account\Models\Traits\Account');
+	}
+
+	/**
+	 * Retrieve the account characters.
+	 *
+	 * @return \Apolune\Contracts\Account\Character
+	 */
+	public function characters()
+	{
+		return $this->hasMany('Apolune\Account\Models\Character');
 	}
 
 	/**

@@ -34,6 +34,7 @@ class CreateRequest extends FormRequest {
 			'password'	 => ['required', 'confirmed', 'min:6'],
 			'character'	 => ['required', 'max:30'],
 			'sex'		 => ['required', 'in:0,1'],
+			'world'		 => ['required', 'in:0,1,2,3'],
 			'terms'		 => ['accepted'],
 		];
 	}
