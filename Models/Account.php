@@ -31,7 +31,7 @@ class Account extends Model implements AccountContract {
 	public $timestamps = false;
 
 	/**
-	 * Retrieve the user's traits.
+	 * Retrieve the account traits.
 	 *
 	 * @return \Apolune\Contracts\Account\Traits\Account
 	 */

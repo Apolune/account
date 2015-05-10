@@ -1,6 +1,5 @@
 <?php namespace Apolune\Account\Services\Hashing;
 
-use RuntimeException;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 
 class Sha1Hasher implements HasherContract {
@@ -11,8 +10,6 @@ class Sha1Hasher implements HasherContract {
 	 * @param  string  $value
 	 * @param  array   $options
 	 * @return string
-	 *
-	 * @throws \RuntimeException
 	 */
 	public function make($value, array $options = array())
 	{

@@ -1,8 +1,8 @@
 <?php namespace Apolune\Account\Providers;
 
-use Apolune\Core\Providers\PackageServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
-class AccountServiceProvider extends PackageServiceProvider {
+class AccountServiceProvider extends ServiceProvider {
 
 	/**
 	 * Bootstrap any application services.
@@ -11,9 +11,7 @@ class AccountServiceProvider extends PackageServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->loadViewsFrom(__DIR__.'/../../resources/views', 'pandaac/account');
-
-		$this->loadTranslationsFrom(__DIR__.'/../../resources/lang', 'pandaac/account');
+		//
 	}
 
 	/**
@@ -38,7 +36,6 @@ class AccountServiceProvider extends PackageServiceProvider {
 	private function bindContracts()
 	{
 		$this->app->bind('Apolune\Contracts\Account\Account', 'Apolune\Account\Models\Account');
-		$this->app->bind('Apolune\Contracts\Account\Traits\Account', 'Apolune\Account\Models\Traits\Account');
 	}
 
 }
