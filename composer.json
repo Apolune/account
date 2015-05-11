@@ -14,8 +14,7 @@
 	],
 	"require": {
 		"php": ">=5.4.0",
-		"apolune/core": "self.version",
-		"cebe/markdown": "~1.1.0"
+		"apolune/core": "self.version"
 	},
 	"autoload": {
 		"files": [
