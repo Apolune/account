@@ -25,7 +25,6 @@ class AccountServiceProvider extends ServiceProvider {
 
 		$this->app->register('Apolune\Account\Providers\HashServiceProvider');
 		$this->app->register('Apolune\Account\Providers\AuthServiceProvider');
-		$this->app->register('Apolune\Account\Providers\RouteServiceProvider');
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <?php
 
-$router->group(['prefix' => '/account'], function($router)
+$router->group(['prefix' => '/account', 'namespace' => 'Apolune\Account\Http\Controllers'], function($router)
 {
 	$router->get('/', 'AccountController@getIndex');
 	$router->get('/manage', 'AccountController@getManage');
