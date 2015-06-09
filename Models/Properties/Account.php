@@ -1,7 +1,7 @@
-<?php namespace Apolune\Account\Models\Traits;
+<?php namespace Apolune\Account\Models\Properties;
 
 use Apolune\Core\Traits\AuthenticatableTraits;
-use Apolune\Contracts\Account\Traits\Account as AccountContract;
+use Apolune\Contracts\Account\Properties\Account as AccountContract;
 
 use Illuminate\Database\Eloquent\Model;
 

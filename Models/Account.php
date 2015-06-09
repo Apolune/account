@@ -31,13 +31,13 @@ class Account extends Model implements AccountContract {
 	public $timestamps = false;
 
 	/**
-	 * Retrieve the account traits.
+	 * Retrieve the account properties.
 	 *
-	 * @return \Apolune\Contracts\Account\Traits\Account
+	 * @return \Apolune\Contracts\Account\Properties\Account
 	 */
-	public function trait()
+	public function properties()
 	{
-		return $this->hasOne('Apolune\Account\Models\Traits\Account');
+		return $this->hasOne('Apolune\Account\Models\Properties\Account');
 	}
 
 	/**
