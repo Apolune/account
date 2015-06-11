@@ -1,28 +1,28 @@
 {
-	"name": "apolune/account",
-	"keywords": ["pandaac", "apolune", "apolunecomponent", "tibia", "opentibia"],
-	"license": "MIT",
-	"authors": [
-		{
-			"name": "Christopher Eklund",
-			"email": "eklundchristopher@gmail.com"
-		},
-		{
-			"name": "Kristoffer Eklund",
-			"email": "kristoffereklund1@gmail.com"
-		}
-	],
-	"require": {
-		"php": ">=5.4.0",
-		"apolune/core": "self.version"
-	},
-	"autoload": {
-		"files": [
-			"validation.php"
-		],
-		"psr-4": {
-			"Apolune\\Account\\": ""
-		}
-	},
-	"minimum-stability": "dev"
+    "name": "apolune/account",
+    "keywords": ["pandaac", "apolune", "apolunecomponent", "tibia", "opentibia"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christopher Eklund",
+            "email": "eklundchristopher@gmail.com"
+        },
+        {
+            "name": "Kristoffer Eklund",
+            "email": "kristoffereklund1@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "apolune/core": "self.version"
+    },
+    "autoload": {
+        "files": [
+            "validation.php"
+        ],
+        "psr-4": {
+            "Apolune\\Account\\": ""
+        }
+    },
+    "minimum-stability": "dev"
 }

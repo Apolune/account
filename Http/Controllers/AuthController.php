@@ -1,105 +1,104 @@
-<?php namespace Apolune\Account\Http\Controllers;
+<?php
 
+namespace Apolune\Account\Http\Controllers;
+
+use Illuminate\Http\Request;
 use Apolune\Account\Models\Account;
+use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
+use Illuminate\Http\Exception\HttpResponseException;
 use Apolune\Account\Http\Requests\Auth\LoginRequest;
 use Apolune\Account\Http\Requests\Auth\CreateRequest;
 
-use Illuminate\Http\Request;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Http\Exception\HttpResponseException;
+class AuthController extends Controller
+{
+    /**
+     * The Guard implementation.
+     *
+     * @var Guard
+     */
+    protected $auth;
 
-class AuthController extends Controller {
+    /**
+     * Create a new authentication controller instance.
+     *
+     * @param  \Illuminate\Contracts\Auth\Guard  $auth
+     * @return void
+     */
+    public function __construct(Guard $auth)
+    {
+        $this->auth = $auth;
 
-	/**
-	 * The Guard implementation.
-	 *
-	 * @var Guard
-	 */
-	protected $auth;
+        $this->middleware('guest', ['except' => 'getLogout']);
+    }
 
-	/**
-	 * Create a new authentication controller instance.
-	 *
-	 * @param  \Illuminate\Contracts\Auth\Guard  $auth
-	 * @return void
-	 */
-	public function __construct(Guard $auth)
-	{
-		$this->auth = $auth;
+    /**
+     * Show the application login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLogin()
+    {
+        return view('theme::account.auth.login');
+    }
 
-		$this->middleware('guest', ['except' => 'getLogout']);
-	}
+    /**
+     * Handle a login request to the application.
+     *
+     * @param  \Apolune\Account\Http\Requests\Auth\LoginRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function postLogin(LoginRequest $request)
+    {
+        $credentials = $request->only('name', 'password');
 
-	/**
-	 * Show the application login form.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function getLogin()
-	{
-		return view('theme::account.auth.login');
-	}
+        if (! $this->auth->attempt($credentials, $request->has('remember'))) {
+            throw new HttpResponseException($request->response([
+                'name' => trans('theme::account.login.form.error'),
+            ]));
+        }
 
-	/**
-	 * Handle a login request to the application.
-	 *
-	 * @param  \Apolune\Account\Http\Requests\Auth\LoginRequest  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function postLogin(LoginRequest $request)
-	{
-		$credentials = $request->only('name', 'password');
+        return redirect()->intended('/account');
+    }
 
-		if ( ! $this->auth->attempt($credentials, $request->has('remember')))
-		{
-			throw new HttpResponseException($request->response([
-				'name' => trans('theme::account.login.form.error'),
-			]));
-		}
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCreate()
+    {
+        return view('theme::account.auth.create');
+    }
 
-		return redirect()->intended('/account');
-	}
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Apolune\Account\Http\Requests\Auth\CreateRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function postCreate(CreateRequest $request)
+    {
+        $account = Account::create([
+            'name'         => $request->get('name'),
+            'email'         => $request->get('email'),
+            'password'     => bcrypt($request->get('password')),
+        ]);
 
-	/**
-	 * Show the application registration form.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function getCreate()
-	{
-		return view('theme::account.auth.create');
-	}
+        $this->auth->login($account);
 
-	/**
-	 * Handle a registration request for the application.
-	 *
-	 * @param  \Apolune\Account\Http\Requests\Auth\CreateRequest  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function postCreate(CreateRequest $request)
-	{
-		$account = Account::create([
-			'name'		 => $request->get('name'),
-			'email'		 => $request->get('email'),
-			'password'	 => bcrypt($request->get('password')),
-		]);
+        return redirect('/account');
+    }
 
-		$this->auth->login($account);
+    /**
+     * Log the user out of the application.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLogout()
+    {
+        $this->auth->logout();
 
-		return redirect('/account');
-	}
-
-	/**
-	 * Log the user out of the application.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function getLogout()
-	{
-		$this->auth->logout();
-
-		return view('theme::account.auth.logout');
-	}
-
+        return view('theme::account.auth.logout');
+    }
 }
