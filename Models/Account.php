@@ -42,13 +42,23 @@ class Account extends Model implements AccountContract
     }
 
     /**
-     * Retrieve the account characters.
+     * Retrieve the account players.
      *
-     * @return \Apolune\Contracts\Account\Character
+     * @return \Apolune\Contracts\Account\Player
      */
-    public function characters()
+    public function players()
     {
-        return $this->hasMany('Apolune\Account\Models\Character');
+        return $this->hasMany('Apolune\Account\Models\Player');
+    }
+
+    /**
+     * Retrieve the account id.
+     *
+     * @return integer
+     */
+    public function id()
+    {
+        return $this->id;
     }
 
     /**

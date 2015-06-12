@@ -31,12 +31,13 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'         => ['required', 'min:5', 'max:23', 'unique:accounts'],
+            'name'          => ['required', 'min:5', 'max:23', 'unique:accounts'],
             'email'         => ['required', 'email', 'max:255', 'unique:accounts'],
-            'password'     => ['required', 'confirmed', 'min:6'],
-            'character'     => ['required', 'max:30'],
-            'sex'         => ['required', 'in:0,1'],
-            'world'         => ['required', 'in:0,1,2,3'],
+            'password'      => ['required', 'confirmed', 'min:6'],
+            'player'        => ['required', 'min:3', 'max:30', 'unique:players,name'],
+            'sex'           => ['required', 'gender'],
+            'vocation'      => ['required', 'vocation:starter'],
+            'world'         => ['required', 'world'],
             'terms'         => ['accepted'],
         ];
     }

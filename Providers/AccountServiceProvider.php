@@ -27,6 +27,7 @@ class AccountServiceProvider extends ServiceProvider
 
         $this->app->register('Apolune\Account\Providers\HashServiceProvider');
         $this->app->register('Apolune\Account\Providers\AuthServiceProvider');
+        $this->app->register('Apolune\Account\Providers\ValidationServiceProvider');
     }
 
     /**
@@ -37,5 +38,6 @@ class AccountServiceProvider extends ServiceProvider
     private function bindContracts()
     {
         $this->app->bind('Apolune\Contracts\Account\Account', 'Apolune\Account\Models\Account');
+        $this->app->bind('Apolune\Contracts\Account\Player', 'Apolune\Account\Models\Player');
     }
 }

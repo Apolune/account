@@ -3,7 +3,6 @@
 namespace Apolune\Account\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Apolune\Account\Models\Account;
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
 use Illuminate\Http\Exception\HttpResponseException;
@@ -79,10 +78,18 @@ class AuthController extends Controller
      */
     public function postCreate(CreateRequest $request)
     {
-        $account = Account::create([
-            'name'         => $request->get('name'),
+        $account = app('Apolune\Contracts\Account\Account')->create([
+            'name'          => $request->get('name'),
             'email'         => $request->get('email'),
-            'password'     => bcrypt($request->get('password')),
+            'password'      => bcrypt($request->get('password')),
+        ]);
+
+        $player = app('Apolune\Contracts\Account\Player')->create([
+            'name'          => $request->get('player'),
+            'account_id'    => $account->id(),
+            'vocation'      => $request->get('vocation'),
+            'sex'           => $request->get('sex'),
+            'conditions'    => '',
         ]);
 
         $this->auth->login($account);
