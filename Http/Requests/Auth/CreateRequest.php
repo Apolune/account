@@ -34,7 +34,7 @@ class CreateRequest extends FormRequest
             'name'          => ['required', 'min:5', 'max:23', 'unique:accounts'],
             'email'         => ['required', 'email', 'max:255', 'unique:accounts'],
             'password'      => ['required', 'confirmed', 'min:6'],
-            'player'        => ['required', 'min:3', 'max:30', 'unique:players,name'],
+            'player'        => ['required', 'min:3', 'max:30', 'min_words', 'max_words:3', 'unique:players,name'],
             'sex'           => ['required', 'gender'],
             'vocation'      => ['required', 'vocation:starter'],
             'world'         => ['required', 'world'],
