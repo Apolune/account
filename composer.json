@@ -13,13 +13,10 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5.9",
         "apolune/core": "self.version"
     },
     "autoload": {
-        "files": [
-            "validation.php"
-        ],
         "psr-4": {
             "Apolune\\Account\\": ""
         }
