@@ -3,12 +3,12 @@
 namespace Apolune\Account\Models\Properties;
 
 use Illuminate\Database\Eloquent\Model;
-use Apolune\Core\Traits\AuthenticatableTraits;
+use Apolune\Core\Traits\AuthenticatableProperties;
 use Apolune\Contracts\Account\Properties\Account as AccountContract;
 
 class Account extends Model implements AccountContract
 {
-    use AuthenticatableTraits;
+    use AuthenticatableProperties;
 
     /**
      * The table associated with the model.
