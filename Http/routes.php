@@ -24,3 +24,23 @@ $router->group(['prefix' => '/account', 'namespace' => 'Apolune\Account\Http\Con
     $router->get('/terminate', 'AccountController@getTerminate');
     $router->delete('/terminate', 'AccountController@deleteTerminate');
 });
+
+$router->group(['prefix' => '/account/character', 'namespace' => 'Apolune\Account\Http\Controllers'], function ($router) {
+    $router->get('/', 'CharacterController@create');
+    $router->post('/', 'CharacterController@store');
+
+    $router->get('/{id}/edit', 'CharacterController@edit');
+    $router->put('/{id}', 'CharacterController@update');
+
+    $router->get('/{id}/delete', 'CharacterController@delete');
+    $router->delete('/{id}', 'CharacterController@destroy');
+
+    $router->get('/{id}/name', 'CharacterController@changeName');
+    $router->put('/{id}/name', 'CharacterController@storeName');
+
+    $router->get('/{id}/world', 'CharacterController@changeWorld');
+    $router->put('/{id}/world', 'CharacterController@storeWorld');
+
+    $router->get('/{id}/sex', 'CharacterController@changeSex');
+    $router->put('/{id}/sex', 'CharacterController@storeSex');
+});

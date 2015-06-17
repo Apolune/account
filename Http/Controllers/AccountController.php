@@ -4,7 +4,6 @@ namespace Apolune\Account\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\Registrar;
 use Apolune\Core\Http\Controllers\Controller;
 use Apolune\Account\Http\Requests\EmailRequest;
 use Apolune\Account\Http\Requests\PasswordRequest;
