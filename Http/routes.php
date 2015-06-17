@@ -1,46 +1,46 @@
 <?php
 
 $router->group(['prefix' => '/account', 'namespace' => 'Apolune\Account\Http\Controllers'], function ($router) {
-    $router->get('/', 'AccountController@getIndex');
-    $router->get('/manage', 'AccountController@getManage');
+    $router->get('/', 'AccountController@index');
+    $router->get('/manage', 'AccountController@manage');
 
-    $router->get('/login', 'AuthController@getLogin');
-    $router->post('/login', 'AuthController@postLogin');
+    $router->get('/login', 'AuthController@login');
+    $router->post('/login', 'AuthController@authenticate');
 
-    $router->get('/logout', 'AuthController@getLogout');
+    $router->get('/logout', 'AuthController@logout');
 
-    $router->get('/create', 'AuthController@getCreate');
-    $router->post('/create', 'AuthController@postCreate');
+    $router->get('/create', 'AuthController@create');
+    $router->post('/create', 'AuthController@store');
 
-    $router->get('/password', 'AccountController@getPassword');
-    $router->put('/password', 'AccountController@putPassword');
+    $router->get('/password', 'AccountController@password');
+    $router->put('/password', 'AccountController@updatePassword');
 
-    $router->get('/email', 'AccountController@getEmail');
-    $router->put('/email', 'AccountController@putEmail');
+    $router->get('/email', 'AccountController@email');
+    $router->put('/email', 'AccountController@updateEmail');
 
-    $router->get('/rename', 'AccountController@getRename');
-    $router->put('/rename', 'AccountController@putRename');
+    $router->get('/rename', 'AccountController@rename');
+    $router->put('/rename', 'AccountController@updateName');
 
-    $router->get('/terminate', 'AccountController@getTerminate');
-    $router->delete('/terminate', 'AccountController@deleteTerminate');
+    $router->get('/terminate', 'AccountController@terminate');
+    $router->delete('/terminate', 'AccountController@destroy');
 });
 
 $router->group(['prefix' => '/account/character', 'namespace' => 'Apolune\Account\Http\Controllers'], function ($router) {
     $router->get('/', 'CharacterController@create');
     $router->post('/', 'CharacterController@store');
 
-    $router->get('/{id}/edit', 'CharacterController@edit');
+    $router->get('/{id}', 'CharacterController@edit');
     $router->put('/{id}', 'CharacterController@update');
 
     $router->get('/{id}/delete', 'CharacterController@delete');
     $router->delete('/{id}', 'CharacterController@destroy');
 
-    $router->get('/{id}/name', 'CharacterController@changeName');
-    $router->put('/{id}/name', 'CharacterController@storeName');
+    $router->get('/{id}/name', 'CharacterController@name');
+    $router->put('/{id}/name', 'CharacterController@updateName');
 
-    $router->get('/{id}/world', 'CharacterController@changeWorld');
-    $router->put('/{id}/world', 'CharacterController@storeWorld');
+    $router->get('/{id}/world', 'CharacterController@world');
+    $router->put('/{id}/world', 'CharacterController@updateWorld');
 
-    $router->get('/{id}/sex', 'CharacterController@changeSex');
-    $router->put('/{id}/sex', 'CharacterController@storeSex');
+    $router->get('/{id}/sex', 'CharacterController@sex');
+    $router->put('/{id}/sex', 'CharacterController@updateSex');
 });

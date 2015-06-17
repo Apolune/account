@@ -28,7 +28,7 @@ class AuthController extends Controller
     {
         $this->auth = $auth;
 
-        $this->middleware('guest', ['except' => 'getLogout']);
+        $this->middleware('guest', ['except' => 'logout']);
     }
 
     /**
@@ -36,7 +36,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getLogin()
+    public function login()
     {
         return view('theme::account.auth.login');
     }
@@ -47,7 +47,7 @@ class AuthController extends Controller
      * @param  \Apolune\Account\Http\Requests\Auth\LoginRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function postLogin(LoginRequest $request)
+    public function authenticate(LoginRequest $request)
     {
         $credentials = $request->only('name', 'password');
 
@@ -65,7 +65,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getCreate()
+    public function create()
     {
         return view('theme::account.auth.create');
     }
@@ -76,7 +76,7 @@ class AuthController extends Controller
      * @param  \Apolune\Account\Http\Requests\Auth\CreateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function postCreate(CreateRequest $request)
+    public function store(CreateRequest $request)
     {
         $account = app('Apolune\Contracts\Account\Account')->create([
             'name'          => $request->get('name'),
@@ -102,7 +102,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getLogout()
+    public function logout()
     {
         $this->auth->logout();
 

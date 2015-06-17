@@ -94,7 +94,7 @@ class CharacterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function changeName($id)
+    public function name($id)
     {
         $player = app('Apolune\Contracts\Account\Player')->findOrFail($id);
 
@@ -106,7 +106,7 @@ class CharacterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function storeName()
+    public function updateName()
     {
     }
 
@@ -115,7 +115,7 @@ class CharacterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function changeWorld($id)
+    public function world($id)
     {
         $player = app('Apolune\Contracts\Account\Player')->findOrFail($id);
 
@@ -129,7 +129,7 @@ class CharacterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function storeWorld()
+    public function updateWorld()
     {
     }
 
@@ -138,7 +138,7 @@ class CharacterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function changeSex($id)
+    public function sex($id)
     {
         $player = app('Apolune\Contracts\Account\Player')->findOrFail($id);
 
@@ -150,7 +150,7 @@ class CharacterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function storeSex()
+    public function updateSex()
     {
     }
 }

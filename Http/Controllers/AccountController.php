@@ -36,7 +36,7 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getIndex()
+    public function index()
     {
         return view('theme::account.index');
     }
@@ -46,7 +46,7 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getManage()
+    public function manage()
     {
         return view('theme::account.manage');
     }
@@ -56,7 +56,7 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getPassword()
+    public function password()
     {
         return view('theme::account.password');
     }
@@ -67,7 +67,7 @@ class AccountController extends Controller
      * @param  \Apolune\Account\Http\Requests\PasswordRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function putPassword(PasswordRequest $request)
+    public function updatePassword(PasswordRequest $request)
     {
         $account = $this->auth->user();
 
@@ -93,7 +93,7 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getEmail()
+    public function email()
     {
         return view('theme::account.email');
     }
@@ -104,7 +104,7 @@ class AccountController extends Controller
      * @param  \Apolune\Account\Http\Requests\EmailRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function putEmail(EmailRequest $request)
+    public function updateEmail(EmailRequest $request)
     {
         $account = $this->auth->user();
 
@@ -127,7 +127,7 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getRename()
+    public function rename()
     {
         return view('theme::account.rename');
     }
@@ -137,7 +137,7 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function putRename()
+    public function updateName()
     {
     }
 
@@ -146,7 +146,7 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getTerminate()
+    public function terminate()
     {
         return view('theme::account.terminate');
     }
@@ -156,7 +156,7 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function deleteTerminate()
+    public function destroy()
     {
     }
 }
