@@ -1,6 +1,8 @@
 <?php
 
 $router->group(['prefix' => '/account', 'namespace' => 'Apolune\Account\Http\Controllers'], function ($router) {
+    $router->get('/download', 'DownloadController@index');
+
     $router->get('/', 'AccountController@index');
     $router->get('/manage', 'AccountController@manage');
 
@@ -43,4 +45,8 @@ $router->group(['prefix' => '/account/character', 'namespace' => 'Apolune\Accoun
 
     $router->get('/{id}/sex', 'CharacterController@sex');
     $router->put('/{id}/sex', 'CharacterController@updateSex');
+});
+
+$router->group(['prefix' => '/account/recover', 'namespace' => 'Apolune\Account\Http\Controllers'], function ($router) {
+    $router->get('/', 'RecoverController@index');
 });
