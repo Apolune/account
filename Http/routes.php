@@ -1,52 +1,84 @@
 <?php
 
-$router->group(['prefix' => '/account', 'namespace' => 'Apolune\Account\Http\Controllers'], function ($router) {
-    $router->get('/download', 'DownloadController@index');
+$router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function () {
 
-    $router->get('/', 'AccountController@index');
-    $router->get('/manage', 'AccountController@manage');
+    /*
+    |--------------------------------------------------------------------------
+    | AccountController
+    |--------------------------------------------------------------------------
+    |
+    | The following routes belong to the aforementioned controller.
+    |
+    */
 
-    $router->get('/login', 'AuthController@login');
-    $router->post('/login', 'AuthController@authenticate');
+    get('/account', 'AccountController@index');
+    get('/account/manage', 'AccountController@manage');
+    get('/account/password', 'AccountController@password');
+    put('/account/password', 'AccountController@updatePassword');
+    get('/account/email', 'AccountController@email');
+    put('/account/email', 'AccountController@updateEmail');
+    get('/account/rename', 'AccountController@rename');
+    put('/account/rename', 'AccountController@updateName');
+    get('/account/terminate', 'AccountController@terminate');
+    delete('/account/terminate', 'AccountController@destroy');
 
-    $router->get('/logout', 'AuthController@logout');
+    /*
+    |--------------------------------------------------------------------------
+    | AuthController
+    |--------------------------------------------------------------------------
+    |
+    | The following routes belong to the aforementioned controller.
+    |
+    */
 
-    $router->get('/create', 'AuthController@create');
-    $router->post('/create', 'AuthController@store');
+    get('/account/create', 'AuthController@create');
+    post('/account/create', 'AuthController@store');
+    get('/account/login', 'AuthController@login');
+    post('/account/login', 'AuthController@authenticate');
+    get('/account/logout', 'AuthController@logout');
 
-    $router->get('/password', 'AccountController@password');
-    $router->put('/password', 'AccountController@updatePassword');
+    /*
+    |--------------------------------------------------------------------------
+    | CharacterController
+    |--------------------------------------------------------------------------
+    |
+    | The following routes belong to the aforementioned controller.
+    |
+    */
 
-    $router->get('/email', 'AccountController@email');
-    $router->put('/email', 'AccountController@updateEmail');
+    get('/account/character', 'CharacterController@create');
+    post('/account/character', 'CharacterController@store');
+    get('/account/character/{id}', 'CharacterController@edit');
+    put('/account/character/{id}', 'CharacterController@update');
+    get('/account/character/{id}/delete', 'CharacterController@delete');
+    delete('/account/character/{id}', 'CharacterController@destroy');
+    get('/account/character/{id}/name', 'CharacterController@name');
+    put('/account/character/{id}/name', 'CharacterController@updateName');
+    get('/account/character/{id}/world', 'CharacterController@world');
+    put('/account/character/{id}/world', 'CharacterController@updateWorld');
+    get('/account/character/{id}/sex', 'CharacterController@sex');
+    put('/account/character/{id}/sex', 'CharacterController@updateSex');
 
-    $router->get('/rename', 'AccountController@rename');
-    $router->put('/rename', 'AccountController@updateName');
+    /*
+    |--------------------------------------------------------------------------
+    | GenericController
+    |--------------------------------------------------------------------------
+    |
+    | The following routes belong to the aforementioned controller.
+    |
+    */
 
-    $router->get('/terminate', 'AccountController@terminate');
-    $router->delete('/terminate', 'AccountController@destroy');
-});
+    get('/account/download', 'GenericController@download');
 
-$router->group(['prefix' => '/account/character', 'namespace' => 'Apolune\Account\Http\Controllers'], function ($router) {
-    $router->get('/', 'CharacterController@create');
-    $router->post('/', 'CharacterController@store');
+    /*
+    |--------------------------------------------------------------------------
+    | RecoverController
+    |--------------------------------------------------------------------------
+    |
+    | The following routes belong to the aforementioned controller.
+    |
+    */
 
-    $router->get('/{id}', 'CharacterController@edit');
-    $router->put('/{id}', 'CharacterController@update');
+    get('/account/recover', 'RecoverController@index');
 
-    $router->get('/{id}/delete', 'CharacterController@delete');
-    $router->delete('/{id}', 'CharacterController@destroy');
-
-    $router->get('/{id}/name', 'CharacterController@name');
-    $router->put('/{id}/name', 'CharacterController@updateName');
-
-    $router->get('/{id}/world', 'CharacterController@world');
-    $router->put('/{id}/world', 'CharacterController@updateWorld');
-
-    $router->get('/{id}/sex', 'CharacterController@sex');
-    $router->put('/{id}/sex', 'CharacterController@updateSex');
-});
-
-$router->group(['prefix' => '/account/recover', 'namespace' => 'Apolune\Account\Http\Controllers'], function ($router) {
-    $router->get('/', 'RecoverController@index');
 });
