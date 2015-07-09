@@ -23,15 +23,16 @@ class AccountServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Apolune\Contracts\Account\Account', 'Apolune\Account\Models\Account');
-        $this->app->bind('Apolune\Contracts\Account\Player', 'Apolune\Account\Models\Player');
+        $this->app->bind('Apolune\Contracts\Account\Account', 'Apolune\Account\Account');
+        $this->app->bind('Apolune\Contracts\Account\AccountProperties', 'Apolune\Account\AccountProperties');
+        $this->app->bind('Apolune\Contracts\Account\Player', 'Apolune\Account\Player');
 
         $this->app->register('Apolune\Account\Providers\HashServiceProvider');
         $this->app->register('Apolune\Account\Providers\AuthServiceProvider');
         $this->app->register('Apolune\Account\Providers\ValidationServiceProvider');
 
         $this->app['migrations']->register(
-            __DIR__.'/../migrations'
+            __DIR__.'/../resources/migrations'
         );
     }
 }

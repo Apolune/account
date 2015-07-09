@@ -1,12 +1,12 @@
 <?php
 
-namespace Apolune\Account\Models\Properties;
+namespace Apolune\Account;
 
-use Illuminate\Database\Eloquent\Model;
+use Apolune\Core\Database\Eloquent\Model;
 use Apolune\Core\Traits\AuthenticatableProperties;
-use Apolune\Contracts\Account\Properties\Account as AccountContract;
+use Apolune\Contracts\Account\AccountProperties as Contract;
 
-class Account extends Model implements AccountContract
+class AccountProperties extends Model implements Contract
 {
     use AuthenticatableProperties;
 

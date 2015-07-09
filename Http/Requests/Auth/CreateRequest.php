@@ -31,14 +31,14 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => ['required', 'min:5', 'max:23', 'unique:accounts'],
-            'email'         => ['required', 'email', 'max:255', 'unique:accounts'],
-            'password'      => ['required', 'confirmed', 'min:6'],
-            'player'        => ['required', 'min:3', 'max:30', 'min_words', 'max_words:3', 'unique:players,name'],
-            'sex'           => ['required', 'gender'],
-            'vocation'      => ['required', 'vocation:starter'],
-            'world'         => ['required', 'world'],
-            'terms'         => ['accepted'],
+            'name'      => ['required', 'min:5', 'max:23', 'unique:accounts'],
+            'email'     => ['required', 'email', 'max:255', 'unique:accounts'],
+            'password'  => ['required', 'confirmed', 'min:6'],
+            'player'    => ['required', 'min:3', 'max:30', 'min_words', 'max_words:3', 'unique:players,name'],
+            'sex'       => ['required', 'gender'],
+            'vocation'  => ['required', 'vocation:starter'],
+            'world'     => ['required', 'world'],
+            'terms'     => ['accepted'],
         ];
     }
 }

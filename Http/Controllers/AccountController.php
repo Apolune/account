@@ -2,10 +2,8 @@
 
 namespace Apolune\Account\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
-use Apolune\Account\Http\Requests\EmailRequest;
 use Apolune\Account\Http\Requests\PasswordRequest;
 use Illuminate\Http\Exception\HttpResponseException;
 
@@ -86,40 +84,6 @@ class AccountController extends Controller
         $account->save();
 
         return redirect('/account')->with('success', trans('theme::account.password.form.success'));
-    }
-
-    /**
-     * Show the change email page.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function email()
-    {
-        return view('theme::account.email');
-    }
-
-    /**
-     * Show the change email page.
-     *
-     * @param  \Apolune\Account\Http\Requests\EmailRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function updateEmail(EmailRequest $request)
-    {
-        $account = $this->auth->user();
-
-        $credentials = [
-            'name'         => $account->name(),
-            'password'     => $request->get('password'),
-        ];
-
-        if (! $this->auth->validate($credentials)) {
-            throw new HttpResponseException($request->response([
-                'current' => trans('theme::account.email.form.error'),
-            ]));
-        }
-
-        return redirect('/account')->with('success', trans('theme::account.email.form.success'));
     }
 
     /**
