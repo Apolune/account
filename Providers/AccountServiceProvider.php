@@ -7,6 +7,17 @@ use Illuminate\Support\ServiceProvider;
 class AccountServiceProvider extends ServiceProvider
 {
     /**
+     * Define all the model bindings.
+     *
+     * @var array
+     */
+    protected $bindings = [
+        'account'               => ['Apolune\Contracts\Account\Account', 'Apolune\Account\Account'],
+        'account.properties'    => ['Apolune\Contracts\Account\AccountProperties', 'Apolune\Account\AccountProperties'],
+        'player'                => ['Apolune\Contracts\Account\Player', 'Apolune\Account\Player'],
+    ];
+
+    /**
      * Bootstrap any application services.
      *
      * @return void
@@ -23,9 +34,12 @@ class AccountServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Apolune\Contracts\Account\Account', 'Apolune\Account\Account');
-        $this->app->bind('Apolune\Contracts\Account\AccountProperties', 'Apolune\Account\AccountProperties');
-        $this->app->bind('Apolune\Contracts\Account\Player', 'Apolune\Account\Player');
+        foreach ($this->bindings as $alias => $binding)
+        {
+            list($abstract, $concrete) = $binding;
+            
+            $this->app->bind([$alias => $abstract], $concrete);
+        }
 
         $this->app->register('Apolune\Account\Providers\HashServiceProvider');
         $this->app->register('Apolune\Account\Providers\AuthServiceProvider');

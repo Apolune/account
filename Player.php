@@ -28,9 +28,7 @@ class Player extends Model implements Contract
      */
     public function account()
     {
-        return $this->belongsTo(
-            \Apolune\Contracts\Account\Account::class
-        );
+        return $this->belongsTo('account');
     }
 
     /**

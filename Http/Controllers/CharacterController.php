@@ -54,7 +54,7 @@ class CharacterController extends Controller
      */
     public function edit($id)
     {
-        $player = app('Apolune\Contracts\Account\Player')->findOrFail($id);
+        $player = app('player')->findOrFail($id);
 
         return view('theme::account.character.edit')->withPlayer($player);
     }
@@ -75,7 +75,7 @@ class CharacterController extends Controller
      */
     public function delete($id)
     {
-        $player = app('Apolune\Contracts\Account\Player')->findOrFail($id);
+        $player = app('player')->findOrFail($id);
 
         return view('theme::account.character.delete')->withPlayer($player);
     }
@@ -96,7 +96,7 @@ class CharacterController extends Controller
      */
     public function name($id)
     {
-        $player = app('Apolune\Contracts\Account\Player')->findOrFail($id);
+        $player = app('player')->findOrFail($id);
 
         return view('theme::account.character.name')->withPlayer($player);
     }
@@ -117,7 +117,7 @@ class CharacterController extends Controller
      */
     public function world($id)
     {
-        $player = app('Apolune\Contracts\Account\Player')->findOrFail($id);
+        $player = app('player')->findOrFail($id);
 
         $worlds = worlds()->forget($player->world()->id());
 
@@ -140,7 +140,7 @@ class CharacterController extends Controller
      */
     public function sex($id)
     {
-        $player = app('Apolune\Contracts\Account\Player')->findOrFail($id);
+        $player = app('player')->findOrFail($id);
 
         return view('theme::account.character.sex', compact('player'));
     }

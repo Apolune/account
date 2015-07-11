@@ -78,13 +78,13 @@ class AuthController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        $account = app('Apolune\Contracts\Account\Account')->create([
+        $account = app('account')->create([
             'name'          => $request->get('name'),
             'email'         => $request->get('email'),
             'password'      => bcrypt($request->get('password')),
         ]);
 
-        $player = app('Apolune\Contracts\Account\Player')->create([
+        $player = app('player')->create([
             'name'          => $request->get('player'),
             'account_id'    => $account->id(),
             'vocation'      => $request->get('vocation'),

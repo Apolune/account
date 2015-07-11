@@ -39,9 +39,7 @@ class Account extends Model implements Contract
      */
     public function properties()
     {
-        return $this->hasOne(
-            \Apolune\Contracts\Account\AccountProperties::class
-        );
+        return $this->hasOne('account.properties');
     }
 
     /**
@@ -51,9 +49,7 @@ class Account extends Model implements Contract
      */
     public function players()
     {
-        return $this->hasMany(
-            \Apolune\Contracts\Account\Player::class
-        );
+        return $this->hasMany('player');
     }
 
     /**
