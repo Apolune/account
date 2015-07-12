@@ -79,9 +79,9 @@ class AuthController extends Controller
     public function store(CreateRequest $request)
     {
         $account = app('account')->create([
-            'name'          => $request->get('name'),
-            'email'         => $request->get('email'),
-            'password'      => bcrypt($request->get('password')),
+            'name'      => $request->get('name'),
+            'email'     => $request->get('email'),
+            'password'  => bcrypt($request->get('password')),
         ]);
 
         $player = app('player')->create([

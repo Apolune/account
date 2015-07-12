@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
+use Apolune\Core\Facades\Database\Trigger;
 use Illuminate\Database\Migrations\Migration;
 
 class CreatePandaacAccountsTable extends Migration
@@ -16,10 +17,15 @@ class CreatePandaacAccountsTable extends Migration
             $table->increments('id');
             $table->integer('account_id');
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
-            $table->string('email', 100)->nullable();
+            $table->string('email')->nullable();
             $table->timestamp('email_date')->nullable();
+            $table->string('verification', 100)->nullable();
             $table->rememberToken();
             $table->timestamps();
+        });
+
+        Trigger::after('insert')->on('accounts')->create(function ($query) {
+            $query->table('__pandaac_accounts')->insert(['account_id' => 'NEW.`id`']);
         });
     }
 
@@ -30,6 +36,8 @@ class CreatePandaacAccountsTable extends Migration
      */
     public function down()
     {
+        Trigger::after('insert')->on('accounts')->drop();
+
         Schema::drop('__pandaac_accounts');
     }
 }

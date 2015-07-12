@@ -21,7 +21,9 @@ class HashServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('hash', function () { return new Sha1Hasher; });
+        $this->app->singleton('hash', function () {
+            return new Sha1Hasher;
+        });
     }
 
     /**
@@ -31,6 +33,6 @@ class HashServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array('hash');
+        return ['hash'];
     }
 }

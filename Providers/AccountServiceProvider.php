@@ -2,23 +2,14 @@
 
 namespace Apolune\Account\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Apolune\Account;
+use Apolune\Contracts\Account as Contracts;
+use Apolune\Core\Providers\AggregateServiceProvider;
 
-class AccountServiceProvider extends ServiceProvider
+class AccountServiceProvider extends AggregateServiceProvider
 {
     /**
-     * Holds all of the contracts we want to bind.
-     *
-     * @var array
-     */
-    protected $bindings = [
-        'account'               => ['Apolune\Contracts\Account\Account', 'Apolune\Account\Account'],
-        'account.properties'    => ['Apolune\Contracts\Account\AccountProperties', 'Apolune\Account\AccountProperties'],
-        'player'                => ['Apolune\Contracts\Account\Player', 'Apolune\Account\Player'],
-    ];
-
-    /**
-     * Holds all of the service providers we want to register.
+     * The provider class names.
      *
      * @var array
      */
@@ -26,6 +17,18 @@ class AccountServiceProvider extends ServiceProvider
         HashServiceProvider::class,
         AuthServiceProvider::class,
         ValidationServiceProvider::class,
+        MigrationServiceProvider::class,
+    ];
+
+    /**
+     * Holds all of the contracts we want to bind.
+     *
+     * @var array
+     */
+    protected $bindings = [
+        'account'               => [Contracts\Account::class => Account\Account::class],
+        'account.properties'    => [Contracts\AccountProperties::class => Account\AccountProperties::class],
+        'player'                => [Contracts\Player::class => Account\Player::class],
     ];
 
     /**
@@ -36,46 +39,5 @@ class AccountServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->bindings();
-        $this->providers();
-
-        $this->app['migrations']->register(
-            __DIR__.'/../resources/migrations'
-        );
-    }
-
-    /**
-     * Handle all of the container bindings.
-     *
-     * @return void
-     */
-    private function bindings()
-    {
-        foreach ($this->bindings as $alias => $binding) {
-            list($abstract, $concrete) = $binding;
-            
-            $this->app->bind([$alias => $abstract], $concrete);
-        }
-    }
-
-    /**
-     * Register all of the service providers.
-     *
-     * @return void
-     */
-    private function providers()
-    {
-        foreach ($this->providers as $provider) {
-            $this->app->register($provider);
-        }
     }
 }

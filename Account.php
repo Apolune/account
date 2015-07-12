@@ -129,7 +129,7 @@ class Account extends Model implements Contract
      */
     public function isAwaitingEmailChange()
     {
-        return $this->emailChange() !== null;
+        return config('pandaac.mail.enabled') and $this->emailChange() !== null;
     }
 
     /**
@@ -149,7 +149,7 @@ class Account extends Model implements Contract
      */
     public function emailChangeDate()
     {
-        $days = config('pandaac.timers.email-change');
+        $days = config('pandaac.mail.timers.email-change');
 
         return (new Carbon($this->properties->email_date))->addDays($days);
     }
