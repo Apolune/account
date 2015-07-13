@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Schema\Blueprint;
 use Apolune\Core\Facades\Database\Trigger;
 use Illuminate\Database\Migrations\Migration;
@@ -25,7 +26,7 @@ class CreatePandaacAccountsTable extends Migration
         });
 
         Trigger::after('insert')->on('accounts')->create(function ($query) {
-            $query->table('__pandaac_accounts')->insert(['account_id' => 'NEW.`id`']);
+            $query->table('__pandaac_accounts')->insert(['account_id' => DB::raw('NEW.`id`')]);
         });
     }
 
@@ -36,7 +37,7 @@ class CreatePandaacAccountsTable extends Migration
      */
     public function down()
     {
-        Trigger::after('insert')->on('accounts')->drop();
+        Trigger::after('insert')->on('accounts')->rollback();
 
         Schema::drop('__pandaac_accounts');
     }

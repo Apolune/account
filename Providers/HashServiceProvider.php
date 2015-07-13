@@ -2,7 +2,7 @@
 
 namespace Apolune\Account\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Apolune\Core\ServiceProvider;
 use Apolune\Account\Services\Hashing\Sha1Hasher;
 
 class HashServiceProvider extends ServiceProvider

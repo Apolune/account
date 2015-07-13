@@ -34,10 +34,8 @@ class CreateRequest extends FormRequest
             'name'      => ['required', 'min:6', 'max:30', 'alphanum', 'contains_alpha', 'unique:accounts'],
             'email'     => ['required', 'email', 'max:255', 'unique:accounts'],
             'password'  => ['required', 'min:8', 'max:30', 'contains_alpha', 'contains_nonalpha', 'confirmed'],
-            'player'    => [
-                                'required', 'min:2', 'max:29', 'no_initial_space', 'no_final_space', 'no_multiple_spaces', 'max_words:3', 
-                                'short_words', 'long_words', 'no_vowelless_words', 'no_repeated_characters', 'unique:players,name'
-                           ],
+            'player'    => ['required', 'min:2', 'max:29', 'alpha_space', 'no_initial_space', 'no_final_space', 'no_multiple_spaces', 
+                            'max_words:3', 'short_words', 'long_words', 'no_vowelless_words', 'no_repeated_characters', 'unique:players,name'],
             'sex'       => ['required', 'gender'],
             'vocation'  => ['required', 'vocation:starter'],
             'world'     => ['required', 'world'],

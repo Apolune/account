@@ -70,6 +70,19 @@ class Validator
     }
 
     /**
+     * A validation rule that checks if the value contains only alphabetical characters and spaces.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @param  array  $parameters
+     * @return void
+     */
+    public function validateAlphaSpace($attribute, $value, array $parameters)
+    {
+        return preg_match('/^([a-z ]+)$/i', $value);
+    }
+
+    /**
      * A validation rule that checks if the value contains at least one alphabetical character.
      *
      * @param  string  $attribute

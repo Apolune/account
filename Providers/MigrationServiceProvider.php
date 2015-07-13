@@ -2,7 +2,7 @@
 
 namespace Apolune\Account\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Apolune\Core\ServiceProvider;
 
 class MigrationServiceProvider extends ServiceProvider
 {

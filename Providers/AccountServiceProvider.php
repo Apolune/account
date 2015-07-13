@@ -3,8 +3,8 @@
 namespace Apolune\Account\Providers;
 
 use Apolune\Account;
+use Apolune\Core\AggregateServiceProvider;
 use Apolune\Contracts\Account as Contracts;
-use Apolune\Core\Providers\AggregateServiceProvider;
 
 class AccountServiceProvider extends AggregateServiceProvider
 {

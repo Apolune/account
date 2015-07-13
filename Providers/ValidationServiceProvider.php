@@ -2,7 +2,7 @@
 
 namespace Apolune\Account\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Apolune\Core\ServiceProvider;
 use Illuminate\Validation\Factory as Validator;
 use Apolune\Account\Services\Validation\Validator as Rules;
 
