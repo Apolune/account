@@ -5,12 +5,15 @@ namespace Apolune\Account\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Exception\HttpResponseException;
 use Apolune\Account\Http\Requests\Auth\LoginRequest;
 use Apolune\Account\Http\Requests\Auth\CreateRequest;
 
 class AuthController extends Controller
 {
+    use ThrottlesLogins;
+    
     /**
      * The Guard implementation.
      *
@@ -51,11 +54,19 @@ class AuthController extends Controller
     {
         $credentials = $request->only('name', 'password');
 
+        if ($this->hasTooManyLoginAttempts($request)) {
+            return $this->sendLockoutResponse($request);
+        }
+
         if (! $this->auth->attempt($credentials, $request->has('remember'))) {
+            $this->incrementLoginAttempts($request);
+
             throw new HttpResponseException($request->response([
                 'name' => trans('theme::account.login.form.error'),
             ]));
         }
+
+        $this->clearLoginAttempts($request);
 
         return redirect()->intended('/account');
     }
@@ -107,5 +118,25 @@ class AuthController extends Controller
         $this->auth->logout();
 
         return view('theme::account.auth.logout');
+    }
+
+    /**
+     * Get the path to the login route.
+     *
+     * @return string
+     */
+    public function loginPath()
+    {
+        return '/account/login';
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function loginUsername()
+    {
+        return 'name';
     }
 }
