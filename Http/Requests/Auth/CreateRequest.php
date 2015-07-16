@@ -31,7 +31,7 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => ['required', 'min:6', 'max:30', 'alphanum', 'contains_alpha', 'unique:accounts'],
+            'name'      => ['required', 'min:6', 'max:30', 'alphanum', 'contains_alpha', 'unique:accounts,name'],
             'email'     => ['required', 'email', 'max:255', 'unique:accounts'],
             'password'  => ['required', 'min:8', 'max:30', 'contains_alpha', 'contains_nonalpha', 'confirmed'],
             'player'    => ['required', 'min:2', 'max:29', 'alpha_space', 'no_initial_space', 'no_final_space', 'no_multiple_spaces', 

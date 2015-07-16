@@ -4,7 +4,9 @@ namespace Apolune\Account\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
+use Apolune\Account\Http\Requests\RenameRequest;
 use Apolune\Account\Http\Requests\PasswordRequest;
+use Apolune\Account\Http\Requests\TerminateRequest;
 use Illuminate\Http\Exception\HttpResponseException;
 
 class AccountController extends Controller
@@ -83,7 +85,7 @@ class AccountController extends Controller
         $account->password = bcrypt($request->get('password'));
         $account->save();
 
-        return redirect('/account')->with('success', trans('theme::account.password.form.success'));
+        return redirect('/account');
     }
 
     /**
@@ -99,10 +101,16 @@ class AccountController extends Controller
     /**
      * Show the rename account page.
      *
+     * @param  \Apolune\Account\Http\Requests\RenameRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function updateName()
+    public function updateName(RenameRequest $request)
     {
+        $account = $this->auth->user();
+        $account->name = $request->get('name');
+        $account->save();
+
+        return redirect('/account');
     }
 
     /**
@@ -118,9 +126,29 @@ class AccountController extends Controller
     /**
      * Show the terminate account page.
      *
+     * @param  \Apolune\Account\Http\Requests\TerminateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy(TerminateRequest $request)
     {
+        $account = $this->auth->user();
+
+        $credentials = [
+            'name'         => $account->name(),
+            'password'     => $request->get('password'),
+        ];
+
+        if (! $this->auth->validate($credentials)) {
+            throw new HttpResponseException($request->response([
+                'current' => trans('theme::account.terminate.form.error'),
+            ]));
+        }
+
+        $account->properties->deleted = 1;
+        $account->properties->save();
+
+        $this->auth->logout();
+
+        return redirect('/account/login');
     }
 }

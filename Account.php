@@ -123,34 +123,32 @@ class Account extends Model implements Contract
     }
 
     /**
-     * Check if the account is currently awaiting an email change.
+     * Check if the account has been confirmed.
      *
      * @return boolean
      */
-    public function isAwaitingEmailChange()
+    public function isConfirmed()
     {
-        return config('pandaac.mail.enabled') and $this->emailChange() !== null;
+        return config('pandaac.mail.enabled') and config('pandaac.mail.confirmation') and $this->properties->emailCode() === null;
     }
 
     /**
-     * Get the requested email address.
+     * Check if the account has been deleted.
      *
-     * @return string
+     * @return boolean
      */
-    public function emailChange()
+    public function isDeleted()
     {
-        return $this->properties->email;
+        return (boolean) $this->properties->softDeleted();
     }
 
-    /**
-     * Get the date of when the requested email address change goes through.
+   /**
+     * Check if the account has a pending email address.
      *
-     * @return string
+     * @return boolean
      */
-    public function emailChangeDate()
+    public function hasPendingEmail()
     {
-        $days = config('pandaac.mail.timers.email-change');
-
-        return (new Carbon($this->properties->email_date))->addDays($days);
+        return config('pandaac.mail.enabled') and $this->properties->email() !== null;
     }
 }

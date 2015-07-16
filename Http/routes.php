@@ -15,6 +15,7 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function () 
     get('/account/manage', 'AccountController@manage');
     get('/account/password', 'AccountController@password');
     put('/account/password', 'AccountController@updatePassword');
+    get('/account/email/request', 'EmailController@confirmation');
     get('/account/email', 'EmailController@email');
     put('/account/email', 'EmailController@updateEmail');
     delete('/account/email', 'EmailController@cancelEmail');

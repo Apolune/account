@@ -66,6 +66,14 @@ class AuthController extends Controller
             ]));
         }
 
+        if ($this->auth->user()->isDeleted()) {
+            $this->auth->logout();
+
+            throw new HttpResponseException($request->response([
+                'name' => trans('theme::account.login.form.error'),
+            ]));
+        }
+
         $this->clearLoginAttempts($request);
 
         return redirect()->intended('/account');
@@ -95,6 +103,8 @@ class AuthController extends Controller
             'password'  => bcrypt($request->get('password')),
         ]);
 
+        $account->properties->setEmailCode();
+
         $player = app('player')->create([
             'name'          => $request->get('player'),
             'account_id'    => $account->id(),
@@ -104,6 +114,8 @@ class AuthController extends Controller
         ]);
 
         $this->auth->login($account);
+
+        // send confirmation email
 
         return redirect('/account');
     }
@@ -115,6 +127,10 @@ class AuthController extends Controller
      */
     public function logout()
     {
+        if (! $this->auth->check()) {
+            return redirect('/account');
+        }
+
         $this->auth->logout();
 
         return view('theme::account.auth.logout');
