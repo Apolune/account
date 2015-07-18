@@ -83,4 +83,20 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function () 
 
     get('/account/recover', 'RecoverController@index');
 
+    /*
+    |--------------------------------------------------------------------------
+    | \Apolune\Account\Http\Controllers\RegistrationController.php
+    |--------------------------------------------------------------------------
+    |
+    | The following routes belong to the aforementioned controller.
+    |
+    */
+
+    get('/account/register',            'RegistrationController@registration');
+    get('/account/register/verify',     'RegistrationController@verification');
+    get('/account/register/key',        'RegistrationController@register');
+
+    put('/account/register',            'RegistrationController@validation');
+    put('/account/register/verify',     'RegistrationController@verify');
+
 });

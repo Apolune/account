@@ -5,6 +5,19 @@ namespace Apolune\Account\Services\Validation;
 class Validator
 {
     /**
+     * A validation rule that checks the validity of a country.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @param  array  $parameters
+     * @return void
+     */
+    public function validateCountry($attribute, $value, array $parameters)
+    {
+        return (boolean) country($value);
+    }
+
+    /**
      * A validation rule that checks the validity of a gender.
      *
      * @param  string  $attribute
@@ -191,7 +204,7 @@ class Validator
     }
 
     /**
-     * A validation rule makes sure that the value doesn't contain any successively repeated characters.
+     * A validation rule that makes sure the value doesn't contain any successively repeated characters.
      *
      * @param  string  $attribute
      * @param  mixed  $value
@@ -203,5 +216,20 @@ class Validator
         $length = (int) head($parameters) ?: 2;
 
         return ! preg_match(sprintf('/(.)\1{%d,}/', $length), $value);
+    }
+
+    /**
+     * A validation rule that makes sure the values is within the specified boundaries.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @param  array  $parameters
+     * @return void
+     */
+    public function validateRange($attribute, $value, array $parameters)
+    {
+        list($min, $max) = array_values($parameters);
+
+        return in_array($value, range($min, $max));
     }
 }

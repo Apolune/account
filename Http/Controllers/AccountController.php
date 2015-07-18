@@ -2,10 +2,14 @@
 
 namespace Apolune\Account\Http\Controllers;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Auth\Guard;
+use Apolune\Account\AccountRegistration;
 use Apolune\Core\Http\Controllers\Controller;
 use Apolune\Account\Http\Requests\RenameRequest;
 use Apolune\Account\Http\Requests\PasswordRequest;
+use Apolune\Account\Http\Requests\RegisterRequest;
 use Apolune\Account\Http\Requests\TerminateRequest;
 use Illuminate\Http\Exception\HttpResponseException;
 
@@ -124,7 +128,7 @@ class AccountController extends Controller
     }
 
     /**
-     * Show the terminate account page.
+     * Terminate the account.
      *
      * @param  \Apolune\Account\Http\Requests\TerminateRequest  $request
      * @return \Illuminate\Http\Response

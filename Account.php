@@ -43,6 +43,16 @@ class Account extends Model implements Contract
     }
 
     /**
+     * Retrieve the account registration.
+     *
+     * @return \Apolune\Contracts\Account\AccountRegistration
+     */
+    public function registration()
+    {
+        return $this->hasOne('account.registration');
+    }
+
+    /**
      * Retrieve the account players.
      *
      * @return \Apolune\Contracts\Account\Player
@@ -130,6 +140,16 @@ class Account extends Model implements Contract
     public function isConfirmed()
     {
         return config('pandaac.mail.enabled') and config('pandaac.mail.confirmation') and $this->properties->emailCode() === null;
+    }
+
+    /**
+     * Check if the account has been registered.
+     *
+     * @return boolean
+     */
+    public function isRegistered()
+    {
+        return (boolean) $this->registration;
     }
 
     /**

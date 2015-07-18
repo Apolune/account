@@ -18,6 +18,7 @@ class CreatePandaacAccountsTable extends Migration
             $table->increments('id');
             $table->integer('account_id');
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
+            $table->char('recovery_key', 40)->nullable();
             $table->string('email')->nullable();
             $table->timestamp('email_date')->nullable();
             $table->tinyInteger('email_requests')->unsigned()->default(0);
