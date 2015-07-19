@@ -9,6 +9,15 @@ use Apolune\Contracts\Account as Contracts;
 class AccountServiceProvider extends AggregateServiceProvider
 {
     /**
+     * The application's route middleware.
+     *
+     * @var array
+     */
+    protected $middleware = [
+        'unregistered' => Account\Http\Middleware\Unregistered::class,
+    ];
+
+    /**
      * The provider class names.
      *
      * @var array

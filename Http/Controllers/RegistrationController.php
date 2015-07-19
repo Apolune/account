@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Account\AccountRegistration;
 use Apolune\Core\Http\Controllers\Controller;
-use Apolune\Account\Http\Requests\Registration\VerificationRequest;
+use Illuminate\Http\Exception\HttpResponseException;
 use Apolune\Account\Http\Requests\Registration\ValidationRequest;
+use Apolune\Account\Http\Requests\Registration\VerificationRequest;
 
 class RegistrationController extends Controller
 {
@@ -46,6 +47,7 @@ class RegistrationController extends Controller
         $this->request = $request;
 
         $this->middleware('auth');
+        $this->middleware('unregistered');
     }
 
     /**
@@ -82,9 +84,7 @@ class RegistrationController extends Controller
      */
     public function verification()
     {
-        $this->request->session()->flashInput(
-            $input = $this->request->session()->getOldInput()
-        );
+        $this->request->session()->flashInput($input = $this->request->session()->getOldInput());
 
         if (session('state') !== 1) {
             return redirect('/account/register')->withInput($input);
@@ -103,6 +103,17 @@ class RegistrationController extends Controller
      */
     public function verify(VerificationRequest $request)
     {
+        $credentials = [
+            'name'      => $this->auth->user()->name(),
+            'password'  => $request->get('password'),
+        ];
+
+        if (! $this->auth->validate($credentials)) {
+            throw new HttpResponseException($request->response([
+                'password' => trans('theme::account.registration.form.error'),
+            ]));
+        }
+
         return redirect('/account/register/key')->withInput()->with('state', 2);
     }
 
@@ -113,34 +124,35 @@ class RegistrationController extends Controller
      */
     public function register()
     {
-        $this->request->session()->flashInput(
-            $input = $this->request->session()->getOldInput()
-        );
-
         if (session('state') !== 2) {
             return redirect('/account/register');
         }
 
-        $birthday = vsprintf("%d-%d-%d", [
-            (new Carbon)->year($this->request->old('year'))->format('Y'),
-            (new Carbon)->month($this->request->old('month'))->format('m'),
-            (new Carbon)->day($this->request->old('day'))->format('d'),
-        ]);
+        $key = $this->auth->user()->generateRecoveryKey();
 
-        $key = strtoupper(implode('-', str_split(str_random(20), 5)));
-
-        $properties = account()->properties;
-        $properties->recovery_key = bcrypt($key);
-        $properties->save();
-
-        account()->registration()->create([
+        $this->auth->user()->registration()->create([
             'firstname' => $this->request->old('firstname'),
             'surname'   => $this->request->old('surname'),
             'country'   => $this->request->old('country'),
-            'birthday'  => $birthday,
+            'birthday'  => $this->compileBirthday($this->request->session()->getOldInput()),
             'gender'    => $this->request->old('gender'),
         ]);
 
         return view('theme::account.registration.register', compact('key'));
+    }
+
+    /**
+     * Compile a lone day, a lone month and a lone year into a birth date.
+     *
+     * @param  array $attributes
+     * @return string
+     */
+    protected function compileBirthday(array $attributes)
+    {
+        return vsprintf("%d-%d-%d", [
+            (new Carbon)->year($attributes['year'])->format('Y'),
+            (new Carbon)->month($attributes['month'])->format('m'),
+            (new Carbon)->day($attributes['day'])->format('d'),
+        ]);
     }
 }

@@ -171,4 +171,22 @@ class Account extends Model implements Contract
     {
         return config('pandaac.mail.enabled') and $this->properties->email() !== null;
     }
+
+    /**
+     * Generate a recovery key.
+     *
+     * @param  boolean  $pretend  false
+     * @return string
+     */
+    public function generateRecoveryKey($pretend = false)
+    {
+        $key = strtoupper(implode('-', str_split(str_random(20), 5)));
+
+        if (! $pretend) {
+            $this->properties->recovery_key = bcrypt($key);
+            $this->properties->save();
+        }
+
+        return $key;
+    }
 }
