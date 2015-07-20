@@ -32,7 +32,7 @@ class PasswordRequest extends FormRequest
     {
         return [
             'password'  => ['required', 'confirmed', 'min:6'],
-            'current'   => ['required'],
+            'current'   => ['required', 'current'],
         ];
     }
 }

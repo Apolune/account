@@ -7,7 +7,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
 use Apolune\Account\Http\Requests\EmailRequest;
 
-class EmailController extends Controller
+class Email extends Controller
 {
     /**
      * The Guard implementation.
@@ -72,18 +72,7 @@ class EmailController extends Controller
     public function updateEmail(EmailRequest $request)
     {
         $account = $this->auth->user();
-
-        $credentials = [
-            'name'         => $account->name(),
-            'password'     => $request->get('password'),
-        ];
-
-        if (! $this->auth->validate($credentials)) {
-            throw new HttpResponseException($request->response([
-                'current' => trans('theme::account.email.form.error'),
-            ]));
-        }
-
+        
         $account->properties->email = $request->get('email');
         $account->properties->email_date = Carbon::now();
         $account->properties->save();

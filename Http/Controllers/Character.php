@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
 
-class CharacterController extends Controller
+class Character extends Controller
 {
     /**
      * The Guard implementation.

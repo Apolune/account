@@ -14,7 +14,8 @@ class AccountServiceProvider extends AggregateServiceProvider
      * @var array
      */
     protected $middleware = [
-        'unregistered' => Account\Http\Middleware\Unregistered::class,
+        'registered'    => Account\Http\Middleware\Registered::class,
+        'unregistered'  => Account\Http\Middleware\Unregistered::class,
     ];
 
     /**

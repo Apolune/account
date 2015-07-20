@@ -23,8 +23,9 @@ class MigrationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['migration.handler']->register(
-            __DIR__.'/../resources/migrations'
-        );
+        $this->app['migration.handler']
+            ->migrate(__DIR__.'/../Resources/Migrations')
+            ->using('Apolune\Account\Resources\Migrations')
+            ->register();
     }
 }

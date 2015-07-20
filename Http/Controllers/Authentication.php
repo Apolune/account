@@ -10,7 +10,7 @@ use Illuminate\Http\Exception\HttpResponseException;
 use Apolune\Account\Http\Requests\Auth\LoginRequest;
 use Apolune\Account\Http\Requests\Auth\CreateRequest;
 
-class AuthController extends Controller
+class Authentication extends Controller
 {
     use ThrottlesLogins;
     
@@ -60,14 +60,6 @@ class AuthController extends Controller
 
         if (! $this->auth->attempt($credentials, $request->has('remember'))) {
             $this->incrementLoginAttempts($request);
-
-            throw new HttpResponseException($request->response([
-                'name' => trans('theme::account.login.form.error'),
-            ]));
-        }
-
-        if ($this->auth->user()->isDeleted()) {
-            $this->auth->logout();
 
             throw new HttpResponseException($request->response([
                 'name' => trans('theme::account.login.form.error'),

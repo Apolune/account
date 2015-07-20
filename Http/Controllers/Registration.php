@@ -11,7 +11,7 @@ use Illuminate\Http\Exception\HttpResponseException;
 use Apolune\Account\Http\Requests\Registration\ValidationRequest;
 use Apolune\Account\Http\Requests\Registration\VerificationRequest;
 
-class RegistrationController extends Controller
+class Registration extends Controller
 {
     /**
      * The Guard implementation.
@@ -103,17 +103,6 @@ class RegistrationController extends Controller
      */
     public function verify(VerificationRequest $request)
     {
-        $credentials = [
-            'name'      => $this->auth->user()->name(),
-            'password'  => $request->get('password'),
-        ];
-
-        if (! $this->auth->validate($credentials)) {
-            throw new HttpResponseException($request->response([
-                'password' => trans('theme::account.registration.form.error'),
-            ]));
-        }
-
         return redirect('/account/register/key')->withInput()->with('state', 2);
     }
 

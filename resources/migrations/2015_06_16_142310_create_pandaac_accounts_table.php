@@ -1,6 +1,9 @@
 <?php
 
+namespace Apolune\Account\Resources\Migrations;
+
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Apolune\Core\Facades\Database\Trigger;
 use Illuminate\Database\Migrations\Migration;

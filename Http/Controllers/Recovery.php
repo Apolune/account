@@ -4,7 +4,7 @@ namespace Apolune\Account\Http\Controllers;
 
 use Apolune\Core\Http\Controllers\Controller;
 
-class RecoverController extends Controller
+class Recovery extends Controller
 {
     /**
      * Create a new authentication controller instance.

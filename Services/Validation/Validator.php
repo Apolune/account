@@ -5,6 +5,24 @@ namespace Apolune\Account\Services\Validation;
 class Validator
 {
     /**
+     * A validation rule that checks that the password matches the authenticated users password.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @param  array  $parameters
+     * @return void
+     */
+    public function validateCurrent($attribute, $value, array $parameters)
+    {
+        $credentials = [
+            'name'      => app('auth')->user()->name(),
+            'password'  => $value,
+        ];
+
+        return app('auth')->validate($credentials);
+    }
+
+    /**
      * A validation rule that checks the validity of a country.
      *
      * @param  string  $attribute

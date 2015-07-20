@@ -4,7 +4,7 @@ namespace Apolune\Account\Http\Controllers;
 
 use Apolune\Core\Http\Controllers\Controller;
 
-class GenericController extends Controller
+class Miscellaneous extends Controller
 {
     /**
      * Show the download client page.

@@ -11,9 +11,8 @@ use Apolune\Account\Http\Requests\RenameRequest;
 use Apolune\Account\Http\Requests\PasswordRequest;
 use Apolune\Account\Http\Requests\RegisterRequest;
 use Apolune\Account\Http\Requests\TerminateRequest;
-use Illuminate\Http\Exception\HttpResponseException;
 
-class AccountController extends Controller
+class Account extends Controller
 {
     /**
      * The Guard implementation.
@@ -36,13 +35,13 @@ class AccountController extends Controller
     }
 
     /**
-     * Show the account page.
+     * Show the account overview page.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function overview()
     {
-        return view('theme::account.index');
+        return view('theme::account.overview');
     }
 
     /**
@@ -75,17 +74,6 @@ class AccountController extends Controller
     {
         $account = $this->auth->user();
 
-        $credentials = [
-            'name'         => $account->name(),
-            'password'     => $request->get('current'),
-        ];
-
-        if (! $this->auth->validate($credentials)) {
-            throw new HttpResponseException($request->response([
-                'current' => trans('theme::account.password.form.error'),
-            ]));
-        }
-
         $account->password = bcrypt($request->get('password'));
         $account->save();
 
@@ -111,6 +99,7 @@ class AccountController extends Controller
     public function updateName(RenameRequest $request)
     {
         $account = $this->auth->user();
+
         $account->name = $request->get('name');
         $account->save();
 
@@ -136,17 +125,6 @@ class AccountController extends Controller
     public function destroy(TerminateRequest $request)
     {
         $account = $this->auth->user();
-
-        $credentials = [
-            'name'         => $account->name(),
-            'password'     => $request->get('password'),
-        ];
-
-        if (! $this->auth->validate($credentials)) {
-            throw new HttpResponseException($request->response([
-                'current' => trans('theme::account.terminate.form.error'),
-            ]));
-        }
 
         $account->properties->deleted = 1;
         $account->properties->save();

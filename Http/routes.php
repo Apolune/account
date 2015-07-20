@@ -4,99 +4,117 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function () 
 
     /*
     |--------------------------------------------------------------------------
-    | AccountController
+    | \Apolune\Account\Http\Controllers\Account.php
     |--------------------------------------------------------------------------
     |
     | The following routes belong to the aforementioned controller.
     |
     */
 
-    get('/account', 'AccountController@index');
-    get('/account/manage', 'AccountController@manage');
-    get('/account/password', 'AccountController@password');
-    put('/account/password', 'AccountController@updatePassword');
-    get('/account/email/request', 'EmailController@confirmation');
-    get('/account/email', 'EmailController@email');
-    put('/account/email', 'EmailController@updateEmail');
-    delete('/account/email', 'EmailController@cancelEmail');
-    get('/account/rename', 'AccountController@rename');
-    put('/account/rename', 'AccountController@updateName');
-    get('/account/terminate', 'AccountController@terminate');
-    delete('/account/terminate', 'AccountController@destroy');
+    get('/account',                 'Account@overview');
+    get('/account/manage',          'Account@manage');
+    get('/account/password',        'Account@password');
+    get('/account/rename',          'Account@rename');
+    get('/account/terminate',       'Account@terminate');
+    
+    put('/account/password',        'Account@updatePassword');
+    put('/account/rename',          'Account@updateName');
+
+    delete('/account/terminate',    'Account@destroy');
 
     /*
     |--------------------------------------------------------------------------
-    | AuthController
+    | \Apolune\Account\Http\Controllers\Email.php
     |--------------------------------------------------------------------------
     |
     | The following routes belong to the aforementioned controller.
     |
     */
 
-    get('/account/create', 'AuthController@create');
-    post('/account/create', 'AuthController@store');
-    get('/account/login', 'AuthController@login');
-    post('/account/login', 'AuthController@authenticate');
-    get('/account/logout', 'AuthController@logout');
+    get('/account/email/request',   'Email@confirmation');
+    get('/account/email',           'Email@email');
+
+    put('/account/email',           'Email@updateEmail');
+
+    delete('/account/email',        'Email@cancelEmail');
 
     /*
     |--------------------------------------------------------------------------
-    | CharacterController
+    | \Apolune\Account\Http\Controllers\Authentication.php
     |--------------------------------------------------------------------------
     |
     | The following routes belong to the aforementioned controller.
     |
     */
 
-    get('/account/character', 'CharacterController@create');
-    post('/account/character', 'CharacterController@store');
-    get('/account/character/{id}', 'CharacterController@edit');
-    put('/account/character/{id}', 'CharacterController@update');
-    get('/account/character/{id}/delete', 'CharacterController@delete');
-    delete('/account/character/{id}', 'CharacterController@destroy');
-    get('/account/character/{id}/name', 'CharacterController@name');
-    put('/account/character/{id}/name', 'CharacterController@updateName');
-    get('/account/character/{id}/world', 'CharacterController@world');
-    put('/account/character/{id}/world', 'CharacterController@updateWorld');
-    get('/account/character/{id}/sex', 'CharacterController@sex');
-    put('/account/character/{id}/sex', 'CharacterController@updateSex');
+    get('/account/create',  'Authentication@create');
+    get('/account/login',   'Authentication@login');
+    get('/account/logout',  'Authentication@logout');
+
+    post('/account/create', 'Authentication@store');
+    post('/account/login',  'Authentication@authenticate');
 
     /*
     |--------------------------------------------------------------------------
-    | GenericController
+    | \Apolune\Account\Http\Controllers\Character.php
     |--------------------------------------------------------------------------
     |
     | The following routes belong to the aforementioned controller.
     |
     */
 
-    get('/account/download', 'GenericController@download');
+    get('/account/character',               'Character@create');
+    get('/account/character/{id}',          'Character@edit');
+    get('/account/character/{id}/delete',   'Character@delete');
+    get('/account/character/{id}/name',     'Character@name');
+    get('/account/character/{id}/world',    'Character@world');
+    get('/account/character/{id}/sex',      'Character@sex');
+
+    put('/account/character/{id}',          'Character@update');
+    put('/account/character/{id}/name',     'Character@updateName');
+    put('/account/character/{id}/world',    'Character@updateWorld');
+    put('/account/character/{id}/sex',      'Character@updateSex');
+    
+    post('/account/character',              'Character@store');
+
+    delete('/account/character/{id}',       'Character@destroy');
 
     /*
     |--------------------------------------------------------------------------
-    | RecoverController
+    | \Apolune\Account\Http\Controllers\Miscellaneous.php
     |--------------------------------------------------------------------------
     |
     | The following routes belong to the aforementioned controller.
     |
     */
 
-    get('/account/recover', 'RecoverController@index');
+    get('/account/download',    'Miscellaneous@download');
 
     /*
     |--------------------------------------------------------------------------
-    | \Apolune\Account\Http\Controllers\RegistrationController.php
+    | \Apolune\Account\Http\Controllers\Recovery.php
     |--------------------------------------------------------------------------
     |
     | The following routes belong to the aforementioned controller.
     |
     */
 
-    get('/account/register',            'RegistrationController@registration');
-    get('/account/register/verify',     'RegistrationController@verification');
-    get('/account/register/key',        'RegistrationController@register');
+    get('/account/recover',     'Recovery@index');
 
-    put('/account/register',            'RegistrationController@validation');
-    put('/account/register/verify',     'RegistrationController@verify');
+    /*
+    |--------------------------------------------------------------------------
+    | \Apolune\Account\Http\Controllers\Registration.php
+    |--------------------------------------------------------------------------
+    |
+    | The following routes belong to the aforementioned controller.
+    |
+    */
+
+    get('/account/register',            'Registration@registration');
+    get('/account/register/verify',     'Registration@verification');
+    get('/account/register/key',        'Registration@register');
+
+    put('/account/register',            'Registration@validation');
+    put('/account/register/verify',     'Registration@verify');
 
 });

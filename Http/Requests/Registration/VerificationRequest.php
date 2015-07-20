@@ -33,7 +33,7 @@ class VerificationRequest extends FormRequest
             'month'     => ['required', 'integer', 'range:1,12'],
             'year'      => ['required', 'integer', 'range:'.$years],
             'gender'    => ['required', 'in:female,male'],
-            'password'  => ['required'],
+            'password'  => ['required', 'current'],
         ];
     }
 
