@@ -27,5 +27,9 @@ class MigrationServiceProvider extends ServiceProvider
             ->migrate(__DIR__.'/../Resources/Migrations')
             ->using('Apolune\Account\Resources\Migrations')
             ->register();
+
+        $this->app['seed.handler']->register(
+            \Apolune\Account\Resources\Seeds\DatabaseSeeder::class
+        );
     }
 }

@@ -32,7 +32,9 @@ class CreatePandaacAccountsTable extends Migration
         });
 
         Trigger::after('insert')->on('accounts')->create(function ($query) {
-            $query->table('__pandaac_accounts')->insert(['account_id' => DB::raw('NEW.`id`')]);
+            $query->table('__pandaac_accounts')->insert([
+                'account_id' => DB::raw('NEW.`id`')
+            ]);
         });
     }
 
