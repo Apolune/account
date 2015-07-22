@@ -26,7 +26,7 @@ class CreatePandaacAccountsTable extends Migration
             $table->timestamp('email_date')->nullable();
             $table->tinyInteger('email_requests')->unsigned()->default(0);
             $table->string('email_code', 100)->nullable();
-            $table->boolean('deleted')->unsigned()->default(0);
+            $table->timestamp('deleted')->nullable()->default('0000-00-00 00:00:00');
             $table->rememberToken();
             $table->timestamps();
         });

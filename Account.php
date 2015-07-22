@@ -159,7 +159,7 @@ class Account extends Model implements Contract
      */
     public function isDeleted()
     {
-        return (boolean) $this->properties->softDeleted();
+        return (boolean) $this->properties->deletion();
     }
 
    /**

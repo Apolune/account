@@ -4,6 +4,7 @@ namespace Apolune\Account\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
+use Apolune\Account\Events\AccountWasCreated;
 use Apolune\Core\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Exception\HttpResponseException;
@@ -107,7 +108,7 @@ class Authentication extends Controller
 
         $this->auth->login($account);
 
-        // send confirmation email
+        event(new AccountWasCreated($account));
 
         return redirect('/account');
     }

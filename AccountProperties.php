@@ -2,6 +2,7 @@
 
 namespace Apolune\Account;
 
+use Carbon\Carbon;
 use Apolune\Core\Database\Eloquent\Model;
 use Apolune\Core\Traits\AuthenticatableProperties;
 use Apolune\Contracts\Account\AccountProperties as Contract;
@@ -87,10 +88,10 @@ class AccountProperties extends Model implements Contract
     /**
      * Retrieve the deleted value.
      *
-     * @return integer
+     * @return \Carbon\Carbon|null
      */
-    public function softDeleted()
+    public function deletion()
     {
-        return $this->deleted;
+        return ! in_array($this->deleted, ['0000-00-00 00:00:00', null]) ? new Carbon($this->deleted) : null;
     }
 }

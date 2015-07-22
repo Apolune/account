@@ -28,6 +28,7 @@ class AccountServiceProvider extends AggregateServiceProvider
         AuthServiceProvider::class,
         ValidationServiceProvider::class,
         MigrationServiceProvider::class,
+        EventServiceProvider::class,
     ];
 
     /**
