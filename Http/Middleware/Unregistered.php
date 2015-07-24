@@ -34,7 +34,6 @@ class Unregistered
      */
     public function handle($request, Closure $next)
     {
-        dd('Unregistered');
         if ($this->auth->check() and $this->auth->user()->isRegistered()) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
