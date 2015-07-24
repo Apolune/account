@@ -5,8 +5,8 @@ namespace Apolune\Account\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
-class Registered {
-
+class Registered
+{
     /**
      * The Guard implementation.
      *
@@ -34,19 +34,15 @@ class Registered {
      */
     public function handle($request, Closure $next)
     {
-        if ($this->auth->check() and ! $this->auth->user()->isRegistered())
-        {
-            if ($request->ajax())
-            {
+        dd('Registered');
+        if ($this->auth->check() and ! $this->auth->user()->isRegistered()) {
+            if ($request->ajax()) {
                 return response('Unauthorized.', 401);
-            }
-            else
-            {
+            } else {
                 return redirect("/account");
             }
         }
 
         return $next($request);
     }
-
 }

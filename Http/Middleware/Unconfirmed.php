@@ -5,8 +5,8 @@ namespace Apolune\Account\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
-class Unconfirmed {
-
+class Unconfirmed
+{
     /**
      * The Guard implementation.
      *
@@ -34,19 +34,14 @@ class Unconfirmed {
      */
     public function handle($request, Closure $next)
     {
-        if ($this->auth->check() and $this->auth->user()->isConfirmed())
-        {
-            if ($request->ajax())
-            {
+        if ($this->auth->check() and $this->auth->user()->isConfirmed()) {
+            if ($request->ajax()) {
                 return response('Unauthorized.', 401);
-            }
-            else
-            {
+            } else {
                 return redirect("/account");
             }
         }
 
         return $next($request);
     }
-
 }
