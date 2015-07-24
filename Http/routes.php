@@ -31,12 +31,13 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function () 
     |
     */
 
-    get('/account/email/request',   'Email@confirmation');
-    get('/account/email',           'Email@email');
+    get('/account/email/request',           'Email@request');
+    get('/account/email',                   'Email@email');
+    get('/account/confirm/{email}/{code}',  'Email@confirm');
 
-    put('/account/email',           'Email@updateEmail');
+    put('/account/email',                   'Email@updateEmail');
 
-    delete('/account/email',        'Email@cancelEmail');
+    delete('/account/email',                'Email@cancelEmail');
 
     /*
     |--------------------------------------------------------------------------

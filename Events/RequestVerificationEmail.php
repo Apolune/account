@@ -7,7 +7,7 @@ use Apolune\Contracts\Account\Account;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class AccountWasCreated extends Event
+class RequestVerificationEmail extends Event
 {
     use SerializesModels;
 

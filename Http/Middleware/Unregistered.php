@@ -1,4 +1,6 @@
-<?php namespace Apolune\Account\Http\Middleware;
+<?php
+
+namespace Apolune\Account\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
@@ -32,7 +34,7 @@ class Unregistered {
      */
     public function handle($request, Closure $next)
     {
-        if ($this->auth->user()->isRegistered())
+        if ($this->auth->check() and $this->auth->user()->isRegistered())
         {
             if ($request->ajax())
             {

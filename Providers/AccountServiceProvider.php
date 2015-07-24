@@ -14,6 +14,8 @@ class AccountServiceProvider extends AggregateServiceProvider
      * @var array
      */
     protected $middleware = [
+        'confirmed'     => Account\Http\Middleware\Confirmed::class,
+        'unconfirmed'   => Account\Http\Middleware\Unconfirmed::class,
         'registered'    => Account\Http\Middleware\Registered::class,
         'unregistered'  => Account\Http\Middleware\Unregistered::class,
     ];

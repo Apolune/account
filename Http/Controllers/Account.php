@@ -41,7 +41,11 @@ class Account extends Controller
      */
     public function overview()
     {
-        return view('theme::account.overview');
+        $account = $this->auth->user();
+
+        $account->load('properties', 'registration', 'players');
+
+        return view('theme::account.overview', compact('account'));
     }
 
     /**
@@ -51,7 +55,11 @@ class Account extends Controller
      */
     public function manage()
     {
-        return view('theme::account.manage');
+        $account = $this->auth->user();
+
+        $account->load('properties', 'registration');
+
+        return view('theme::account.manage', compact('account'));
     }
 
     /**
@@ -87,7 +95,9 @@ class Account extends Controller
      */
     public function rename()
     {
-        return view('theme::account.rename');
+        $account = $this->auth->user();
+        
+        return view('theme::account.rename', compact('account'));
     }
 
     /**

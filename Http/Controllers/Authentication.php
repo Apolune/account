@@ -4,9 +4,9 @@ namespace Apolune\Account\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
-use Apolune\Account\Events\AccountWasCreated;
 use Apolune\Core\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Apolune\Account\Events\RequestVerificationEmail;
 use Illuminate\Http\Exception\HttpResponseException;
 use Apolune\Account\Http\Requests\Auth\LoginRequest;
 use Apolune\Account\Http\Requests\Auth\CreateRequest;
@@ -108,7 +108,7 @@ class Authentication extends Controller
 
         $this->auth->login($account);
 
-        event(new AccountWasCreated($account));
+        event(new RequestVerificationEmail($account));
 
         return redirect('/account');
     }

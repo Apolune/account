@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
 use Apolune\Account\Http\Requests\EmailRequest;
+use Apolune\Account\Events\RequestVerificationEmail;
 
 class Email extends Controller
 {
@@ -26,7 +27,9 @@ class Email extends Controller
     {
         $this->auth = $auth;
 
-        $this->middleware('auth');
+        $this->middleware('auth', [
+            'except' => 'confirm',
+        ]);
     }
 
     /**
@@ -39,10 +42,40 @@ class Email extends Controller
         $account = $this->auth->user();
 
         if ($account->hasPendingEmail()) {
-            return view('theme::account.email.awaiting');
+            $account->load('properties');
+            
+            return view('theme::account.email.awaiting', compact('account'));
         }
 
         return view('theme::account.email.form');
+    }
+
+    /**
+     * Show the confirm email page.
+     *
+     * @param  string  $email
+     * @param  string  $code
+     * @return \Illuminate\Http\Response
+     */
+    public function confirm($email, $code)
+    {
+        $email = base64_decode($email);
+
+        $account = app('account')
+            ->with('properties')
+            ->where('email', $email)
+            ->whereHas('properties', function ($query) use ($code) {
+                $query->where('email_code', $code);
+            })->first();
+
+        if (! $account) {
+            return redirect('/account');
+        }
+
+        $account->properties->email_code = null;
+        $account->properties->save();
+
+        return view('theme::account.email.confirm', compact('account'));
     }
 
     /**
@@ -50,17 +83,22 @@ class Email extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function confirmation()
+    public function request()
     {
         $account = $this->auth->user();
 
-        if (! config('pandaac.mail.confirmation') or $account->isConfirmed()) {
+        $account->load('properties');
+
+        if (! config('pandaac.mail.confirmation') or $account->properties->emailRequests() >= 2) {
             return redirect('/account');
         }
 
-        // send confirmation email
+        $account->properties->email_requests += 1;
+        $account->properties->save();
 
-        return view('theme::account.email.confirmation');
+        event(new RequestVerificationEmail($account));
+
+        return view('theme::account.email.request', compact('account'));
     }
 
     /**
@@ -77,7 +115,7 @@ class Email extends Controller
         $account->properties->email_date = Carbon::now();
         $account->properties->save();
 
-        return view('theme::account.email.request', compact('account'));
+        return view('theme::account.email.update', compact('account'));
     }
 
     /**

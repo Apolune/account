@@ -46,7 +46,6 @@ class Registration extends Controller
         $this->auth = $auth;
         $this->request = $request;
 
-        $this->middleware('auth');
         $this->middleware('unregistered');
     }
 
