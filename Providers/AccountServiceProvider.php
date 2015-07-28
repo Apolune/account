@@ -39,10 +39,10 @@ class AccountServiceProvider extends AggregateServiceProvider
      * @var array
      */
     protected $bindings = [
-        'account'               => [Contracts\Account::class => Account\Account::class],
-        'account.properties'    => [Contracts\AccountProperties::class => Account\AccountProperties::class],
-        'account.registration'  => [Contracts\AccountRegistration::class => Account\AccountRegistration::class],
-        'player'                => [Contracts\Player::class => Account\Player::class],
+        'account'               => [Contracts\Account::class                => Account\Account::class],
+        'account.properties'    => [Contracts\AccountProperties::class      => Account\AccountProperties::class],
+        'account.registration'  => [Contracts\AccountRegistration::class    => Account\AccountRegistration::class],
+        'player'                => [Contracts\Player::class                 => Account\Player::class],
     ];
 
     /**
