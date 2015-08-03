@@ -114,8 +114,10 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function () 
     get('/account/register',            'Registration@registration');
     get('/account/register/verify',     'Registration@verification');
     get('/account/register/key',        'Registration@register');
+    get('/account/register/edit',       'Registration@edit');
 
     put('/account/register',            'Registration@validation');
     put('/account/register/verify',     'Registration@verify');
+    put('/account/register/edit',       'Registration@update');
 
 });

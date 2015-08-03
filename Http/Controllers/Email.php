@@ -47,7 +47,7 @@ class Email extends Controller
             return view('theme::account.email.awaiting', compact('account'));
         }
 
-        return view('theme::account.email.form');
+        return view('theme::account.email.form', compact('account'));
     }
 
     /**
@@ -111,9 +111,16 @@ class Email extends Controller
     {
         $account = $this->auth->user();
         
-        $account->properties->email = $request->get('email');
-        $account->properties->email_date = Carbon::now();
-        $account->properties->save();
+        if ($account->isConfirmed()) {
+            $account->properties->email = $request->get('email');
+            $account->properties->email_date = Carbon::now();
+            $account->properties->save();
+        } else {
+            $account->email = $request->get('email');
+            $account->save();
+
+            event(new RequestVerificationEmail($account));
+        }
 
         return view('theme::account.email.update', compact('account'));
     }

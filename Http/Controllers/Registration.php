@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Apolune\Account\AccountRegistration;
 use Apolune\Core\Http\Controllers\Controller;
 use Illuminate\Http\Exception\HttpResponseException;
+use Apolune\Account\Http\Requests\Registration\EditRequest;
 use Apolune\Account\Http\Requests\Registration\ValidationRequest;
 use Apolune\Account\Http\Requests\Registration\VerificationRequest;
 
@@ -46,7 +47,9 @@ class Registration extends Controller
         $this->auth = $auth;
         $this->request = $request;
 
-        $this->middleware('unregistered');
+        $this->middleware('unregistered', [
+            'except' => ['edit', 'update'],
+        ]);
     }
 
     /**
@@ -127,6 +130,41 @@ class Registration extends Controller
         ]);
 
         return view('theme::account.registration.register', compact('key'));
+    }
+
+    /**
+     * Show the edit account registration page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit()
+    {
+        $account = $this->auth->user();
+
+        $countries = countries();
+
+        $years = array_reverse(range((date('Y') - 105), (date('Y') - 5)));
+
+        $format = function ($month) { return (new Carbon)->month($month)->format('F'); };
+
+        return view('theme::account.registration.edit', compact('account', 'countries', 'years', 'format'));
+    }
+
+    /**
+     * Validate the provided registration data upon editing.
+     *
+     * @param  \Apolune\Account\Http\Requests\Registration\EditRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(EditRequest $request)
+    {
+        $this->auth->user()->registration()->update([
+            'requested_firstname' => $this->request->get('firstname'),
+            'requested_surname'   => $this->request->get('surname'),
+            'requested_country'   => $this->request->get('country'),
+        ]);
+
+        // ...
     }
 
     /**

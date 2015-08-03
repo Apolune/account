@@ -1,18 +1,11 @@
 <?php
 
-namespace Apolune\Account\Http\Requests;
+namespace Apolune\Account\Http\Requests\Registration;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmailRequest extends FormRequest
+class EditRequest extends FormRequest
 {
-    /**
-     * The input keys that should not be flashed on redirect.
-     *
-     * @var array
-     */
-    protected $dontFlash = ['password'];
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -20,7 +13,7 @@ class EmailRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->container['auth']->check();
+        return $this->container['auth']->check() and $this->container['auth']->user()->isRegistered();
     }
 
     /**
@@ -31,7 +24,9 @@ class EmailRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'     => ['required', 'email', 'unique:accounts,email', 'unique:__pandaac_accounts,email'],
+            'firstname' => ['required', 'min:2', 'max:50', 'alpha_space'],
+            'surname'   => ['required', 'min:2', 'max:50', 'alpha_space'],
+            'country'   => ['required', 'country'],
             'password'  => ['required', 'current'],
         ];
     }

@@ -26,6 +26,11 @@ class CreatePandaacRegistrationTable extends Migration
             $table->enum('country', $countries->keys()->toArray());
             $table->date('birthday')->default('0000-00-00');
             $table->enum('gender', ['female', 'male']);
+
+            $table->string('requested_firstname', 50)->nullable()->default(null);
+            $table->string('requested_surname', 50)->nullable()->default(null);
+            $table->enum('requested_country', $countries->keys()->toArray())->nullable()->default(null);
+
             $table->timestamps();
         });
     }

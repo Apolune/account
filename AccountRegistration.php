@@ -53,6 +53,16 @@ class AccountRegistration extends Model implements Contract
     }
 
     /**
+     * Retrieve the country code.
+     *
+     * @return string
+     */
+    public function countryCode()
+    {
+        return $this->country;
+    }
+
+    /**
      * Retrieve the birthday.
      *
      * @return \Carbon\Carbon
