@@ -5,7 +5,7 @@ namespace Apolune\Account\Resources\Seeds;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class DatabaseSeeder extends Seeder
+class PlayerPropertiesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,11 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
+        $players = app('player')->all();
 
-        $this->call(AccountPropertiesSeeder::class);
-        $this->call(PlayerPropertiesSeeder::class);
-
-        Model::reguard();
+        foreach ($players as $player) {
+            $player->properties()->create([]);
+        }
     }
 }

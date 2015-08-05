@@ -106,6 +106,8 @@ class Authentication extends Controller
             'conditions'    => '',
         ]);
 
+        $player->properties()->create([]);
+
         $this->auth->login($account);
 
         event(new RequestVerificationEmail($account));

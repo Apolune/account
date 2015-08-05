@@ -13,13 +13,14 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function () 
 
     get('/account',                 'Account@overview');
     get('/account/manage',          'Account@manage');
-    get('/account/password',        'Account@password');
-    get('/account/rename',          'Account@rename');
-    get('/account/terminate',       'Account@terminate');
-    
-    put('/account/password',        'Account@updatePassword');
-    put('/account/rename',          'Account@updateName');
 
+    get('/account/password',        'Account@password');
+    put('/account/password',        'Account@updatePassword');
+
+    get('/account/rename',          'Account@rename');
+    put('/account/rename',          'Account@updateName');
+    
+    get('/account/terminate',       'Account@terminate');
     delete('/account/terminate',    'Account@destroy');
 
     /*
@@ -31,11 +32,11 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function () 
     |
     */
 
-    get('/account/email/request',           'Email@request');
     get('/account/email',                   'Email@email');
-    get('/account/confirm/{email}/{code}',  'Email@confirm');
-
     put('/account/email',                   'Email@updateEmail');
+
+    get('/account/email/request',           'Email@request');
+    get('/account/confirm/{email}/{code}',  'Email@confirm');
 
     delete('/account/email',                'Email@cancelEmail');
 
@@ -48,12 +49,14 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function () 
     |
     */
 
-    get('/account/create',  'Authentication@create');
     get('/account/login',   'Authentication@login');
+    post('/account/login',  'Authentication@authenticate');
+
+    get('/account/create',  'Authentication@create');
+    post('/account/create', 'Authentication@store');
+    
     get('/account/logout',  'Authentication@logout');
 
-    post('/account/create', 'Authentication@store');
-    post('/account/login',  'Authentication@authenticate');
 
     /*
     |--------------------------------------------------------------------------
@@ -64,21 +67,28 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function () 
     |
     */
 
-    get('/account/character',               'Character@create');
-    get('/account/character/{id}',          'Character@edit');
-    get('/account/character/{id}/delete',   'Character@delete');
-    get('/account/character/{id}/name',     'Character@name');
-    get('/account/character/{id}/world',    'Character@world');
-    get('/account/character/{id}/sex',      'Character@sex');
+    get('/account/character',                'Character@create');
+    post('/account/character/confirm',       'Character@confirm');
+    post('/account/character',               'Character@store');
 
-    put('/account/character/{id}',          'Character@update');
-    put('/account/character/{id}/name',     'Character@updateName');
-    put('/account/character/{id}/world',    'Character@updateWorld');
-    put('/account/character/{id}/sex',      'Character@updateSex');
+    get('/account/character/{id}',           'Character@edit')->where('id', '[0-9]+');
+    put('/account/character/{id}',           'Character@update')->where('id', '[0-9]+');
     
-    post('/account/character',              'Character@store');
+    get('/account/character/{id}/delete',    'Character@delete')->where('id', '[0-9]+');
+    delete('/account/character/{id}',        'Character@destroy')->where('id', '[0-9]+');
+    
+    get('/account/character/{id}/undelete',  'Character@undelete')->where('id', '[0-9]+');
+    post('/account/character/{id}/undelete', 'Character@restore')->where('id', '[0-9]+');
+    
+    // get('/account/character/{id}/name',     'Character@name');
+    // put('/account/character/{id}/name',     'Character@updateName');
+    
+    // get('/account/character/{id}/world',    'Character@world');
+    // put('/account/character/{id}/world',    'Character@updateWorld');
 
-    delete('/account/character/{id}',       'Character@destroy');
+    // get('/account/character/{id}/sex',      'Character@sex');
+    // put('/account/character/{id}/sex',      'Character@updateSex');
+
 
     /*
     |--------------------------------------------------------------------------
@@ -112,12 +122,15 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function () 
     */
 
     get('/account/register',            'Registration@registration');
+    put('/account/register',            'Registration@validation');
+
     get('/account/register/verify',     'Registration@verification');
+    put('/account/register/verify',     'Registration@verify');
+
     get('/account/register/key',        'Registration@register');
+    
+    put('/account/register/edit',       'Registration@update');
     get('/account/register/edit',       'Registration@edit');
 
-    put('/account/register',            'Registration@validation');
-    put('/account/register/verify',     'Registration@verify');
-    put('/account/register/edit',       'Registration@update');
 
 });

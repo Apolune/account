@@ -12,7 +12,7 @@ class Player extends Model implements Contract
      *
      * @var array
      */
-    protected $fillable = ['name', 'account_id', 'conditions'];
+    protected $fillable = ['name', 'account_id', 'vocation', 'sex', 'conditions'];
 
     /**
      * Indicates if the model should be timestamped.
@@ -29,6 +29,16 @@ class Player extends Model implements Contract
     public function account()
     {
         return $this->belongsTo('account');
+    }
+
+    /**
+     * Retrieve the player properties.
+     *
+     * @return \Apolune\Contracts\Account\PlayerProperties
+     */
+    public function properties()
+    {
+        return $this->hasOne('player.properties');
     }
 
     /**
@@ -543,5 +553,25 @@ class Player extends Model implements Contract
         }
 
         return worlds()->first();
+    }
+
+    /**
+     * Check if the player has been hidden.
+     *
+     * @return boolean
+     */
+    public function isHidden()
+    {
+        return (boolean) $this->properties->hidden();
+    }
+
+    /**
+     * Check if the player has been deleted.
+     *
+     * @return boolean
+     */
+    public function isDeleted()
+    {
+        return (boolean) $this->properties->deletion();
     }
 }
