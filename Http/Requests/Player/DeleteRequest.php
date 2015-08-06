@@ -1,10 +1,10 @@
 <?php
 
-namespace Apolune\Account\Http\Requests\Character;
+namespace Apolune\Account\Http\Requests\Player;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class DeleteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'hide'      => ['in:on'],
-            'comment'   => ['min:5', 'max:300', 'string'],
-            'signature' => ['min:5', 'max:300', 'string'],
+            'password' => ['required', 'current'],
         ];
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Apolune\Account\Http\Requests\Character;
+namespace Apolune\Account\Http\Requests\Player;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteRequest extends FormRequest
+class UndeleteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,6 @@ class DeleteRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'password' => ['required', 'current'],
-        ];
+        return [];
     }
 }

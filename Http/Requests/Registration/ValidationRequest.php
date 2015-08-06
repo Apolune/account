@@ -32,7 +32,7 @@ class ValidationRequest extends FormRequest
             'day'       => ['required', 'integer', 'range:0,31'],
             'month'     => ['required', 'integer', 'range:1,12'],
             'year'      => ['required', 'integer', 'range:'.$years],
-            'gender'    => ['required', 'in:female,male'],
+            'gender'    => ['required', 'gender'],
         ];
     }
 }

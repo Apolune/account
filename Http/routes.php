@@ -1,6 +1,6 @@
 <?php
 
-$router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function () {
+$router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function ($router) {
 
     /*
     |--------------------------------------------------------------------------
@@ -25,69 +25,83 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function () 
 
     /*
     |--------------------------------------------------------------------------
-    | \Apolune\Account\Http\Controllers\Email.php
+    | Account Management
     |--------------------------------------------------------------------------
     |
-    | The following routes belong to the aforementioned controller.
+    | ...
     |
     */
 
-    get('/account/email',                   'Email@email');
-    put('/account/email',                   'Email@updateEmail');
+    $router->get('/account/login',   'Account\AuthenticateController@form');
+    $router->post('/account/login',  'Account\AuthenticateController@login');
+    $router->get('/account/logout',  'Account\AuthenticateController@logout');
 
-    get('/account/email/request',           'Email@request');
-    get('/account/confirm/{email}/{code}',  'Email@confirm');
-
-    delete('/account/email',                'Email@cancelEmail');
+    $router->get('/account/create',  'Account\CreateController@form');
+    $router->post('/account/create', 'Account\CreateController@create');
 
     /*
     |--------------------------------------------------------------------------
-    | \Apolune\Account\Http\Controllers\Authentication.php
+    | Email Management
     |--------------------------------------------------------------------------
     |
-    | The following routes belong to the aforementioned controller.
+    | ...
     |
     */
 
-    get('/account/login',   'Authentication@login');
-    post('/account/login',  'Authentication@authenticate');
+    $router->get('/account/email',                   'Email\EditController@form');
+    $router->put('/account/email',                   'Email\EditController@edit');
+    $router->delete('/account/email',                'Email\EditController@cancel');
 
-    get('/account/create',  'Authentication@create');
-    post('/account/create', 'Authentication@store');
-    
-    get('/account/logout',  'Authentication@logout');
+    $router->get('/account/email/request',           'Email\RequestController@request');
+    $router->get('/account/confirm/{email}/{code}',  'Email\RequestController@confirm');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Account Registration
+    |--------------------------------------------------------------------------
+    |
+    | ...
+    |
+    */
+
+    $router->get('/account/register',                               'Registration\CreateController@form');
+    $router->match(['GET', 'POST'], '/account/register/confirm',    'Registration\CreateController@confirm');
+    $router->post('/account/register',                              'Registration\CreateController@register');
+
+    $router->get('/account/register/edit',                          'Registration\EditController@edit');
+    $router->put('/account/register/edit',                          'Registration\EditController@update');
 
 
     /*
     |--------------------------------------------------------------------------
-    | \Apolune\Account\Http\Controllers\Character.php
+    | Player Management
     |--------------------------------------------------------------------------
     |
-    | The following routes belong to the aforementioned controller.
+    | ...
     |
     */
 
-    get('/account/character',                'Character@create');
-    post('/account/character/confirm',       'Character@confirm');
-    post('/account/character',               'Character@store');
+    $router->get('/account/character',                      'Player\CreateController@form');
+    $router->post('/account/character/confirm',             'Player\CreateController@confirm');
+    $router->post('/account/character',                     'Player\CreateController@create');
 
-    get('/account/character/{id}',           'Character@edit')->where('id', '[0-9]+');
-    put('/account/character/{id}',           'Character@update')->where('id', '[0-9]+');
+    $router->get('/account/character/{player}',             'Player\EditController@form');
+    $router->put('/account/character/{player}',             'Player\EditController@edit');
     
-    get('/account/character/{id}/delete',    'Character@delete')->where('id', '[0-9]+');
-    delete('/account/character/{id}',        'Character@destroy')->where('id', '[0-9]+');
+    $router->get('/account/character/{player}/delete',      'Player\DeleteController@confirm');
+    $router->delete('/account/character/{player}',          'Player\DeleteController@delete');
     
-    get('/account/character/{id}/undelete',  'Character@undelete')->where('id', '[0-9]+');
-    post('/account/character/{id}/undelete', 'Character@restore')->where('id', '[0-9]+');
+    $router->get('/account/character/{player}/undelete',    'Player\UndeleteController@confirm');
+    $router->post('/account/character/{player}/undelete',   'Player\UndeleteController@undelete');
     
-    // get('/account/character/{id}/name',     'Character@name');
-    // put('/account/character/{id}/name',     'Character@updateName');
-    
-    // get('/account/character/{id}/world',    'Character@world');
-    // put('/account/character/{id}/world',    'Character@updateWorld');
+    // $router->get('/account/character/{player}/name',     'Player\NameController@form');
+    // $router->put('/account/character/{player}/name',     'Player\NameController@update');
 
-    // get('/account/character/{id}/sex',      'Character@sex');
-    // put('/account/character/{id}/sex',      'Character@updateSex');
+    // $router->get('/account/character/{player}/sex',      'Player\SexController@form');
+    // $router->put('/account/character/{player}/sex',      'Player\SexController@update');
+    
+    // $router->get('/account/character/{player}/world',    'Player\WorldController@form');
+    // $router->put('/account/character/{player}/world',    'Player\WorldController@update');
 
 
     /*
@@ -111,26 +125,5 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function () 
     */
 
     get('/account/recover',     'Recovery@index');
-
-    /*
-    |--------------------------------------------------------------------------
-    | \Apolune\Account\Http\Controllers\Registration.php
-    |--------------------------------------------------------------------------
-    |
-    | The following routes belong to the aforementioned controller.
-    |
-    */
-
-    get('/account/register',            'Registration@registration');
-    put('/account/register',            'Registration@validation');
-
-    get('/account/register/verify',     'Registration@verification');
-    put('/account/register/verify',     'Registration@verify');
-
-    get('/account/register/key',        'Registration@register');
-    
-    put('/account/register/edit',       'Registration@update');
-    get('/account/register/edit',       'Registration@edit');
-
 
 });

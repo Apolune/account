@@ -1,10 +1,10 @@
 <?php
 
-namespace Apolune\Account\Http\Requests\Character;
+namespace Apolune\Account\Http\Requests\Player;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class CreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

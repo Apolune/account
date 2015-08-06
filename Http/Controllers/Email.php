@@ -33,24 +33,6 @@ class Email extends Controller
     }
 
     /**
-     * Show the change email page.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function email()
-    {
-        $account = $this->auth->user();
-
-        if ($account->hasPendingEmail()) {
-            $account->load('properties');
-            
-            return view('theme::account.email.awaiting', compact('account'));
-        }
-
-        return view('theme::account.email.form', compact('account'));
-    }
-
-    /**
      * Show the confirm email page.
      *
      * @param  string  $email
@@ -102,35 +84,11 @@ class Email extends Controller
     }
 
     /**
-     * Show the change email page.
-     *
-     * @param  \Apolune\Account\Http\Requests\EmailRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function updateEmail(EmailRequest $request)
-    {
-        $account = $this->auth->user();
-        
-        if ($account->isConfirmed()) {
-            $account->properties->email = $request->get('email');
-            $account->properties->email_date = Carbon::now();
-            $account->properties->save();
-        } else {
-            $account->email = $request->get('email');
-            $account->save();
-
-            event(new RequestVerificationEmail($account));
-        }
-
-        return view('theme::account.email.update', compact('account'));
-    }
-
-    /**
-     * Show the cancel email page.
+     * Cancel the active email change.
      *
      * @return \Illuminate\Http\Response
      */
-    public function cancelEmail()
+    public function cancel()
     {
         $account = $this->auth->user();
 

@@ -2,8 +2,10 @@
 
 namespace Apolune\Account\Resources\Migrations;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Apolune\Core\Facades\Database\Trigger;
 use Illuminate\Database\Migrations\Migration;
 
 class CreatePandaacPlayersTable extends Migration
@@ -26,6 +28,12 @@ class CreatePandaacPlayersTable extends Migration
 
             $table->timestamps();
         });
+
+        Trigger::after('insert')->on('players')->create(function ($query) {
+            $query->table('__pandaac_players')->insert([
+                'player_id' => DB::raw('NEW.`id`')
+            ]);
+        });
     }
 
     /**
@@ -35,6 +43,8 @@ class CreatePandaacPlayersTable extends Migration
      */
     public function down()
     {
+        Trigger::after('insert')->on('players')->rollback();
+
         Schema::drop('__pandaac_players');
     }
 }

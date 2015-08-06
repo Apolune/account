@@ -1,10 +1,10 @@
 <?php
 
-namespace Apolune\Account\Http\Requests\Auth;
+namespace Apolune\Account\Http\Requests\Account;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class AuthenticateRequest extends FormRequest
 {
     /**
      * The input keys that should not be flashed on redirect.

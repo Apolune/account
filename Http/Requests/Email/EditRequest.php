@@ -1,10 +1,10 @@
 <?php
 
-namespace Apolune\Account\Http\Requests;
+namespace Apolune\Account\Http\Requests\Email;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmailRequest extends FormRequest
+class EditRequest extends FormRequest
 {
     /**
      * The input keys that should not be flashed on redirect.

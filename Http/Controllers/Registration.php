@@ -36,7 +36,7 @@ class Registration extends Controller
     protected $attributes;
 
     /**
-     * Create a new authentication controller instance.
+     * Create a new controller instance.
      *
      * @param  \Illuminate\Contracts\Auth\Guard  $auth
      * @param  \Illuminate\Http\Request  $request
@@ -53,11 +53,11 @@ class Registration extends Controller
     }
 
     /**
-     * Show the account registration page.
+     * Show the registration form.
      *
      * @return \Illuminate\Http\Response
      */
-    public function registration()
+    public function form()
     {
         $countries = countries();
 
@@ -74,7 +74,7 @@ class Registration extends Controller
      * @param  \Apolune\Account\Http\Requests\Registration\ValidationRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function validation(ValidationRequest $request)
+    public function confirm(ValidationRequest $request)
     {
         return redirect('/account/register/verify')->withInput()->with('state', 1);
     }
