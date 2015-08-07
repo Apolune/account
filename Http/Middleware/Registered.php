@@ -34,7 +34,7 @@ class Registered
      */
     public function handle($request, Closure $next)
     {
-        if ($this->auth->check() and ! $this->auth->user()->isRegistered()) {
+        if (! $this->auth->check() or ! $this->auth->user()->isRegistered()) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {

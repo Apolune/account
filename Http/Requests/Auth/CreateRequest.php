@@ -1,6 +1,6 @@
 <?php
 
-namespace Apolune\Account\Http\Requests\Account;
+namespace Apolune\Account\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 

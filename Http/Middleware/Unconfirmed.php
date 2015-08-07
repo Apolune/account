@@ -34,7 +34,7 @@ class Unconfirmed
      */
     public function handle($request, Closure $next)
     {
-        if ($this->auth->check() and $this->auth->user()->isConfirmed()) {
+        if (! $this->auth->check() or $this->auth->user()->isConfirmed()) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {

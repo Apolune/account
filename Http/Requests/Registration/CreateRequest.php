@@ -1,10 +1,10 @@
 <?php
 
-namespace Apolune\Account\Http\Requests;
+namespace Apolune\Account\Http\Requests\Registration;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class CreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->container['auth']->check();
+        return $this->container['auth']->check() and ! $this->container['auth']->user()->isRegistered();
     }
 
     /**
@@ -23,30 +23,29 @@ class RegisterRequest extends FormRequest
      */
     public function rules()
     {
-        if ($this->has('back')) {
-            return [];
-        }
-
-        $years = implode(',', [(date('Y') - 105), (date('Y') - 5)]);
-
-        $rules = [
+        return [
             'firstname' => ['required', 'min:2', 'max:50', 'alpha_space'],
             'surname'   => ['required', 'min:2', 'max:50', 'alpha_space'],
             'country'   => ['required', 'country'],
             'day'       => ['required', 'integer', 'range:0,31'],
             'month'     => ['required', 'integer', 'range:1,12'],
-            'year'      => ['required', 'integer', 'range:'.$years],
+            'year'      => ['required', 'integer', 'range:'.$this->years()],
             'gender'    => ['required', 'in:female,male'],
+            'password'  => ['required', 'current'],
         ];
+    }
 
-        if ($this->has('verify')) {
-            $this->flash();
-            
-            return array_merge($rules, [
-                'password' => 'required',
-            ]);
-        }
+    /**
+     * Compile an array of years.
+     *
+     * @param  integer  $amount  100
+     * @return array
+     */
+    protected function years($amount = 100)
+    {
+        $start = (date('Y') - ($amount + 5));
+        $end   = (date('Y') - 5);
 
-        return $rules;
+        return sprintf("%d,%d", $start, $end);
     }
 }

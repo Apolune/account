@@ -1,18 +1,11 @@
 <?php
 
-namespace Apolune\Account\Http\Requests;
+namespace Apolune\Account\Http\Requests\Action;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PasswordRequest extends FormRequest
+class TerminateRequest extends FormRequest
 {
-    /**
-     * The input keys that should not be flashed on redirect.
-     *
-     * @var array
-     */
-    protected $dontFlash = ['password', 'password_confirmation', 'current'];
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -31,8 +24,7 @@ class PasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'password'  => ['required', 'confirmed', 'min:6'],
-            'current'   => ['required', 'current'],
+            'password' => ['required', 'current'],
         ];
     }
 }

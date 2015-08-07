@@ -4,24 +4,34 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function ($r
 
     /*
     |--------------------------------------------------------------------------
-    | \Apolune\Account\Http\Controllers\Account.php
+    | Dashboard
     |--------------------------------------------------------------------------
     |
-    | The following routes belong to the aforementioned controller.
+    | ...
     |
     */
 
-    get('/account',                 'Account@overview');
-    get('/account/manage',          'Account@manage');
+    $router->get('/account',            'DashboardController@overview');
+    $router->get('/account/manage',     'DashboardController@manage');
+    $router->get('/account/download',   'DashboardController@download');
 
-    get('/account/password',        'Account@password');
-    put('/account/password',        'Account@updatePassword');
+    /*
+    |--------------------------------------------------------------------------
+    | Account Actions
+    |--------------------------------------------------------------------------
+    |
+    | ...
+    |
+    */
 
-    get('/account/rename',          'Account@rename');
-    put('/account/rename',          'Account@updateName');
+    $router->get('/account/password',       'Action\PasswordController@form');
+    $router->put('/account/password',       'Action\PasswordController@update');
+
+    $router->get('/account/rename',         'Action\RenameController@form');
+    $router->put('/account/rename',         'Action\RenameController@update');
     
-    get('/account/terminate',       'Account@terminate');
-    delete('/account/terminate',    'Account@destroy');
+    $router->get('/account/terminate',      'Action\TerminateController@confirm');
+    $router->delete('/account/terminate',   'Action\TerminateController@terminate');
 
     /*
     |--------------------------------------------------------------------------
@@ -32,12 +42,12 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function ($r
     |
     */
 
-    $router->get('/account/login',   'Account\AuthenticateController@form');
-    $router->post('/account/login',  'Account\AuthenticateController@login');
-    $router->get('/account/logout',  'Account\AuthenticateController@logout');
+    $router->get('/account/login',   'Auth\AuthenticateController@form');
+    $router->post('/account/login',  'Auth\AuthenticateController@login');
+    $router->get('/account/logout',  'Auth\AuthenticateController@logout');
 
-    $router->get('/account/create',  'Account\CreateController@form');
-    $router->post('/account/create', 'Account\CreateController@create');
+    $router->get('/account/create',  'Auth\CreateController@form');
+    $router->post('/account/create', 'Auth\CreateController@create');
 
     /*
     |--------------------------------------------------------------------------
@@ -102,28 +112,5 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function ($r
     
     // $router->get('/account/character/{player}/world',    'Player\WorldController@form');
     // $router->put('/account/character/{player}/world',    'Player\WorldController@update');
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | \Apolune\Account\Http\Controllers\Miscellaneous.php
-    |--------------------------------------------------------------------------
-    |
-    | The following routes belong to the aforementioned controller.
-    |
-    */
-
-    get('/account/download',    'Miscellaneous@download');
-
-    /*
-    |--------------------------------------------------------------------------
-    | \Apolune\Account\Http\Controllers\Recovery.php
-    |--------------------------------------------------------------------------
-    |
-    | The following routes belong to the aforementioned controller.
-    |
-    */
-
-    get('/account/recover',     'Recovery@index');
 
 });

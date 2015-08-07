@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
-use Apolune\Account\Http\Requests\Registration\ValidationRequest;
-use Apolune\Account\Http\Requests\Registration\VerificationRequest;
+use Apolune\Account\Http\Requests\Registration\CreateRequest;
+use Apolune\Account\Http\Requests\Registration\ConfirmationRequest;
 
 class CreateController extends Controller
 {
@@ -42,45 +42,29 @@ class CreateController extends Controller
 
         $years = $this->years();
 
-        $format = function ($month) { return (new Carbon)->month($month)->format('F'); };
-
-        return view('theme::account.registration.form', compact('countries', 'years', 'format'));
+        return view('theme::account.registration.create.form', compact('countries', 'years'));
     }
 
     /**
      * Show the account registration verification page.
      *
-     * @param  \Apolune\Account\Http\Requests\Registration\ValidationRequest  $request
+     * @param  \Apolune\Account\Http\Requests\Registration\ConfirmationRequest  $request
      * @return \Illuminate\View\View|\Illuminate\Http\Response
      */
-    public function confirm()
+    public function confirm(ConfirmationRequest $request)
     {
-        $request = new Request;
+        $request->isMethod('POST') ? $request->flash() : $request->session()->keep('_old_input');
 
-        dd($request->method());
-        
-        if ($request->method() === 'POST') {
-            $request->flash();
-
-            $request = new ValidationRequest;
-        }
-
-        if ($request->method() === 'GET') {
-            dd($request->all());
-        }
-
-        $formatted = (new Carbon)->month($request->get('month'))->format('F');
-
-        return view('theme::account.registration.verify', compact('formatted'));
+        return view('theme::account.registration.create.confirm');
     }
 
     /**
      * Register the account.
      *
-     * @param  \Apolune\Account\Http\Requests\Registration\VerificationRequest  $request
+     * @param  \Apolune\Account\Http\Requests\Registration\CreateRequest  $request
      * @return \Illuminate\View\View|\Illuminate\Http\Response
      */
-    public function register(VerificationRequest $request)
+    public function register(CreateRequest $request)
     {
         $key = $this->auth->user()->generateRecoveryKey();
 
@@ -92,7 +76,7 @@ class CreateController extends Controller
             'birthday'  => $this->birthday($request),
         ]);
 
-        return view('theme::account.registration.register', compact('key'));
+        return view('theme::account.registration.create.registered', compact('key'));
     }
 
     /**
@@ -103,7 +87,7 @@ class CreateController extends Controller
      */
     protected function birthday(Request $request)
     {
-        list($year, $month, $day) = $request->only('year', 'month', 'day');
+        list($year, $month, $day) = array_values($request->only('year', 'month', 'day'));
 
         return (new Carbon)->year($year)->month($month)->day($day)->format('Y-m-d');
     }

@@ -36,15 +36,11 @@ class EditController extends Controller
      */
     public function edit()
     {
-        $account = $this->auth->user();
-
         $countries = countries();
 
-        $years = array_reverse(range((date('Y') - 105), (date('Y') - 5)));
+        $years = $this->years();
 
-        $format = function ($month) { return (new Carbon)->month($month)->format('F'); };
-
-        return view('theme::account.registration.edit', compact('account', 'countries', 'years', 'format'));
+        return view('theme::account.registration.edit.form', compact('countries', 'years'));
     }
 
     /**
@@ -56,12 +52,26 @@ class EditController extends Controller
     public function update(EditRequest $request)
     {
         $this->auth->user()->registration()->update([
-            'requested_firstname' => $request->get('firstname'),
-            'requested_surname'   => $request->get('surname'),
-            'requested_country'   => $request->get('country'),
+            'request_date'      => Carbon::now(),
+            'request_firstname' => $request->get('firstname'),
+            'request_surname'   => $request->get('surname'),
+            'request_country'   => $request->get('country'),
         ]);
 
-        // ...
-        dd('test');
+        return view('theme::account.registration.edit.requested');
+    }
+
+    /**
+     * Compile an array of years.
+     *
+     * @param  integer  $amount  100
+     * @return array
+     */
+    protected function years($amount = 100)
+    {
+        $start = (date('Y') - ($amount + 5));
+        $end   = (date('Y') - 5);
+
+        return array_reverse(range($start, $end));
     }
 }

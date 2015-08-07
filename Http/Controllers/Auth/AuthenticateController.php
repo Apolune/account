@@ -1,12 +1,12 @@
 <?php
 
-namespace Apolune\Account\Http\Controllers\Account;
+namespace Apolune\Account\Http\Controllers\Auth;
 
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Exception\HttpResponseException;
-use Apolune\Account\Http\Requests\Account\AuthenticateRequest;
+use Apolune\Account\Http\Requests\Auth\AuthenticateRequest;
 
 class AuthenticateController extends Controller
 {

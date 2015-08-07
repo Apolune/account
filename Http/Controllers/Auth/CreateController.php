@@ -1,11 +1,11 @@
 <?php
 
-namespace Apolune\Account\Http\Controllers\Account;
+namespace Apolune\Account\Http\Controllers\Auth;
 
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
 use Apolune\Account\Events\RequestVerificationEmail;
-use Apolune\Account\Http\Requests\Account\CreateRequest;
+use Apolune\Account\Http\Requests\Auth\CreateRequest;
 
 class CreateController extends Controller
 {
