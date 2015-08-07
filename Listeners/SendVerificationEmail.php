@@ -37,7 +37,7 @@ class SendVerificationEmail
     {
         $account = $event->account();
 
-        $this->mailer->send('theme::emails.verification', compact('account'), function ($message) use ($account) {
+        $this->mailer->send('theme::_emails.verification', compact('account'), function ($message) use ($account) {
             $message->to($account->email());
             $message->subject('Testing');
         });
