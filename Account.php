@@ -28,7 +28,7 @@ class Account extends Model implements Contract
     /**
      * Indicates if the model should be timestamped.
      *
-     * @var bool
+     * @var boolean
      */
     public $timestamps = false;
 

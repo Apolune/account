@@ -10,7 +10,7 @@ class Sha1Hasher implements HasherContract
      * Hash the given value.
      *
      * @param  string  $value
-     * @param  array   $options
+     * @param  array  $options
      * @return string
      */
     public function make($value, array $options = array())
@@ -23,8 +23,8 @@ class Sha1Hasher implements HasherContract
      *
      * @param  string  $value
      * @param  string  $hashedValue
-     * @param  array   $options
-     * @return bool
+     * @param  array  $options  []
+     * @return boolean
      */
     public function check($value, $hashedValue, array $options = array())
     {
@@ -35,8 +35,8 @@ class Sha1Hasher implements HasherContract
      * Check if the given hash has been hashed using the given options.
      *
      * @param  string  $hashedValue
-     * @param  array   $options
-     * @return bool
+     * @param  array  $options  []
+     * @return boolean
      */
     public function needsRehash($hashedValue, array $options = array())
     {
