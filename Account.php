@@ -16,7 +16,7 @@ class Account extends Model implements Contract
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = ['name', 'email', 'password', 'creation'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -125,11 +125,11 @@ class Account extends Model implements Contract
     /**
      * Retrieve the account creation date.
      *
-     * @return integer
+     * @return \Carbon\Carbon
      */
     public function creation()
     {
-        return $this->creation;
+        return Carbon::createFromTimestamp($this->creation);
     }
 
     /**

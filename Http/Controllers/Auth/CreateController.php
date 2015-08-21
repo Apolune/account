@@ -51,6 +51,7 @@ class CreateController extends Controller
             'name'      => $request->get('name'),
             'email'     => $request->get('email'),
             'password'  => bcrypt($request->get('password')),
+            'creation'  => time(),
         ]);
 
         $account->properties->setEmailCode();

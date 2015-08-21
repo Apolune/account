@@ -2,6 +2,8 @@
 
 namespace Apolune\Account;
 
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Apolune\Core\Database\Eloquent\Model;
 use Apolune\Contracts\Account\Player as Contract;
 
@@ -284,11 +286,11 @@ class Player extends Model implements Contract
     /**
      * Retrieve the player last login.
      *
-     * @return integer
+     * @return \Carbon\Carbon
      */
     public function lastLogin()
     {
-        return (int) $this->lastlogin;
+        return Carbon::createFromTimestamp($this->lastlogin);
     }
 
     /**
@@ -324,11 +326,11 @@ class Player extends Model implements Contract
     /**
      * Retrieve the player last logout.
      *
-     * @return integer
+     * @return \Carbon\Carbon
      */
     public function lastLogout()
     {
-        return (int) $this->lastlogout;
+        return Carbon::createFromTimestamp($this->lastlogout);
     }
 
     /**
@@ -573,5 +575,15 @@ class Player extends Model implements Contract
     public function isDeleted()
     {
         return (boolean) $this->properties->deletion();
+    }
+
+    /**
+     * Retrieve a URL friendly slug.
+     *
+     * @return string
+     */
+    public function slug()
+    {
+        return strtolower(Str::slug($this->name()));
     }
 }
