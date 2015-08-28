@@ -57,14 +57,26 @@ class Player extends Model implements Contract
      * Scope a query to only include online players.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Apolune\Contracts\Server\World  $world  null
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeOnline($query, $world = null)
+    public function scopeOnline($query)
     {
-        return $query->whereHas('playerOnline', function ($query) use ($world) {
-            return $query;#->where('world_id', $world->id());
-        });
+        return $query->has('playerOnline');
+    }
+
+    /**
+     * Scope a query to only include online players.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Apolune\Contracts\Server\World  $world
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFromWorld($query, $world)
+    {
+        // dd(get_class_methods(
+        //     $this->getConnection()->getDoctrineConnection()
+        // ));
+        return $query;
     }
 
     /**
