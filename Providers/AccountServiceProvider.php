@@ -44,6 +44,7 @@ class AccountServiceProvider extends AggregateServiceProvider
         'account.registration'  => [Contracts\AccountRegistration::class    => Account\AccountRegistration::class],
         'player'                => [Contracts\Player::class                 => Account\Player::class],
         'player.properties'     => [Contracts\PlayerProperties::class       => Account\PlayerProperties::class],
+        'player.online'         => [Contracts\PlayerOnline::class           => Account\PlayerOnline::class],
     ];
 
     /**

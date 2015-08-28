@@ -36,9 +36,10 @@ class CreateRequest extends FormRequest
             'password'  => ['required', 'min:8', 'max:30', 'contains_alpha', 'contains_nonalpha', 'confirmed'],
             'player'    => ['required', 'min:2', 'max:29', 'alpha_space', 'no_initial_space', 'no_final_space', 'no_multiple_spaces', 
                             'max_words:3', 'short_words', 'long_words', 'no_vowelless_words', 'no_repeated_characters', 'unique:players,name'],
-            'sex'       => ['required', 'gender'],
-            'vocation'  => ['required', 'vocation:starter'],
-            'world'     => ['required', 'world'],
+            'sex'       => ['gender'],
+            'vocation'  => ['vocation:starter'],
+            'town'      => ['town:starter'],
+            'world'     => ['world'],
             'terms'     => ['accepted'],
         ];
     }

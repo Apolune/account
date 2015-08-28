@@ -49,6 +49,19 @@ class Validator
     }
 
     /**
+     * A validation rule that checks the validity of a town.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @param  array  $parameters
+     * @return void
+     */
+    public function validateTown($attribute, $value, array $parameters)
+    {
+        return (boolean) town($value, !! head($parameters));
+    }
+
+    /**
      * A validation rule that checks the validity of a vocation.
      *
      * @param  string  $attribute

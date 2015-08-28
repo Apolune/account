@@ -23,20 +23,13 @@ class CreateRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
-            'player' => ['required', 'min:2', 'max:29', 'alpha_space', 'no_initial_space', 'no_final_space', 'no_multiple_spaces', 
-                         'max_words:3', 'short_words', 'long_words', 'no_vowelless_words', 'no_repeated_characters', 'unique:players,name'],
-            'sex'    => ['required', 'gender'],
+        return [
+            'player'    => ['required', 'min:2', 'max:29', 'alpha_space', 'no_initial_space', 'no_final_space', 'no_multiple_spaces', 
+                            'max_words:3', 'short_words', 'long_words', 'no_vowelless_words', 'no_repeated_characters', 'unique:players,name'],
+            'sex'       => ['gender'],
+            'vocation'  => ['vocation:starter'],
+            'town'      => ['town:starter'],
+            'world'     => ['world'],
         ];
-
-        if (vocations(true)->count() > 1) {
-            $rules['vocation'] = ['required', 'vocation:starter'];
-        }
-
-        if (worlds()->count() > 1) {
-            $rules['world'] = ['required', 'world'];
-        }
-
-        return $rules;
     }
 }

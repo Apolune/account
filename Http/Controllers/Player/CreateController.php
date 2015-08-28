@@ -66,8 +66,9 @@ class CreateController extends Controller
         $player = $this->auth->user()->players()->create([
             'name'          => $request->get('player'),
             'account_id'    => $this->auth->id(),
-            'vocation'      => $request->get('vocation'),
-            'sex'           => $request->get('sex'),
+            'vocation'      => $request->get('vocation', vocations(true)->first()->id()),
+            'town_id'       => $request->get('town', towns(true)->first()->id()),
+            'sex'           => $request->get('sex', genders()->first()->id()),
             'conditions'    => '',
         ]);
 

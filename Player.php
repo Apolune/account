@@ -14,7 +14,7 @@ class Player extends Model implements Contract
      *
      * @var array
      */
-    protected $fillable = ['name', 'account_id', 'vocation', 'sex', 'conditions'];
+    protected $fillable = ['name', 'account_id', 'vocation', 'town_id', 'sex', 'conditions'];
 
     /**
      * Indicates if the model should be timestamped.
@@ -41,6 +41,30 @@ class Player extends Model implements Contract
     public function properties()
     {
         return $this->hasOne('player.properties');
+    }
+
+    /**
+     * Retrieve the player online.
+     *
+     * @return \Apolune\Contracts\Account\PlayerOnline
+     */
+    public function isOnline()
+    {
+        return $this->hasOne('player.online');
+    }
+
+    /**
+     * Scope a query to only include online players.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Apolune\Contracts\Server\World  $world  null
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOnline($query, $world = null)
+    {
+        return $query->whereHas('isOnline', function ($query) use ($world) {
+            return $query;#->where('world_id', $world->id());
+        });
     }
 
     /**
