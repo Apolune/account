@@ -44,11 +44,11 @@ class Player extends Model implements Contract
     }
 
     /**
-     * Retrieve the player online.
+     * Retrieve the player online relationship.
      *
      * @return \Apolune\Contracts\Account\PlayerOnline
      */
-    public function isOnline()
+    public function playerOnline()
     {
         return $this->hasOne('player.online');
     }
@@ -62,7 +62,7 @@ class Player extends Model implements Contract
      */
     public function scopeOnline($query, $world = null)
     {
-        return $query->whereHas('isOnline', function ($query) use ($world) {
+        return $query->whereHas('playerOnline', function ($query) use ($world) {
             return $query;#->where('world_id', $world->id());
         });
     }
@@ -579,6 +579,16 @@ class Player extends Model implements Contract
         }
 
         return worlds()->first();
+    }
+
+    /**
+     * Check if a player is online or not.
+     *
+     * @return boolean
+     */
+    public function isOnline()
+    {
+        return (boolean) $this->playerOnline;
     }
 
     /**
