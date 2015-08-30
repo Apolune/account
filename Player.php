@@ -5,6 +5,7 @@ namespace Apolune\Account;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Apolune\Core\Database\Eloquent\Model;
+use Doctrine\DBAL\Schema\SchemaException;
 use Apolune\Contracts\Account\Player as Contract;
 
 class Player extends Model implements Contract
@@ -73,10 +74,13 @@ class Player extends Model implements Contract
      */
     public function scopeFromWorld($query, $world)
     {
-        // dd(get_class_methods(
-        //     $this->getConnection()->getDoctrineConnection()
-        // ));
-        return $query;
+        try {
+            $this->getConnection()->getDoctrineColumn('players', 'world_id');
+
+            return $query->where('world_id', $world->id());
+        } catch (SchemaException $e) {
+            return $query;
+        }
     }
 
     /**
@@ -600,7 +604,7 @@ class Player extends Model implements Contract
      */
     public function isOnline()
     {
-        return (boolean) $this->playerOnline;
+        return $this->playerOnline instanceof \Apolune\Contracts\Account\PlayerOnline;
     }
 
     /**
