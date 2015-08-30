@@ -99,7 +99,7 @@ class Player extends Model implements Contract
      */
     public function scopeFromWorld($query, $world)
     {
-        if ($this->hasColumn('world_id')) {
+        if ($this->hasColumn('world_id') and worlds()->count() > 1) {
             return $query->where('world_id', $world->id());
         }
 
@@ -533,7 +533,7 @@ class Player extends Model implements Contract
      */
     public function axe()
     {
-        return (int) $this->skill_axe_tries;
+        return (int) $this->skill_axe;
     }
 
     /**
@@ -553,7 +553,7 @@ class Player extends Model implements Contract
      */
     public function distance()
     {
-        return (int) $this->skill_dist_tries;
+        return (int) $this->skill_dist;
     }
 
     /**
@@ -573,7 +573,7 @@ class Player extends Model implements Contract
      */
     public function shielding()
     {
-        return (int) $this->skill_shielding_tries;
+        return (int) $this->skill_shielding;
     }
 
     /**
@@ -593,7 +593,7 @@ class Player extends Model implements Contract
      */
     public function fishing()
     {
-        return (int) $this->skill_fishing_tries;
+        return (int) $this->skill_fishing;
     }
 
     /**
