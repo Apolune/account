@@ -65,6 +65,32 @@ class Player extends Model implements Contract
     }
 
     /**
+     * Scope a query to only include visible players.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeVisible($query)
+    {
+        return $query->whereHas('properties', function ($query) {
+            return $query->where('hide', 0);
+        });
+    }
+
+    /**
+     * Scope a query to only include hidden players.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeHidden($query)
+    {
+        return $query->whereHas('properties', function ($query) {
+            return $query->where('hide', 1);
+        });
+    }
+
+    /**
      * Scope a query to only include online players.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
