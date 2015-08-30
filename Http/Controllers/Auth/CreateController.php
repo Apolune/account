@@ -61,6 +61,7 @@ class CreateController extends Controller
             'account_id'    => $account->id(),
             'vocation'      => $request->get('vocation', vocations(true)->first()->id()),
             'town_id'       => $request->get('town', towns(true)->first()->id()),
+            'world_id'      => $request->get('world', worlds()->first()->id()),
             'sex'           => $request->get('sex', genders()->first()->id()),
             'conditions'    => '',
         ]);

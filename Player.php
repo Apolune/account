@@ -5,7 +5,6 @@ namespace Apolune\Account;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Apolune\Core\Database\Eloquent\Model;
-use Doctrine\DBAL\Schema\SchemaException;
 use Apolune\Contracts\Account\Player as Contract;
 
 class Player extends Model implements Contract
@@ -15,7 +14,7 @@ class Player extends Model implements Contract
      *
      * @var array
      */
-    protected $fillable = ['name', 'account_id', 'vocation', 'town_id', 'sex', 'conditions'];
+    protected $fillable = ['name', 'account_id', 'vocation', 'town_id', 'world_id', 'sex', 'conditions'];
 
     /**
      * Indicates if the model should be timestamped.
@@ -74,13 +73,11 @@ class Player extends Model implements Contract
      */
     public function scopeFromWorld($query, $world)
     {
-        try {
-            $this->getConnection()->getDoctrineColumn('players', 'world_id');
-
+        if ($this->hasColumn('world_id')) {
             return $query->where('world_id', $world->id());
-        } catch (SchemaException $e) {
-            return $query;
         }
+
+        return $query;
     }
 
     /**
@@ -590,7 +587,7 @@ class Player extends Model implements Contract
      */
     public function world()
     {
-        if (! isset($this->world_id)) {
+        if ($this->hasColumn('world_id')) {
             return world($this->world_id);
         }
 
@@ -604,7 +601,7 @@ class Player extends Model implements Contract
      */
     public function isOnline()
     {
-        return $this->playerOnline instanceof \Apolune\Contracts\Account\PlayerOnline;
+        return (boolean) $this->playerOnline;
     }
 
     /**
@@ -635,5 +632,20 @@ class Player extends Model implements Contract
     public function slug()
     {
         return strtolower(Str::slug($this->name()));
+    }
+
+    /**
+     * Set the players world id.
+     *
+     * @param  integer  $value
+     * @return void
+     */
+    public function setWorldIdAttribute($value)
+    {
+        if (! $this->hasColumn('world_id')) {
+            return;
+        }
+
+        $this->attributes['world_id'] = $value;
     }
 }
