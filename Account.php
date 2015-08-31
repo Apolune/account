@@ -162,7 +162,7 @@ class Account extends Model implements Contract
         return (boolean) $this->properties->deletion();
     }
 
-   /**
+    /**
      * Check if the account has a pending email address.
      *
      * @return boolean
@@ -170,6 +170,16 @@ class Account extends Model implements Contract
     public function hasPendingEmail()
     {
         return config('pandaac.mail.enabled') and $this->properties->email() !== null;
+    }
+
+    /**
+     * Check if the account has a pending registration change.
+     *
+     * @return boolean
+     */
+    public function hasPendingRegistration()
+    {
+        return $this->isRegistered() and $this->registration->requestFirstname() !== null;
     }
 
     /**

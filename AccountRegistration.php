@@ -81,4 +81,56 @@ class AccountRegistration extends Model implements Contract
     {
         return $this->gender;
     }
+
+    /**
+     * Retrieve the requested date.
+     *
+     * @return \Carbon\Carbon
+     */
+    public function requestDate()
+    {
+        $days = config('pandaac.mail.timers.registration-change');
+
+        return (new Carbon($this->request_date))->addDays($days);
+    }
+
+    /**
+     * Retrieve the requested firstname.
+     *
+     * @return string
+     */
+    public function requestFirstname()
+    {
+        return $this->request_firstname;
+    }
+
+    /**
+     * Retrieve the requested surname.
+     *
+     * @return string
+     */
+    public function requestSurname()
+    {
+        return $this->request_surname;
+    }
+
+    /**
+     * Retrieve the requested country.
+     *
+     * @return \Apolune\Contracts\Server\Country
+     */
+    public function requestCountry()
+    {
+        return country($this->request_country);
+    }
+
+    /**
+     * Retrieve the requested country code.
+     *
+     * @return string
+     */
+    public function requestCountryCode()
+    {
+        return $this->request_country;
+    }
 }
