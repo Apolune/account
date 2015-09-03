@@ -39,7 +39,9 @@ class PlayerProperties extends Model implements Contract
      */
     public function deletedAt()
     {
-        return (new Carbon($this->deletion))->addDays(30);
+        $days = config('pandaac.apolune.account.deletion-days');
+        
+        return (new Carbon($this->deletion))->addDays($days);
     }
 
     /**
