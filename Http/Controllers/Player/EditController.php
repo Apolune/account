@@ -4,6 +4,7 @@ namespace Apolune\Account\Http\Controllers\Player;
 
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Contracts\Account\Player;
+use Apolune\Account\Jobs\Player\Edit;
 use Apolune\Core\Http\Controllers\Controller;
 use Apolune\Account\Http\Requests\Player\EditRequest;
 
@@ -49,10 +50,9 @@ class EditController extends Controller
      */
     public function edit(EditRequest $request, Player $player)
     {
-        $player->properties->hide = (boolean) $request->get('hide');
-        $player->properties->comment = $request->get('comment');
-        $player->properties->signature = $request->get('signature');
-        $player->properties->save();
+        $this->dispatch(
+            new Edit($player)
+        );
 
         return view('theme::account.player.edit.edited', compact('player'));
     }

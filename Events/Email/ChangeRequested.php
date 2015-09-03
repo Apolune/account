@@ -1,13 +1,13 @@
 <?php
 
-namespace Apolune\Account\Events;
+namespace Apolune\Account\Events\Email;
 
 use App\Events\Event;
 use Apolune\Contracts\Account\Account;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class RequestVerificationEmail extends Event
+class ChangeRequested extends Event
 {
     use SerializesModels;
 
@@ -16,7 +16,7 @@ class RequestVerificationEmail extends Event
      *
      * @var \Apolune\Contracts\Account\Account
      */
-    protected $account;
+    public $account;
 
     /**
      * Create a new event instance.
@@ -27,16 +27,6 @@ class RequestVerificationEmail extends Event
     public function __construct(Account $account)
     {
         $this->account = $account;
-    }
-
-    /**
-     * Retrieve the account implementation.
-     *
-     * @return \Apolune\Contracts\Account\Account
-     */
-    public function account()
-    {
-        return $this->account;
     }
 
     /**

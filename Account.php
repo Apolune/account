@@ -139,7 +139,7 @@ class Account extends Model implements Contract
      */
     public function isConfirmed()
     {
-        return config('pandaac.mail.enabled') and config('pandaac.mail.confirmation') and $this->properties->emailCode() === null;
+        return $this->properties->emailCode() === null;
     }
 
     /**
@@ -159,7 +159,7 @@ class Account extends Model implements Contract
      */
     public function isDeleted()
     {
-        return (boolean) $this->properties->deletion();
+        return ! ($this->properties->deletion()->format('Y') < 0);
     }
 
     /**
@@ -169,7 +169,17 @@ class Account extends Model implements Contract
      */
     public function hasPendingEmail()
     {
-        return config('pandaac.mail.enabled') and $this->properties->email() !== null;
+        return $this->properties->email() !== null;
+    }
+
+    /**
+     * Check if the user can accept the new email address.
+     *
+     * @return boolean
+     */
+    public function canAcceptPendingEmail()
+    {
+        return $this->hasPendingEmail() and $this->properties->emailDate()->isPast();
     }
 
     /**
@@ -180,6 +190,16 @@ class Account extends Model implements Contract
     public function hasPendingRegistration()
     {
         return $this->isRegistered() and $this->registration->requestFirstname() !== null;
+    }
+
+    /**
+     * Check if the user can accept the new registration data.
+     *
+     * @return boolean
+     */
+    public function canAcceptPendingRegistration()
+    {
+        return $this->hasPendingRegistration() and $this->registration->requestDate()->isPast();
     }
 
     /**

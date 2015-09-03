@@ -5,8 +5,13 @@ namespace Apolune\Account\Http\Controllers\Email;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
+use Apolune\Account\Jobs\Email\ChangeRequest;
 use Apolune\Account\Http\Requests\Email\EditRequest;
-use Apolune\Account\Events\RequestVerificationEmail;
+use Apolune\Account\Http\Requests\Email\CancelRequest;
+use Apolune\Account\Http\Requests\Email\AcceptRequest;
+use Apolune\Account\Jobs\Email\UpdateUnconfirmedAccount;
+use Apolune\Account\Jobs\Email\AcceptRequest as AcceptEmailRequest;
+use Apolune\Account\Jobs\Email\CancelRequest as CancelEmailRequest;
 
 class EditController extends Controller
 {
@@ -38,10 +43,11 @@ class EditController extends Controller
     public function form()
     {
         $account = $this->auth->user();
+        $account->load('properties');
 
-        if ($account->hasPendingEmail()) {
-            $account->load('properties');
-            
+        if ($account->canAcceptPendingEmail()) {
+            return view('theme::account.email.edit.accept', compact('account'));
+        } elseif ($account->hasPendingEmail()) {
             return view('theme::account.email.edit.awaiting', compact('account'));
         }
 
@@ -57,33 +63,42 @@ class EditController extends Controller
     public function edit(EditRequest $request)
     {
         $account = $this->auth->user();
-        
-        if ($account->isConfirmed()) {
-            $account->properties->email = $request->get('email');
-            $account->properties->email_date = Carbon::now();
-            $account->properties->save();
-        } else {
-            $account->email = $request->get('email');
-            $account->save();
 
-            event(new RequestVerificationEmail($account));
-        }
+        $this->dispatch(
+            $account->isConfirmed() 
+                ? new ChangeRequest($account) 
+                : new UpdateUnconfirmedAccount($account)
+        );
 
         return view('theme::account.email.edit.edited', compact('account'));
     }
 
     /**
-     * Cancel the active email change.
+     * Accept the new email address.
      *
+     * @param  \Apolune\Account\Http\Requests\Email\AcceptRequest  $request
      * @return \Illuminate\View\View
      */
-    public function cancel()
+    public function accept(AcceptRequest $request)
     {
-        $account = $this->auth->user();
+        $this->dispatch(
+            new AcceptEmailRequest($this->auth->user())
+        );
 
-        $account->properties->email = null;
-        $account->properties->email_date = null;
-        $account->properties->save();
+        return view('theme::account.email.edit.accepted');
+    }
+
+    /**
+     * Cancel the active email change.
+     *
+     * @param  \Apolune\Account\Http\Requests\Email\CancelRequest  $request
+     * @return \Illuminate\View\View
+     */
+    public function cancel(CancelRequest $request)
+    {
+        $this->dispatch(
+            new CancelEmailRequest($this->auth->user())
+        );
 
         return view('theme::account.email.edit.cancelled');
     }

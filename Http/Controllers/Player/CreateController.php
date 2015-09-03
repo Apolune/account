@@ -3,6 +3,7 @@
 namespace Apolune\Account\Http\Controllers\Player;
 
 use Illuminate\Contracts\Auth\Guard;
+use Apolune\Account\Jobs\Player\Create;
 use Apolune\Core\Http\Controllers\Controller;
 use Apolune\Account\Http\Requests\Player\CreateRequest;
 
@@ -63,15 +64,9 @@ class CreateController extends Controller
             return redirect('/account/character')->withInput($request->all());
         }
 
-        $player = $this->auth->user()->players()->create([
-            'name'          => $request->get('player'),
-            'account_id'    => $this->auth->id(),
-            'vocation'      => $request->get('vocation', vocations(true)->first()->id()),
-            'town_id'       => $request->get('town', towns(true)->first()->id()),
-            'sex'           => $request->get('sex', genders()->first()->id()),
-            'world_id'      => $request->get('world', worlds()->first()->id()),
-            'conditions'    => '',
-        ]);
+        $player = $this->dispatch(
+            new Create($this->auth->user())
+        );
 
         return view('theme::account.player.create.created', compact('player'));
     }

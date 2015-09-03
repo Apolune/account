@@ -4,8 +4,9 @@ namespace Apolune\Account\Http\Controllers\Auth;
 
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
-use Apolune\Account\Events\RequestVerificationEmail;
 use Apolune\Account\Http\Requests\Auth\CreateRequest;
+use Apolune\Account\Jobs\Auth\Create as CreateAccount;
+use Apolune\Account\Jobs\Player\Create as CreatePlayer;
 
 class CreateController extends Controller
 {
@@ -47,28 +48,15 @@ class CreateController extends Controller
      */
     public function create(CreateRequest $request)
     {
-        $account = app('account')->create([
-            'name'      => $request->get('name'),
-            'email'     => $request->get('email'),
-            'password'  => bcrypt($request->get('password')),
-            'creation'  => time(),
-        ]);
+        $account = $this->dispatch(
+            new CreateAccount
+        );
 
-        $account->properties->setEmailCode();
-
-        $player = app('player')->create([
-            'name'          => $request->get('player'),
-            'account_id'    => $account->id(),
-            'vocation'      => $request->get('vocation', vocations(true)->first()->id()),
-            'town_id'       => $request->get('town', towns(true)->first()->id()),
-            'world_id'      => $request->get('world', worlds()->first()->id()),
-            'sex'           => $request->get('sex', genders()->first()->id()),
-            'conditions'    => '',
-        ]);
+        $player = $this->dispatch(
+            new CreatePlayer($account)
+        );
 
         $this->auth->login($account);
-
-        event(new RequestVerificationEmail($account));
 
         return redirect('/account');
     }

@@ -4,6 +4,7 @@ namespace Apolune\Account\Http\Controllers\Action;
 
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
+use Apolune\Account\Jobs\Action\ChangePassword;
 use Apolune\Account\Http\Requests\Action\PasswordRequest;
 
 class PasswordController extends Controller
@@ -46,10 +47,9 @@ class PasswordController extends Controller
      */
     public function update(PasswordRequest $request)
     {
-        $account = $this->auth->user();
-
-        $account->password = bcrypt($request->get('password'));
-        $account->save();
+        $this->dispatch(
+            new ChangePassword($this->auth->user())
+        );
 
         return redirect('/account');
     }

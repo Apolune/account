@@ -4,6 +4,7 @@ namespace Apolune\Account\Http\Controllers\Action;
 
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
+use Apolune\Account\Jobs\Action\RenameAccount;
 use Apolune\Account\Http\Requests\Action\RenameRequest;
 
 class RenameController extends Controller
@@ -48,10 +49,9 @@ class RenameController extends Controller
      */
     public function update(RenameRequest $request)
     {
-        $account = $this->auth->user();
-
-        $account->name = $request->get('name');
-        $account->save();
+        $this->dispatch(
+            new RenameAccount($this->auth->user())
+        );
 
         return redirect('/account');
     }

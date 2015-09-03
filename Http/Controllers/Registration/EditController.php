@@ -4,8 +4,13 @@ namespace Apolune\Account\Http\Controllers\Registration;
 
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard;
+use Apolune\Account\Jobs\Registration\Edit;
+use Apolune\Account\Jobs\Registration\Accept;
+use Apolune\Account\Jobs\Registration\Cancel;
 use Apolune\Core\Http\Controllers\Controller;
 use Apolune\Account\Http\Requests\Registration\EditRequest;
+use Apolune\Account\Http\Requests\Registration\AcceptRequest;
+use Apolune\Account\Http\Requests\Registration\CancelRequest;
 
 class EditController extends Controller
 {
@@ -36,11 +41,18 @@ class EditController extends Controller
      */
     public function edit()
     {
-        $countries = countries();
+        $account = $this->auth->user();
 
+        if ($account->canAcceptPendingRegistration()) {
+            return view('theme::account.registration.edit.accept', compact('account'));
+        } elseif ($account->hasPendingRegistration()) {
+            return view('theme::account.registration.edit.request', compact('account'));
+        }
+
+        $countries = countries();
         $years = $this->years();
 
-        return view('theme::account.registration.edit.form', compact('countries', 'years'));
+        return view('theme::account.registration.edit.form', compact('account', 'countries', 'years'));
     }
 
     /**
@@ -51,14 +63,41 @@ class EditController extends Controller
      */
     public function update(EditRequest $request)
     {
-        $this->auth->user()->registration()->update([
-            'request_date'      => Carbon::now(),
-            'request_firstname' => $request->get('firstname'),
-            'request_surname'   => $request->get('surname'),
-            'request_country'   => $request->get('country'),
-        ]);
+        $this->dispatch(
+            new Edit($this->auth->user())
+        );
 
         return view('theme::account.registration.edit.requested');
+    }
+
+    /**
+     * Accept the new registration data.
+     *
+     * @param  \Apolune\Account\Http\Requests\Registration\AcceptRequest  $request
+     * @return \Illuminate\View\View
+     */
+    public function accept(AcceptRequest $request)
+    {
+        $this->dispatch(
+            new Accept($this->auth->user())
+        );
+
+        return view('theme::account.registration.edit.accepted');
+    }
+
+    /**
+     * Cancel the new registration data.
+     *
+     * @param  \Apolune\Account\Http\Requests\Registration\CancelRequest  $request
+     * @return \Illuminate\View\View
+     */
+    public function cancel(CancelRequest $request)
+    {
+        $this->dispatch(
+            new Cancel($this->auth->user())
+        );
+
+        return view('theme::account.registration.edit.cancelled');
     }
 
     /**

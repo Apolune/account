@@ -3,6 +3,8 @@
 namespace Apolune\Account\Http\Controllers\Auth;
 
 use Illuminate\Contracts\Auth\Guard;
+use Apolune\Account\Events\Auth\LoggedIn;
+use Apolune\Account\Events\Auth\LoggedOut;
 use Apolune\Core\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Exception\HttpResponseException;
@@ -86,6 +88,8 @@ class AuthenticateController extends Controller
 
         $this->clearLoginAttempts($request);
 
+        event(new LoggedIn($this->auth->user()));
+
         return redirect()->intended('/account');
     }
 
@@ -99,6 +103,8 @@ class AuthenticateController extends Controller
         if (! $this->auth->check()) {
             return redirect('/account');
         }
+
+        event(new LoggedOut($this->auth->user()));
 
         $this->auth->logout();
 

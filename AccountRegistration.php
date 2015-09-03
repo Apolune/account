@@ -89,7 +89,7 @@ class AccountRegistration extends Model implements Contract
      */
     public function requestDate()
     {
-        $days = config('pandaac.mail.timers.registration-change');
+        $days = config('pandaac.apolune.account.registration-days');
 
         return (new Carbon($this->request_date))->addDays($days);
     }

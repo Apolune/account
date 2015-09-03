@@ -5,6 +5,7 @@ namespace Apolune\Account\Http\Controllers\Player;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Contracts\Account\Player;
+use Apolune\Account\Jobs\Player\Undelete;
 use Apolune\Core\Http\Controllers\Controller;
 use Apolune\Account\Http\Requests\Player\UndeleteRequest;
 
@@ -50,8 +51,9 @@ class UndeleteController extends Controller
      */
     public function undelete(UndeleteRequest $request, Player $player)
     {
-        $player->properties->deletion = null;
-        $player->properties->save();
+        $this->dispatch(
+            new Undelete($player)
+        );
 
         return view('theme::account.player.undelete.undeleted', compact('player'));
     }

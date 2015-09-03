@@ -5,8 +5,9 @@ namespace Apolune\Account\Http\Controllers\Email;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
+use Apolune\Account\Jobs\Email\ConfirmAccount;
 use Apolune\Account\Http\Requests\EmailRequest;
-use Apolune\Account\Events\RequestVerificationEmail;
+use Apolune\Account\Jobs\Email\RequestVerificationCode;
 
 class RequestController extends Controller
 {
@@ -27,7 +28,8 @@ class RequestController extends Controller
     {
         $this->auth = $auth;
 
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => 'confirm']);
+        $this->middleware('unconfirmed', ['except' => 'confirm']);
     }
 
     /**
@@ -37,18 +39,13 @@ class RequestController extends Controller
      */
     public function request()
     {
-        $account = $this->auth->user();
+        $account = $this->dispatch(
+            new RequestVerificationCode($this->auth->user())
+        );
 
-        $account->load('properties');
-
-        if (! config('pandaac.mail.confirmation') or $account->properties->emailRequests() >= 2) {
+        if (! $account) {
             return redirect('/account');
         }
-
-        $account->properties->email_requests += 1;
-        $account->properties->save();
-
-        event(new RequestVerificationEmail($account));
 
         return view('theme::account.email.request.request', compact('account'));
     }
@@ -62,21 +59,13 @@ class RequestController extends Controller
      */
     public function confirm($email, $code)
     {
-        $email = base64_decode($email);
-
-        $account = app('account')
-            ->with('properties')
-            ->where('email', $email)
-            ->whereHas('properties', function ($query) use ($code) {
-                $query->where('email_code', $code);
-            })->first();
+        $account = $this->dispatch(
+            new ConfirmAccount($email, $code)
+        );
 
         if (! $account) {
             return redirect('/account');
         }
-
-        $account->properties->email_code = null;
-        $account->properties->save();
 
         return view('theme::account.email.request.confirm', compact('account'));
     }

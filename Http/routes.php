@@ -60,7 +60,8 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function ($r
 
     $router->get('/account/email',                   'Email\EditController@form');
     $router->put('/account/email',                   'Email\EditController@edit');
-    $router->delete('/account/email',                'Email\EditController@cancel');
+    $router->post('/account/email',                  'Email\EditController@accept');
+    $router->get('/account/email/cancel',            'Email\EditController@cancel');
 
     $router->get('/account/email/request',           'Email\RequestController@request');
     $router->get('/account/confirm/{email}/{code}',  'Email\RequestController@confirm');
@@ -80,7 +81,8 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function ($r
 
     $router->get('/account/register/edit',                          'Registration\EditController@edit');
     $router->put('/account/register/edit',                          'Registration\EditController@update');
-
+    $router->post('/account/register/edit',                         'Registration\EditController@accept');
+    $router->get('/account/register/cancel',                        'Registration\EditController@cancel');
 
     /*
     |--------------------------------------------------------------------------

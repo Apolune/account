@@ -2,10 +2,10 @@
 
 namespace Apolune\Account\Listeners;
 
+use Apolune\Account\Events\Email;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Apolune\Account\Events\RequestVerificationEmail;
 
 class SendVerificationEmail
 {
@@ -30,12 +30,13 @@ class SendVerificationEmail
     /**
      * Handle the event.
      *
-     * @param  \Apolune\Account\Events\RequestVerificationEmail  $event
+     * @param  mixed  $event
      * @return void
      */
-    public function handle(RequestVerificationEmail $event)
+    public function handle($event)
     {
-        $account = $event->account();
+        $account = $event->account;
+        $account->load('properties');
 
         $this->mailer->send('theme::_emails.verification', compact('account'), function ($message) use ($account) {
             $message->to($account->email());

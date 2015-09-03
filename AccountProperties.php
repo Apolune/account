@@ -23,7 +23,7 @@ class AccountProperties extends Model implements Contract
      *
      * @var array
      */
-    protected $fillable = ['account_id', 'email_code'];
+    protected $fillable = ['account_id', 'email', 'email_date', 'email_code'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -59,7 +59,7 @@ class AccountProperties extends Model implements Contract
      */
     public function emailDate()
     {
-        $days = config('pandaac.mail.timers.email-change');
+        $days = config('pandaac.apolune.account.emailchange-days');
 
         return (new Carbon($this->email_date))->addDays($days);
     }
@@ -92,6 +92,6 @@ class AccountProperties extends Model implements Contract
      */
     public function deletion()
     {
-        return ! in_array($this->deleted, ['0000-00-00 00:00:00', null]) ? new Carbon($this->deleted) : null;
+        return new Carbon($this->deleted);
     }
 }

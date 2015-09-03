@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
+use Apolune\Account\Jobs\Registration\Create;
 use Apolune\Account\Http\Requests\Registration\CreateRequest;
 use Apolune\Account\Http\Requests\Registration\ConfirmationRequest;
 
@@ -49,7 +50,7 @@ class CreateController extends Controller
      * Show the account registration verification page.
      *
      * @param  \Apolune\Account\Http\Requests\Registration\ConfirmationRequest  $request
-     * @return \Illuminate\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function confirm(ConfirmationRequest $request)
     {
@@ -62,34 +63,15 @@ class CreateController extends Controller
      * Register the account.
      *
      * @param  \Apolune\Account\Http\Requests\Registration\CreateRequest  $request
-     * @return \Illuminate\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function register(CreateRequest $request)
     {
-        $key = $this->auth->user()->generateRecoveryKey();
-
-        $this->auth->user()->registration()->create([
-            'firstname' => $request->old('firstname'),
-            'surname'   => $request->old('surname'),
-            'country'   => $request->old('country'),
-            'gender'    => $request->old('gender'),
-            'birthday'  => $this->birthday($request),
-        ]);
+        $key = $this->dispatch(
+            new Create($this->auth->user())
+        );
 
         return view('theme::account.registration.create.registered', compact('key'));
-    }
-
-    /**
-     * Compile the birthday.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return string
-     */
-    protected function birthday(Request $request)
-    {
-        list($year, $month, $day) = array_values($request->only('year', 'month', 'day'));
-
-        return (new Carbon)->year($year)->month($month)->day($day)->format('Y-m-d');
     }
 
     /**

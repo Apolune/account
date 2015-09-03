@@ -5,6 +5,7 @@ namespace Apolune\Account\Http\Controllers\Player;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Contracts\Account\Player;
+use Apolune\Account\Jobs\Player\Delete;
 use Apolune\Core\Http\Controllers\Controller;
 use Apolune\Account\Http\Requests\Player\DeleteRequest;
 
@@ -50,8 +51,9 @@ class DeleteController extends Controller
      */
     public function delete(DeleteRequest $request, Player $player)
     {
-        $player->properties->deletion = Carbon::now();
-        $player->properties->save();
+        $this->dispatch(
+            new Delete($player)
+        );
 
         return view('theme::account.player.delete.deleted', compact('player'));
     }

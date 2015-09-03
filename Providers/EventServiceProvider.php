@@ -15,8 +15,17 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Events\RequestVerificationEmail::class => [
+        Events\Auth\Created::class => [
             Listeners\SendVerificationEmail::class,
+        ],
+        Events\Email\UnconfirmedAccount::class => [
+            Listeners\SendVerificationEmail::class,
+        ],
+        Events\Email\VerificationCodeRequested::class => [
+            Listeners\SendVerificationEmail::class,
+        ],
+        Events\Email\RequestAccepted::class => [
+            Listeners\SendNewEmailConfirmation::class,
         ],
     ];
 

@@ -4,6 +4,7 @@ namespace Apolune\Account\Http\Controllers\Action;
 
 use Illuminate\Contracts\Auth\Guard;
 use Apolune\Core\Http\Controllers\Controller;
+use Apolune\Account\Jobs\Action\TerminateAccount;
 use Apolune\Account\Http\Requests\Action\TerminateRequest;
 
 class TerminateController extends Controller
@@ -46,13 +47,10 @@ class TerminateController extends Controller
      */
     public function terminate(TerminateRequest $request)
     {
-        $account = $this->auth->user();
+        $this->dispatch(
+            new TerminateAccount($this->auth->user())
+        );
 
-        $account->properties->deleted = 1;
-        $account->properties->save();
-
-        $this->auth->logout();
-
-        return redirect('/account/login');
+        return view('theme::account.action.terminate.terminated');
     }
 }

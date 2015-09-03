@@ -54,6 +54,8 @@ class AccountServiceProvider extends AggregateServiceProvider
      */
     public function boot()
     {
-        //
+        $this->publishes([
+            __DIR__.'/../Resources/Config/account.php' => config_path('pandaac/apolune/account.php'),
+        ], 'config');
     }
 }
