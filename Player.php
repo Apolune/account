@@ -657,7 +657,7 @@ class Player extends Model implements Contract
      */
     public function slug()
     {
-        return strtolower(Str::slug($this->name()));
+        return Str::slug($this->name());
     }
 
     /**

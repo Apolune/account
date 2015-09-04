@@ -28,7 +28,7 @@ class UndeleteController extends Controller
     {
         $this->auth = $auth;
 
-        $this->middleware('auth');
+        $this->middleware('account.character');
     }
 
     /**

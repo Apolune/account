@@ -97,22 +97,22 @@ $router->group(['namespace' => 'Apolune\Account\Http\Controllers'], function ($r
     $router->post('/account/character/confirm',             'Player\CreateController@confirm');
     $router->post('/account/character',                     'Player\CreateController@create');
 
-    $router->get('/account/character/{player}',             'Player\EditController@form')->where('player', '[0-9]+');
-    $router->put('/account/character/{player}',             'Player\EditController@edit')->where('player', '[0-9]+');
+    $router->get('/account/character/{player}',             'Player\EditController@form')->where('player', '[A-Za-z\-]+');
+    $router->put('/account/character/{player}',             'Player\EditController@edit')->where('player', '[A-Za-z\-]+');
     
-    $router->get('/account/character/{player}/delete',      'Player\DeleteController@confirm')->where('player', '[0-9]+');
-    $router->delete('/account/character/{player}',          'Player\DeleteController@delete')->where('player', '[0-9]+');
+    $router->get('/account/character/{player}/delete',      'Player\DeleteController@confirm')->where('player', '[A-Za-z\-]+');
+    $router->delete('/account/character/{player}',          'Player\DeleteController@delete')->where('player', '[A-Za-z\-]+');
     
-    $router->get('/account/character/{player}/undelete',    'Player\UndeleteController@confirm')->where('player', '[0-9]+');
-    $router->post('/account/character/{player}/undelete',   'Player\UndeleteController@undelete')->where('player', '[0-9]+');
+    $router->get('/account/character/{player}/undelete',    'Player\UndeleteController@confirm')->where('player', '[A-Za-z\-]+');
+    $router->post('/account/character/{player}/undelete',   'Player\UndeleteController@undelete')->where('player', '[A-Za-z\-]+');
     
-    // $router->get('/account/character/{player}/name',     'Player\NameController@form');
-    // $router->put('/account/character/{player}/name',     'Player\NameController@update');
+    // $router->get('/account/character/{player}/name',     'Player\NameController@form')->where('player', '[A-Za-z\-]+');
+    // $router->put('/account/character/{player}/name',     'Player\NameController@update')->where('player', '[A-Za-z\-]+');
 
-    // $router->get('/account/character/{player}/sex',      'Player\SexController@form');
-    // $router->put('/account/character/{player}/sex',      'Player\SexController@update');
+    // $router->get('/account/character/{player}/sex',      'Player\SexController@form')->where('player', '[A-Za-z\-]+');
+    // $router->put('/account/character/{player}/sex',      'Player\SexController@update')->where('player', '[A-Za-z\-]+');
     
-    // $router->get('/account/character/{player}/world',    'Player\WorldController@form');
-    // $router->put('/account/character/{player}/world',    'Player\WorldController@update');
+    // $router->get('/account/character/{player}/world',    'Player\WorldController@form')->where('player', '[A-Za-z\-]+');
+    // $router->put('/account/character/{player}/world',    'Player\WorldController@update')->where('player', '[A-Za-z\-]+');
 
 });

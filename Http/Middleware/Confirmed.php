@@ -10,14 +10,14 @@ class Confirmed
     /**
      * The Guard implementation.
      *
-     * @var Guard
+     * @var \Illuminate\Contracts\Auth\Guard
      */
     protected $auth;
 
     /**
      * Create a new filter instance.
      *
-     * @param  Guard  $auth
+     * @param  \Illuminate\Contracts\Auth\Guard  $auth
      * @return void
      */
     public function __construct(Guard $auth)
@@ -38,7 +38,7 @@ class Confirmed
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {
-                return redirect("/account");
+                return redirect('/account');
             }
         }
 
