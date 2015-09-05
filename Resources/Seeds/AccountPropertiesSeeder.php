@@ -14,7 +14,7 @@ class AccountPropertiesSeeder extends Seeder
      */
     public function run()
     {
-        $accounts = app('account')->all();
+        $accounts = app('account')->has('properties', '<', 1)->get();
 
         foreach ($accounts as $account) {
             $account->properties()->create([

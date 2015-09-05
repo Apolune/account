@@ -14,7 +14,7 @@ class PlayerPropertiesSeeder extends Seeder
      */
     public function run()
     {
-        $players = app('player')->all();
+        $players = app('player')->has('properties', '<', 1)->get();
 
         foreach ($players as $player) {
             $player->properties()->create([]);
