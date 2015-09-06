@@ -38,7 +38,7 @@ class Create extends Job implements SelfHandling
     {
         $player = app('player');
 
-        $player->name       = $request->get('player');
+        $player->name       = ucwords(strtolower($request->get('player')));
         $player->account_id = $this->account->id();
         $player->vocation   = $request->get('vocation', vocations(true)->first()->id());
         $player->town_id    = $request->get('town', towns(true)->first()->id());
