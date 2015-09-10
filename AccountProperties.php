@@ -19,13 +19,6 @@ class AccountProperties extends Model implements Contract
     protected $table = '__pandaac_accounts';
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['account_id', 'email', 'email_date', 'email_code'];
-
-    /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array

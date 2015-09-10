@@ -16,13 +16,6 @@ class AccountRegistration extends Model implements Contract
     protected $table = '__pandaac_registration';
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['account_id', 'firstname', 'surname', 'country', 'birthday', 'gender'];
-
-    /**
      * Retrieve the firstname.
      *
      * @return string

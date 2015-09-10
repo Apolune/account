@@ -6,15 +6,12 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Apolune\Core\Database\Eloquent\Model;
 use Apolune\Contracts\Account\Player as Contract;
+use Apolune\Account\Traits\Scopes\Player as PlayerScopes;
+use Apolune\Account\Traits\Relations\Player as PlayerRelations;
 
 class Player extends Model implements Contract
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['name', 'account_id', 'vocation', 'town_id', 'world_id', 'sex', 'conditions'];
+    use PlayerScopes, PlayerRelations;
 
     /**
      * Indicates if the model should be timestamped.
@@ -22,89 +19,6 @@ class Player extends Model implements Contract
      * @var bool
      */
     public $timestamps = false;
-
-    /**
-     * Retrieve the associated account.
-     *
-     * @return \Apolune\Contracts\Account\Account
-     */
-    public function account()
-    {
-        return $this->belongsTo('account');
-    }
-
-    /**
-     * Retrieve the player properties.
-     *
-     * @return \Apolune\Contracts\Account\PlayerProperties
-     */
-    public function properties()
-    {
-        return $this->hasOne('player.properties');
-    }
-
-    /**
-     * Retrieve the player online relationship.
-     *
-     * @return \Apolune\Contracts\Account\PlayerOnline
-     */
-    public function playerOnline()
-    {
-        return $this->hasOne('player.online');
-    }
-
-    /**
-     * Scope a query to only include online players.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeOnline($query)
-    {
-        return $query->has('playerOnline');
-    }
-
-    /**
-     * Scope a query to only include visible players.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeVisible($query)
-    {
-        return $query->whereHas('properties', function ($query) {
-            return $query->where('hide', 0);
-        });
-    }
-
-    /**
-     * Scope a query to only include hidden players.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeHidden($query)
-    {
-        return $query->whereHas('properties', function ($query) {
-            return $query->where('hide', 1);
-        });
-    }
-
-    /**
-     * Scope a query to only include online players.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Apolune\Contracts\Server\World  $world
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeFromWorld($query, $world)
-    {
-        if ($this->hasColumn('world_id') and worlds()->count() > 1) {
-            return $query->where('world_id', $world->id());
-        }
-
-        return $query;
-    }
 
     /**
      * Retrieve the player ID.
@@ -618,6 +532,26 @@ class Player extends Model implements Contract
         }
 
         return worlds()->first();
+    }
+
+    /**
+     * Check if the player is a guild leader or not.
+     *
+     * @return boolean
+     */
+    public function isGuildLeader()
+    {
+        return $this->guildrank and $this->guildrank->level() >= 3;
+    }
+
+    /**
+     * Check if the player is a guild vice leader or not.
+     *
+     * @return boolean
+     */
+    public function isGuildViceLeader()
+    {
+        return $this->guildrank and $this->guildrank->level() >= 2;
     }
 
     /**

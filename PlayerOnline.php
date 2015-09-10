@@ -4,9 +4,12 @@ namespace Apolune\Account;
 
 use Apolune\Core\Database\Eloquent\Model;
 use Apolune\Contracts\Account\PlayerOnline as Contract;
+use Apolune\Account\Traits\Relations\PlayerOnline as PlayerOnlineRelations;
 
 class PlayerOnline extends Model implements Contract
 {
+    use PlayerOnlineRelations;
+    
     /**
      * The table associated with the model.
      *
@@ -20,14 +23,4 @@ class PlayerOnline extends Model implements Contract
      * @var string
      */
     protected $primaryKey = 'player_id';
-
-    /**
-     * Retrieve the player.
-     *
-     * @return \Apolune\Contracts\Account\Player
-     */
-    public function player()
-    {
-        return $this->hasOne('player');
-    }
 }

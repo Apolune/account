@@ -16,13 +16,6 @@ class PlayerProperties extends Model implements Contract
     protected $table = '__pandaac_players';
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['player_id'];
-
-    /**
      * Retrieve the original deletion date.
      *
      * @return string|null

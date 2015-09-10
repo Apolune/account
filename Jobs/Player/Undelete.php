@@ -43,9 +43,9 @@ class Undelete extends Job implements SelfHandling
         $this->player->properties->deletion = null;
         $this->player->properties->save();
 
-        if ($this->player->account->isDeleted()) {
+        if ($account = $this->player->account and $account->isDeleted()) {
             $this->dispatch(
-                new UnterminateAccount($this->player->account)
+                new UnterminateAccount($account)
             );
         }
 

@@ -6,17 +6,11 @@ use Carbon\Carbon;
 use Apolune\Core\Traits\Authenticatable;
 use Apolune\Core\Database\Eloquent\Model;
 use Apolune\Contracts\Account\Account as Contract;
+use Apolune\Account\Traits\Relations\Account as AccountRelations;
 
 class Account extends Model implements Contract
 {
-    use Authenticatable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['name', 'email', 'password', 'creation'];
+    use Authenticatable, AccountRelations;
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -31,36 +25,6 @@ class Account extends Model implements Contract
      * @var boolean
      */
     public $timestamps = false;
-
-    /**
-     * Retrieve the account properties.
-     *
-     * @return \Apolune\Contracts\Account\AccountProperties
-     */
-    public function properties()
-    {
-        return $this->hasOne('account.properties');
-    }
-
-    /**
-     * Retrieve the account registration.
-     *
-     * @return \Apolune\Contracts\Account\AccountRegistration
-     */
-    public function registration()
-    {
-        return $this->hasOne('account.registration');
-    }
-
-    /**
-     * Retrieve the account players.
-     *
-     * @return \Apolune\Contracts\Account\Player
-     */
-    public function players()
-    {
-        return $this->hasMany('player');
-    }
 
     /**
      * Retrieve the account id.
