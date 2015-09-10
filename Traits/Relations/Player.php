@@ -2,12 +2,12 @@
 
 namespace Apolune\Account\Traits\Relations;
 
-use Apolune\Contracts\Guilds\Guild;
-use Apolune\Contracts\Account\Account;
-use Apolune\Contracts\Guilds\GuildRank;
-use Apolune\Contracts\Guilds\GuildMember;
-use Apolune\Contracts\Account\PlayerOnline;
-use Apolune\Contracts\Account\PlayerProperties;
+use Apolune\Contracts\Guilds\Guild as GuildContract;
+use Apolune\Contracts\Account\Account as AccountContract;
+use Apolune\Contracts\Guilds\GuildRank as GuildRankContract;
+use Apolune\Contracts\Guilds\GuildMember as GuildMemberContract;
+use Apolune\Contracts\Account\PlayerOnline as PlayerOnlineContract;
+use Apolune\Contracts\Account\PlayerProperties as PlayerPropertiesContract;
 
 trait Player
 {
@@ -18,7 +18,7 @@ trait Player
      */
     public function account()
     {
-        return $this->belongsTo(Account::class);
+        return $this->belongsTo(AccountContract::class);
     }
 
     /**
@@ -28,7 +28,7 @@ trait Player
      */
     public function properties()
     {
-        return $this->hasOne(PlayerProperties::class);
+        return $this->hasOne(PlayerPropertiesContract::class);
     }
 
     /**
@@ -38,7 +38,7 @@ trait Player
      */
     public function guild()
     {
-        return $this->hasOneThrough(Guild::Class, GuildMember::class, 'player_id', 'guild_id');
+        return $this->hasOneThrough(GuildContract::Class, GuildMemberContract::class, 'player_id', 'guild_id');
     }
 
     /**
@@ -48,7 +48,7 @@ trait Player
      */
     public function guildrank()
     {
-        return $this->hasOneThrough(GuildRank::Class, GuildMember::class, 'player_id', 'rank_id');
+        return $this->hasOneThrough(GuildRankContract::Class, GuildMemberContract::class, 'player_id', 'rank_id');
     }
 
     /**
@@ -58,6 +58,6 @@ trait Player
      */
     public function playerOnline()
     {
-        return $this->hasOne(PlayerOnline::class);
+        return $this->hasOne(PlayerOnlineContract::class);
     }
 }

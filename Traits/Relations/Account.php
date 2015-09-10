@@ -2,9 +2,9 @@
 
 namespace Apolune\Account\Traits\Relations;
 
-use Apolune\Contracts\Account\Player;
-use Apolune\Contracts\Account\AccountProperties;
-use Apolune\Contracts\Account\AccountRegistration;
+use Apolune\Contracts\Account\Player as PlayerContract;
+use Apolune\Contracts\Account\AccountProperties as AccountPropertiesContract;
+use Apolune\Contracts\Account\AccountRegistration as AccountRegistrationContract;
 
 trait Account
 {
@@ -15,7 +15,7 @@ trait Account
      */
     public function properties()
     {
-        return $this->hasOne(AccountProperties::class);
+        return $this->hasOne(AccountPropertiesContract::class);
     }
 
     /**
@@ -25,7 +25,7 @@ trait Account
      */
     public function registration()
     {
-        return $this->hasOne(AccountRegistration::class);
+        return $this->hasOne(AccountRegistrationContract::class);
     }
 
     /**
@@ -35,6 +35,6 @@ trait Account
      */
     public function players()
     {
-        return $this->hasMany(Player::class);
+        return $this->hasMany(PlayerContract::class);
     }
 }
