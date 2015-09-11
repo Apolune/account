@@ -18,9 +18,11 @@ class PlayerPropertiesSeeder extends Seeder
         $players = app('player')->doesntHave('properties')->get();
 
         foreach ($players as $player) {
-            $player->properties()->create([
-                'created_at' => Carbon::now(),
-            ]);
+            $properties = app('player.properties');
+
+            $properties->created_at = Carbon::now();
+
+            $player->properties()->save($properties);
         }
     }
 }

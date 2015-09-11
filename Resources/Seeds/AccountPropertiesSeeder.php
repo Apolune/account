@@ -18,9 +18,12 @@ class AccountPropertiesSeeder extends Seeder
         $accounts = app('account')->doesntHave('properties')->get();
 
         foreach ($accounts as $account) {
-            $account->properties->email_code = str_random(40);
-            $account->properties->created_at = Carbon::now();
-            $account->properties->save();
+            $properties = app('account.properties');
+
+            $properties->email_code = str_random(40);
+            $properties->created_at = Carbon::now();
+
+            $account->properties()->save($properties);
         }
     }
 }

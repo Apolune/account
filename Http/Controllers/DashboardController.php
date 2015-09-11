@@ -36,7 +36,7 @@ class DashboardController extends Controller
     {
         $account = $this->auth->user();
 
-        $account->load('properties', 'registration', 'players');
+        $account->load('properties', 'registration', 'players.properties');
 
         return view('theme::account.overview', compact('account'));
     }
