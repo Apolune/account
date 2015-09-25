@@ -541,7 +541,7 @@ class Player extends Model implements Contract
      */
     public function isGuildLeader()
     {
-        return $this->guildrank and $this->guildrank->level() >= 3;
+        return $this->guildrank and ($this->guild->ownerId() === $this->id() or $this->guildrank->level() >= 3);
     }
 
     /**
@@ -551,7 +551,7 @@ class Player extends Model implements Contract
      */
     public function isGuildViceLeader()
     {
-        return $this->guildrank and $this->guildrank->level() >= 2;
+        return $this->guildrank and ($this->guild->ownerId() === $this->id() or $this->guildrank->level() >= 2);
     }
 
     /**
