@@ -7,11 +7,12 @@ use Illuminate\Support\Str;
 use Apolune\Core\Database\Eloquent\Model;
 use Apolune\Contracts\Account\Player as Contract;
 use Apolune\Account\Traits\Scopes\Player as PlayerScopes;
+use Apolune\Account\Traits\Mutators\Player as PlayerMutators;
 use Apolune\Account\Traits\Relations\Player as PlayerRelations;
 
 class Player extends Model implements Contract
 {
-    use PlayerScopes, PlayerRelations;
+    use PlayerScopes, PlayerRelations, PlayerMutators;
 
     /**
      * Indicates if the model should be timestamped.
@@ -535,26 +536,6 @@ class Player extends Model implements Contract
     }
 
     /**
-     * Check if the player is a guild leader or not.
-     *
-     * @return boolean
-     */
-    public function isGuildLeader()
-    {
-        return $this->guildrank and ($this->guild->ownerId() === $this->id() or $this->guildrank->level() >= 3);
-    }
-
-    /**
-     * Check if the player is a guild vice leader or not.
-     *
-     * @return boolean
-     */
-    public function isGuildViceLeader()
-    {
-        return $this->guildrank and ($this->guild->ownerId() === $this->id() or $this->guildrank->level() >= 2);
-    }
-
-    /**
      * Check if a player is online or not.
      *
      * @return boolean
@@ -592,20 +573,5 @@ class Player extends Model implements Contract
     public function slug()
     {
         return Str::slug($this->name());
-    }
-
-    /**
-     * Set the players world id.
-     *
-     * @param  integer  $value
-     * @return void
-     */
-    public function setWorldIdAttribute($value)
-    {
-        if (! $this->hasColumn('world_id')) {
-            return;
-        }
-
-        $this->attributes['world_id'] = $value;
     }
 }
