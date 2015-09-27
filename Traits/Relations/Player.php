@@ -2,10 +2,9 @@
 
 namespace Apolune\Account\Traits\Relations;
 
-use Apolune\Contracts\Guilds\Guild as GuildContract;
 use Apolune\Contracts\Account\Account as AccountContract;
-use Apolune\Contracts\Guilds\GuildRank as GuildRankContract;
 use Apolune\Contracts\Account\PlayerOnline as PlayerOnlineContract;
+use Apolune\Contracts\Guilds\GuildMembership as GuildMembershipContract;
 use Apolune\Contracts\Account\PlayerProperties as PlayerPropertiesContract;
 
 trait Player
@@ -31,12 +30,13 @@ trait Player
     }
 
     /**
+     * Retrieve the associated guild membership.
      *
+     * @return \Apolune\Contracts\Guilds\GuildMembership
      */
     public function guild()
     {
-    }
-
+        return $this->hasOne(GuildMembershipContract::class);
     }
 
     /**
