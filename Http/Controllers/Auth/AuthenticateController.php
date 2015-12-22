@@ -7,7 +7,7 @@ use Apolune\Account\Events\Auth\LoggedIn;
 use Apolune\Account\Events\Auth\LoggedOut;
 use Apolune\Core\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Http\Exception\HttpResponseException;
+use Illuminate\Foundation\Validation\ValidationException;
 use Apolune\Account\Http\Requests\Auth\AuthenticateRequest;
 
 class AuthenticateController extends Controller
@@ -81,7 +81,7 @@ class AuthenticateController extends Controller
         if (! $this->auth->attempt($credentials, $request->has('remember'))) {
             $this->incrementLoginAttempts($request);
 
-            throw new HttpResponseException($request->response([
+            throw new ValidationException($request->response([
                 'name' => trans('theme::account.login.form.error'),
             ]));
         }
