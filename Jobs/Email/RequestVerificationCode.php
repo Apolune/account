@@ -4,10 +4,9 @@ namespace Apolune\Account\Jobs\Email;
 
 use App\Jobs\Job;
 use Apolune\Contracts\Account\Account;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Apolune\Account\Events\Email\VerificationCodeRequested;
 
-class RequestVerificationCode extends Job implements SelfHandling
+class RequestVerificationCode extends Job
 {
     /**
      * Holds the account implementation.

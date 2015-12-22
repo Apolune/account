@@ -5,10 +5,9 @@ namespace Apolune\Account\Jobs\Email;
 use App\Jobs\Job;
 use Illuminate\Http\Request;
 use Apolune\Contracts\Account\Account;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Apolune\Account\Events\Email\UnconfirmedAccount;
 
-class UpdateUnconfirmedAccount extends Job implements SelfHandling
+class UpdateUnconfirmedAccount extends Job
 {
     /**
      * Holds the account implementation.

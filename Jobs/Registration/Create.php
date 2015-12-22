@@ -6,10 +6,9 @@ use App\Jobs\Job;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Apolune\Contracts\Account\Account;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Apolune\Account\Events\Registration\Created;
 
-class Create extends Job implements SelfHandling
+class Create extends Job
 {
     /**
      * Holds the account implementation.

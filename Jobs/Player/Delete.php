@@ -6,9 +6,8 @@ use App\Jobs\Job;
 use Carbon\Carbon;
 use Apolune\Contracts\Account\Player;
 use Apolune\Account\Events\Player\Deleted;
-use Illuminate\Contracts\Bus\SelfHandling;
 
-class Delete extends Job implements SelfHandling
+class Delete extends Job
 {
     /**
      * Holds the player implementation.

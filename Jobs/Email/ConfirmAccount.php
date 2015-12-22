@@ -4,10 +4,9 @@ namespace Apolune\Account\Jobs\Email;
 
 use App\Jobs\Job;
 use Apolune\Contracts\Account\Account;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Apolune\Account\Events\Email\AccountConfirmed;
 
-class ConfirmAccount extends Job implements SelfHandling
+class ConfirmAccount extends Job
 {
     /**
      * Holds the email.

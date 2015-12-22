@@ -4,10 +4,9 @@ namespace Apolune\Account\Jobs\Email;
 
 use App\Jobs\Job;
 use Apolune\Contracts\Account\Account;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Apolune\Account\Events\Email\RequestCancelled;
 
-class CancelRequest extends Job implements SelfHandling
+class CancelRequest extends
 {
     /**
      * Holds the account implementation.

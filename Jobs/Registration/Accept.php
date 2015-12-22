@@ -4,10 +4,9 @@ namespace Apolune\Account\Jobs\Registration;
 
 use App\Jobs\Job;
 use Apolune\Contracts\Account\Account;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Apolune\Account\Events\Registration\Accepted;
 
-class Accept extends Job implements SelfHandling
+class Accept extends Job
 {
     /**
      * Holds the account implementation.

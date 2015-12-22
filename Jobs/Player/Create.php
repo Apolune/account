@@ -6,9 +6,8 @@ use App\Jobs\Job;
 use Illuminate\Http\Request;
 use Apolune\Contracts\Account\Account;
 use Apolune\Account\Events\Player\Created;
-use Illuminate\Contracts\Bus\SelfHandling;
 
-class Create extends Job implements SelfHandling
+class Create extends Job
 {
     /**
      * Holds the account implementation.

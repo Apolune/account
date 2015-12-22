@@ -6,9 +6,8 @@ use App\Jobs\Job;
 use Illuminate\Http\Request;
 use Apolune\Contracts\Account\Player;
 use Apolune\Account\Events\Player\Edited;
-use Illuminate\Contracts\Bus\SelfHandling;
 
-class Edit extends Job implements SelfHandling
+class Edit extends Job
 {
     /**
      * Holds the player implementation.

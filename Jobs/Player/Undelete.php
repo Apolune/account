@@ -4,12 +4,11 @@ namespace Apolune\Account\Jobs\Player;
 
 use App\Jobs\Job;
 use Apolune\Contracts\Account\Player;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Apolune\Account\Events\Player\Undeleted;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Apolune\Account\Jobs\Action\UnterminateAccount;
 
-class Undelete extends Job implements SelfHandling
+class Undelete extends Job
 {
     use DispatchesJobs;
 

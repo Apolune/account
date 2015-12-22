@@ -5,10 +5,9 @@ namespace Apolune\Account\Jobs\Action;
 use App\Jobs\Job;
 use Illuminate\Http\Request;
 use Apolune\Contracts\Account\Account;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Apolune\Account\Events\Action\ChangedPassword;
 
-class ChangePassword extends Job implements SelfHandling
+class ChangePassword extends Job
 {
     /**
      * Holds the account implementation.

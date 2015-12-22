@@ -5,12 +5,11 @@ namespace Apolune\Account\Jobs\Action;
 use App\Jobs\Job;
 use Carbon\Carbon;
 use Apolune\Contracts\Account\Account;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Apolune\Account\Events\Action\TerminatedAccount;
 use Apolune\Account\Jobs\Player\Delete as DeletePlayer;
 
-class TerminateAccount extends Job implements SelfHandling
+class TerminateAccount extends Job
 {
     use DispatchesJobs;
     

@@ -4,11 +4,10 @@ namespace Apolune\Account\Jobs\Action;
 
 use App\Jobs\Job;
 use Apolune\Contracts\Account\Account;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Apolune\Account\Events\Action\UnterminatedAccount;
 use Apolune\Account\Jobs\Player\Delete as DeletePlayer;
 
-class UnterminateAccount extends Job implements SelfHandling
+class UnterminateAccount extends Job
 {
     /**
      * Holds the account implementation.
