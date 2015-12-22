@@ -14,10 +14,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app['auth']->extend('pandaac', function () {
-            $model = $this->app['config']['auth.model'];
-
-            return new EloquentUserProvider($this->app, $this->app['hash'], $model);
+        $this->app['auth']->provider('pandaac', function ($app, array $config) {
+            return new EloquentUserProvider($app, $app['hash'], $config['model']);
         });
     }
 
