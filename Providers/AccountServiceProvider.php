@@ -19,8 +19,8 @@ class AccountServiceProvider extends AggregateServiceProvider
         'registered'            => Account\Http\Middleware\Registered::class,
         'unregistered'          => Account\Http\Middleware\Unregistered::class,
         'account.character'     => Account\Http\Middleware\AccountCharacter::class,
-        'account.deleted'       => Account\Http\Middleware\CharacterDeleted::class,
-        'account.notdeleted'    => Account\Http\Middleware\CharacterNotDeleted::class,
+        'character.deleted'     => Account\Http\Middleware\CharacterDeleted::class,
+        'character.notdeleted'  => Account\Http\Middleware\CharacterNotDeleted::class,
     ];
 
     /**

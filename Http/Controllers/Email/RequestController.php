@@ -27,9 +27,6 @@ class RequestController extends Controller
     public function __construct(Guard $auth)
     {
         $this->auth = $auth;
-
-        $this->middleware('auth', ['except' => 'confirm']);
-        $this->middleware('unconfirmed', ['except' => 'confirm']);
     }
 
     /**
