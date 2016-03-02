@@ -4,7 +4,7 @@ namespace Apolune\Account\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Routing\Registrar as Router;
-use Apolune\Account\Exceptions\NotDeletedPlayerException;
+use Apolune\Account\Exceptions\DeletedPlayerException;
 
 class CharacterDeleted
 {
@@ -41,7 +41,7 @@ class CharacterDeleted
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {
-                throw new NotDeletedPlayerException;
+                throw new DeletedPlayerException;
             }
         }
 

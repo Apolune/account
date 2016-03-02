@@ -151,8 +151,8 @@ $router->group(['middleware' => 'web', 'namespace' => 'Apolune\Account\Http\Cont
 
         // Undelete Character
         $router->group(['middleware' => ['account.character', 'character.deleted']], function ($router) {
-            $router->get('/account/character/{player}/delete', 'Player\DeleteController@confirm')->where('player', '[A-Za-z\-]+');
-            $router->delete('/account/character/{player}', 'Player\DeleteController@delete')->where('player', '[A-Za-z\-]+');
+            $router->get('/account/character/{player}/undelete', 'Player\UndeleteController@confirm')->where('player', '[A-Za-z\-]+');
+            $router->post('/account/character/{player}/undelete', 'Player\UndeleteController@undelete')->where('player', '[A-Za-z\-]+');
         });
 
         // Change Name
